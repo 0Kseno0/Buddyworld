@@ -112,6 +112,28 @@ public class SQL {
     return angriffsId;
     }
 
+    public Vector<String> getAngriffsListe(int id) throws SQLException{
+
+        Vector<String> angriffe = new Vector<String>();
+
+        Connection con = DriverManager.getConnection(url, username, password);
+        Statement stat = con.createStatement();
+
+        ResultSet liste = stat.executeQuery("select moves.move_name from moves " +
+                "join pokemon_moves ON moves.move_id = pokemon_moves.move_id " +
+                "where pokemon_moves.pok_id='" + id + "'");
+
+        while(liste.next()){
+            angriffe.add(liste.getString(1));
+        }
+
+        con.close();
+        stat.close();
+        liste.close();
+
+        return angriffe;
+    }
+
     public Angriff[] getAngriffeAusListe(int id) throws SQLException{
 
         Angriff[] angriffe = new Angriff[4];
@@ -144,6 +166,7 @@ public class SQL {
                 angriffe[i].setPower(ausgewaehlterAngriff.getInt(4));
                 angriffe[i].setPp(ausgewaehlterAngriff.getInt(5));
                 angriffe[i].setGenauigkeit(ausgewaehlterAngriff.getInt(6));
+                angriffe[i].setKategorie(ausgewaehlterAngriff.getInt(7));
             }
 
             System.out.println(angriffe[i].getName());
@@ -163,6 +186,7 @@ public class SQL {
         Connection con = DriverManager.getConnection(url, username, password);
         Statement stat = con.createStatement();
 
+        //Statements überarbeiten und einen join drauß machen
         ResultSet liste = stat.executeQuery("select * from pokemon_moves where pok_id='" + id + "'");
 
         Vector<Integer> angriffsId = angriffsListeId(id);

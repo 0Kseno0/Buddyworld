@@ -11,6 +11,16 @@ public class Angriff {
      private int power;
      private int pp;
      private int genauigkeit;
+     // 0 = Statusaenderung, 1 = physisch, 2 = spezial
+     private int kategorie = -1;
+
+    public int getKategorie() {
+        return kategorie;
+    }
+
+    public void setKategorie(int kategorie) {
+        this.kategorie = kategorie;
+    }
 
     public int getId() {
         return id;

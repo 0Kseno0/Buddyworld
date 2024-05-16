@@ -44,8 +44,25 @@ public class Buddy {
         this.typ = typ;
     }
 
+    public void getAngriffsListe() throws SQLException{
+        Vector<String> angriffe = sql.getAngriffsListe(id);
+
+        int position = 1;
+
+        for(String angriff : angriffe){
+            System.out.println(position++ + " " + angriff);
+        }
+    }
+
+    public void angriffeAuswaehlen() throws SQLException{
+        Vector<String> angriffe = sql.getAngriffsListe(id);
+
+
+    }
+
     public void zufaelligeAngriffe() throws SQLException {
         angriffe = sql.getAngriffeAusListe(id);
+
     }
 
     public Angriff[] getAngriffe() {
@@ -63,6 +80,7 @@ public class Buddy {
             System.out.println("\tPP: " + angriffe[i].getPp());
             System.out.println("\tPower: " + angriffe[i].getPower());
             System.out.println("\tTyp: " + angriffe[i].getTyp().getName());
+            System.out.println("\tKKategorie: " + angriffe[i].getKategorie());
             System.out.println("\tAcc: " + angriffe[i].getGenauigkeit() + "%");
         }
     }
@@ -90,11 +108,23 @@ public class Buddy {
         this.stats = stats;
     }
 
-    public void setStat(int index, double value){
+    public void setStat(int index, double wert){
         if(index >= 0 && index < stats.length){
-            stats[index] = value;
+            stats[index] = wert;
         }   else {
             System.out.println("Invalider Index");
         }
+    }
+
+    public void printStats(){
+
+        System.out.println("HP:      " + (int) stats[0]);
+        System.out.println("ATK:     " + (int) stats[1]);
+        System.out.println("DEF:     " + (int) stats[2]);
+        System.out.println("SP. ATK: " + (int) stats[3]);
+        System.out.println("SP. DEF: " + (int) stats[4]);
+        System.out.println("SPEED:   " + (int) stats[5]);
+        System.out.println("ACC:     " + (int) stats[6]);
+
     }
 }
