@@ -5,7 +5,6 @@ public class Typ {
     private int id;
     private String name;
     private int schadensTypId;
-
     public Typ(){
         id = 0;
         name = "";
@@ -51,49 +50,28 @@ public class Typ {
     }
     
     public String typNamen(int id){
-        switch(id) {
-            case 1:
-               return "normal";
-            case 2:
-                return "fighting";
-            case 3:
-                return "flying";
-            case 4:
-                return "poison";
-            case 5:
-                return "ground";
-            case 6:
-                return "rock";
-            case 7:
-                return "bug";
-            case 8:
-                return "ghost";
-            case 9:
-                return "steel";
-            case 10:
-                return "fire";
-            case 11:
-                return "water";
-            case 12:
-                return "grass";
-            case 13:
-                return "electric";
-            case 14:
-                return "psychic";
-            case 15:
-                return "ice";
-            case 16:
-                return "dragon";
-            case 17:
-                return "dark";
-            case 18:
-                return "fairy";
-            case 10001:
-                return "unknown";
-            case 10002:
-                return "shadow";
-            default:
-                return "ging iwie nicht";
-        }
+        return switch (id) {
+            case 1 -> "normal";
+            case 2 -> "fighting";
+            case 3 -> "flying";
+            case 4 -> "poison";
+            case 5 -> "ground";
+            case 6 -> "rock";
+            case 7 -> "bug";
+            case 8 -> "ghost";
+            case 9 -> "steel";
+            case 10 -> "fire";
+            case 11 -> "water";
+            case 12 -> "grass";
+            case 13 -> "electric";
+            case 14 -> "psychic";
+            case 15 -> "ice";
+            case 16 -> "dragon";
+            case 17 -> "dark";
+            case 18 -> "fairy";
+            case 10001 -> "unknown";
+            case 10002 -> "shadow";
+            default -> "ging iwie nicht";
+        };
     }
 }

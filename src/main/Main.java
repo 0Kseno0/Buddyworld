@@ -15,15 +15,25 @@ public class Main {
 
             System.out.println(buddy.getId() + " " + buddy.getName());
 
+            buddy.printBaseStats();
+
+            buddy.calculateStats();
+
+            System.out.println();
+
+            buddy.printNature();
+
+            System.out.println();
+
             buddy.printStats();
 
             buddy.zufaelligeAngriffe();
 
-            System.out.println("");
+            System.out.println();
 
             buddy.holeTyp();
 
-            System.out.println("");
+            System.out.println();
 
             //buddy.getAngriffsListe();
 
@@ -35,5 +45,4 @@ public class Main {
         }
 
     }
-
 }

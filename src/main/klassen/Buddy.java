@@ -2,18 +2,74 @@ package main.klassen;
 import main.SQL;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.Random;
 
 public class Buddy {
 
     SQL sql = new SQL();
 
-    private int lvl;
+    private int lvl = 50;
     private int hp;
     private int id;
     private String name;
     private Angriff[] angriffe = new Angriff[4];
     private Vector<Typ> typ = new Vector<Typ>();
-    private double[] stats = new double[7];
+    private int[] stats = new int[7];
+    private double[] baseStats = new double[7];
+    private int[] IVs = new int[6];
+    private final Nature nature;
+
+    enum Nature{
+        HARDY(-1, -1),
+        LONELY(1, 2),
+        BRAVE(1, 5),
+        ADAMANT(1, 3),
+        NAUGHTY(1, 4),
+        BOLD(2, 1),
+        DOCILE(-1, -1),
+        RELAXED(2, 5),
+        IMPISH(2, 3),
+        LAX(2, 4),
+        TIMID(5, 1),
+        HASTY(5, 2),
+        SERIOUS(-1, -1),
+        JOLLY(5, 3),
+        NAIVE(5, 4),
+        MODEST(3, 1),
+        MILD(3, 2),
+        QUIET(3, 5),
+        BASHFUL(-1, -1),
+        RASH(3, 4),
+        CALM(4, 1),
+        GENTLE(4, 2),
+        SASSY(4, 5),
+        CAREFUL(4, 3),
+        QUIRKY(-1, -1);
+
+        private final int increasedStat;
+        private final int decreasedStat;
+
+        Nature(int increasedStat, int decreasedStat) {
+            this.increasedStat = increasedStat;
+            this.decreasedStat = decreasedStat;
+        }
+
+        public int getIncreasedStat() {
+            return increasedStat;
+        }
+
+        public int getDecreasedStat() {
+            return decreasedStat;
+        }
+    }
+
+    public Buddy(){
+        Random random = new Random();
+        for(int i = 0; i < IVs.length; i++){
+            IVs[i] = random.nextInt(32);
+        }
+        nature = Nature.values()[random.nextInt(Nature.values().length)];
+    }
 
     public int getHp() {
         return hp;
@@ -100,31 +156,92 @@ public class Buddy {
         this.name = name;
     }
 
-    public double[] getStats() {
-        return stats;
+    public double[] getBaseStats() {
+        return baseStats;
     }
 
-    public void setStats(double[] stats) {
-        this.stats = stats;
+    public void setBaseStats(double[] baseStats) {
+        this.baseStats = baseStats;
     }
 
-    public void setStat(int index, double wert){
-        if(index >= 0 && index < stats.length){
-            stats[index] = wert;
+    public void setBaseStat(int index, double wert){
+        if(index >= 0 && index < baseStats.length){
+            baseStats[index] = wert;
         }   else {
             System.out.println("Invalider Index");
         }
     }
 
-    public void printStats(){
+    public void printBaseStats(){
 
-        System.out.println("HP:      " + (int) stats[0]);
-        System.out.println("ATK:     " + (int) stats[1]);
-        System.out.println("DEF:     " + (int) stats[2]);
-        System.out.println("SP. ATK: " + (int) stats[3]);
-        System.out.println("SP. DEF: " + (int) stats[4]);
-        System.out.println("SPEED:   " + (int) stats[5]);
-        System.out.println("ACC:     " + (int) stats[6]);
+        System.out.println("HP:      " + (int) baseStats[0]);
+        System.out.println("ATK:     " + (int) baseStats[1]);
+        System.out.println("DEF:     " + (int) baseStats[2]);
+        System.out.println("SP. ATK: " + (int) baseStats[3]);
+        System.out.println("SP. DEF: " + (int) baseStats[4]);
+        System.out.println("SPEED:   " + (int) baseStats[5]);
+        System.out.println("ACC:     " + (int) baseStats[6]);
 
     }
+
+    public int[] getIVs() {
+        return IVs;
+    }
+
+    public void setIVs(int[] IVs) {
+        this.IVs = IVs;
+    }
+
+    public void printIV(){
+        for(int i = 0; i < IVs.length; i++){
+            System.out.println(IVs[i]);
+        }
+    }
+
+    public int[] getStats() {
+        return stats;
+    }
+
+    public void setStats(int[] stats) {
+        this.stats = stats;
+    }
+
+    public void calculateStats(){
+
+        stats[0] = (int) ((((2 * baseStats[0] + IVs[0]) * lvl) / 100) + lvl + 10);
+
+        for(int i = 1; i < 6; i++){
+            if(i == nature.getIncreasedStat()){
+                stats[i] = (int) (((((2 * baseStats[i] + IVs[i]) * lvl) / 100) + 5) * 1.1);
+            }   else if(i == nature.getDecreasedStat()){
+                stats[i] = (int) (((((2 * baseStats[i] + IVs[i]) * lvl) / 100) + 5) * 0.9);
+            }   else{
+                stats[i] = (int) ((((2 * baseStats[i] + IVs[i]) * lvl) / 100) + 5);
+            }
+        }
+
+        stats[6] = 1;
+    }
+
+    public void printStats(){
+
+        System.out.println("HP:      " + stats[0]);
+        System.out.println("ATK:     " + stats[1]);
+        System.out.println("DEF:     " + stats[2]);
+        System.out.println("SP. ATK: " + stats[3]);
+        System.out.println("SP. DEF: " + stats[4]);
+        System.out.println("SPEED:   " + stats[5]);
+        System.out.println("ACC:     " + stats[6]);
+
+    }
+
+    public void printNature(){
+        System.out.println(nature.getIncreasedStat());
+        System.out.println(nature.getDecreasedStat());
+    }
+
+    public Nature getNature() {
+        return nature;
+    }
+
 }

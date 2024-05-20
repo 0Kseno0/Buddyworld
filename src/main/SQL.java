@@ -40,13 +40,13 @@ public class SQL {
             ResultSet baseStats = statement.executeQuery("select * from base_stats where pok_id='" + auswahl + "'");
 
             if(baseStats.next()){
-                buddy.setStat(0, baseStats.getDouble(2));
-                buddy.setStat(1, baseStats.getDouble(3));
-                buddy.setStat(2, baseStats.getDouble(4));
-                buddy.setStat(3, baseStats.getDouble(5));
-                buddy.setStat(4, baseStats.getDouble(6));
-                buddy.setStat(5, baseStats.getDouble(7));
-                buddy.setStat(6, 1);
+                buddy.setBaseStat(0, baseStats.getDouble(2));
+                buddy.setBaseStat(1, baseStats.getDouble(3));
+                buddy.setBaseStat(2, baseStats.getDouble(4));
+                buddy.setBaseStat(3, baseStats.getDouble(5));
+                buddy.setBaseStat(4, baseStats.getDouble(6));
+                buddy.setBaseStat(5, baseStats.getDouble(7));
+                buddy.setBaseStat(6, 1);
             }
 
             baseStats.close();
