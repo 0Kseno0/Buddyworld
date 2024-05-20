@@ -9,7 +9,7 @@ public class Mechaniken {
         Random random = new Random();
         double randomValue = 0.85 + (1 - 0.85) * random.nextDouble();
 
-        double schaden = (((((( 2 * lvl ) / 5 ) + 2 ) * power * ( atk / def )) / 50 ) + 2 )
+        double schaden = ((((((double) (2 * lvl) / 5 ) + 2 ) * power * ( atk / def )) / 50 ) + 2 )
                          * getEffektivitaet(aTyp, dId1, dId2) * randomValue;
 
         double critChance = switch (critStage) {
@@ -77,8 +77,7 @@ public class Mechaniken {
     public boolean istRichtigesWetter(int wetterTyp, int aId){
 
         boolean istRichtig;
-        if (wetterTyp == aId) istRichtig = true;
-        else istRichtig = false;
+        istRichtig = wetterTyp == aId;
 
         return istRichtig;
     }

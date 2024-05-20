@@ -2,7 +2,6 @@ package main;
 
 import main.klassen.*;
 
-import java.awt.color.ICC_ColorSpace;
 import java.sql.*;
 import java.util.Vector;
 
