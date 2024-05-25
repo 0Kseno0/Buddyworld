@@ -1,5 +1,7 @@
 package main.klassen;
 
+import java.util.Random;
+
 public class Angriff {
 //
     public Angriff(){
@@ -13,6 +15,7 @@ public class Angriff {
      private int genauigkeit;
      // 0 = Statusaenderung, 1 = physisch, 2 = spezial
      private int kategorie = -1;
+     private int anzahl = 1;
 
     public int getKategorie() {
         return kategorie;
@@ -68,5 +71,19 @@ public class Angriff {
 
     public void setGenauigkeit(int genauigkeit) {
         this.genauigkeit = genauigkeit;
+    }
+
+    public int getAnzahl() {
+        return anzahl;
+    }
+
+    public void setAnzahl(int anzahl) {
+        this.anzahl = anzahl;
+    }
+
+    public void randomAnzahl(){
+        Random random = new Random();
+
+        setAnzahl(random.nextInt(5) + 1);
     }
 }

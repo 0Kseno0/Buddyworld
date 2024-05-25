@@ -13,14 +13,14 @@ public class Mechaniken {
                          * getEffektivitaet(aTyp, dId1, dId2) * randomValue;
 
         double critChance = switch (critStage) {
-            case 0 -> 6.25;
+            case 0 -> 4.17;
             case 1 -> 12.5;
             case 2 -> 50;
             case 3 -> 100;
             default -> 100;
         };
 
-        double critCheck = random.nextInt(101);
+        double critCheck = random.nextDouble(100);
 
         schaden = critChance >= critCheck ? schaden * 1.5 : schaden;
 
@@ -76,7 +76,7 @@ public class Mechaniken {
 
     public boolean istRichtigesWetter(int wetterTyp, int aId){
 
-        boolean istRichtig;
+        boolean istRichtig = false;
         istRichtig = wetterTyp == aId;
 
         return istRichtig;

@@ -14,10 +14,15 @@ public class Buddy {
     private String name;
     private Angriff[] angriffe = new Angriff[4];
     private Vector<Typ> typ = new Vector<Typ>();
+    private int[] statsAenderungen = new int[7];
     private int[] stats = new int[7];
     private double[] baseStats = new double[7];
     private int[] IVs = new int[6];
     private final Nature nature;
+    private StatusEffekt statusEffekt;
+    private int critStage;
+    private boolean isCharging;
+    private boolean isBFS;
 
     enum Nature{
         HARDY(-1, -1),
@@ -70,6 +75,8 @@ public class Buddy {
         }
         nature = Nature.values()[random.nextInt(Nature.values().length)];
     }
+
+
 
     public int getHp() {
         return hp;
@@ -223,6 +230,44 @@ public class Buddy {
         stats[6] = 1;
     }
 
+    public void incrementCritStage(){
+        if(critStage < 3){
+            critStage++;
+        }
+    }
+
+    public void decrementCritStage(){
+        if(critStage > 0){
+            critStage--;
+        }
+    }
+
+    public void incrementStat(int index, int menge) {
+        if (index < 1 || index > 6) {
+            throw new IllegalArgumentException("Index muss zwischen 0 und 7 liegen");
+        }
+
+        for(; menge > 0; menge--) {
+            if (statsAenderungen[index] < 6) {
+                statsAenderungen[index]++;
+                stats[index] += stats[index] * 0.5;
+            }
+        }
+    }
+
+    public void decrementStat(int index, int menge) {
+        if (index < 1 || index > 6) {
+            throw new IllegalArgumentException("Index muss zwischen 0 und 7 sein");
+        }
+
+        for(; menge > 0; menge--) {
+            if (statsAenderungen[index] > -6) {
+                statsAenderungen[index]--;
+                stats[index] -= stats[index] * 0.5;
+            }
+        }
+    }
+
     public void printStats(){
 
         System.out.println("HP:      " + stats[0]);
@@ -244,4 +289,43 @@ public class Buddy {
         return nature;
     }
 
+    public StatusEffekt getStatusEffekt() {
+        return statusEffekt;
+    }
+
+    public void setStatusEffekt(StatusEffekt statusEffekt) {
+        this.statusEffekt = statusEffekt;
+    }
+
+    public int[] getStatsAenderungen() {
+        return statsAenderungen;
+    }
+
+    public void setStatsAenderungen(int[] statsAenderungen) {
+        this.statsAenderungen = statsAenderungen;
+    }
+
+    public int getCritStage() {
+        return critStage;
+    }
+
+    public void setCritStage(int critStage) {
+        this.critStage = critStage;
+    }
+
+    public boolean isCharging() {
+        return isCharging;
+    }
+
+    public void setCharging(boolean charging) {
+        isCharging = charging;
+    }
+
+    public boolean isBFS() {
+        return isBFS;
+    }
+
+    public void setBFS(boolean BFS) {
+        isBFS = BFS;
+    }
 }
