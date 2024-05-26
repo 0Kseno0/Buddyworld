@@ -27,7 +27,7 @@ public class AngriffsMechaniken {
                     b2.getStatusEffekt().setEffekt(1);
                 }
                 break;
-            case 8:d
+            case 8:
                 wahrscheinlichkeit = random.nextDouble(100);
                 if(wahrscheinlichkeit < 10){
                     b2.getStatusEffekt().setEffekt(2);
