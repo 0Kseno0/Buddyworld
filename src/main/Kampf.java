@@ -1,7 +1,7 @@
 package main;
 
 public class Kampf {
-//SONIC BOOM, DRAGON RAGE, PSYWAVE KEINE SCHADENSRECHNUNG
+//SONIC BOOM, DRAGON RAGE, PSYWAVE, SUPER FANG KEINE SCHADENSRECHNUNG
     /*
         Binding Müll
     if(b2.isBound()){
