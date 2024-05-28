@@ -28,6 +28,7 @@ public class Buddy {
     private boolean isBFS;
     private boolean isDive;
     private boolean isDig;
+    private boolean trifftTrotzdem;
     private boolean isBound;
     private int bindDauer;
     private boolean isFlinched;
@@ -42,6 +43,11 @@ public class Buddy {
     private int lightScreenDuration;
     private boolean hatReflect;
     private int reflectDuration;
+    private boolean isEndure;
+    private boolean isRollout;
+    private int rolloutDauer;
+    private boolean hatSafeguard;
+    private int safeguardDauer;
 
     enum Nature{
         HARDY(-1, -1),
@@ -210,6 +216,12 @@ public class Buddy {
     }
 
     public void decrementPrio(){
+        if(this.prio > 0) {
+            this.prio--;
+        }
+    }
+
+    public void vitalThrowPrio(){
         this.prio--;
     }
 
@@ -287,6 +299,20 @@ public class Buddy {
         }
 
         stats[6] = 1;
+    }
+
+    public void statNeuRechnen(){
+        hp = stats[0];
+        calculateStats();
+        stats[0] = hp;
+
+        for(int i = 1; i < 6; i++){
+            if(statsAenderungen[i] > 0){
+                incrementStat(i, statsAenderungen[i]);
+            }   else if(statsAenderungen[i] < 0){
+                decrementStat(i, statsAenderungen[i]);
+            }
+        }
     }
 
     public void incrementCritStage(){
@@ -396,6 +422,14 @@ public class Buddy {
         isDive = dive;
     }
 
+    public boolean isTrifftTrotzdem() {
+        return trifftTrotzdem;
+    }
+
+    public void setTrifftTrotzdem(boolean trifftTrotzdem) {
+        this.trifftTrotzdem = trifftTrotzdem;
+    }
+
     public int getBindDauer() {
         return bindDauer;
     }
@@ -453,9 +487,10 @@ public class Buddy {
         return verwirrtDauer;
     }
 
-    public void setVerwirrtDauer(int anzahl, int start){
+    public void setVerwirrtDauer(int range, int start){
         Random random = new Random();
-        this.verwirrtDauer = random.nextInt(anzahl) + start;
+        this.verwirrtDauer = random.nextInt(range) + start;
+        this.isVerwirrt = true;
     }
 
     public void setVerwirrtDauer(int verwirrtDauer) {
@@ -549,5 +584,55 @@ public class Buddy {
         setHp(tmpHp);
 
         statsAenderungen = new int[]{0,0,0,0,0,0};
+    }
+
+    public boolean isEndure() {
+        return isEndure;
+    }
+
+    public void setEndure(boolean endure) {
+        isEndure = endure;
+    }
+
+    public boolean isRollout() {
+        return isRollout;
+    }
+
+    public void setRollout(boolean rollout) {
+        isRollout = rollout;
+    }
+
+    public int getRolloutDauer() {
+        return rolloutDauer;
+    }
+
+    public void setRolloutDauer(int rolloutDauer) {
+        this.rolloutDauer = rolloutDauer;
+    }
+
+    public void setRolloutDauer(){
+        this.rolloutDauer = 5;
+        this.isRollout = true;
+    }
+
+    public boolean isHatSafeguard() {
+        return hatSafeguard;
+    }
+
+    public void setHatSafeguard(boolean hatSafeguard) {
+        this.hatSafeguard = hatSafeguard;
+    }
+
+    public int getSafeguardDauer() {
+        return safeguardDauer;
+    }
+
+    public void setSafeguardDauer(int safeguardDauer) {
+        this.safeguardDauer = safeguardDauer;
+    }
+
+    public void setSafeguard(){
+        setHatSafeguard(true);
+        setSafeguardDauer(5);
     }
 }

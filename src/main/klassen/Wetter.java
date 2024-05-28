@@ -15,6 +15,11 @@ public class Wetter {
     -> alle Wettereffekte halten 5 Runden
      */
 
+    public void setWetter(int id){
+        this.id = id;
+        setName(id);
+        setDauer();
+    }
     public void setName(int id) {
         switch (id) {
             case 0 -> setName("normal");
@@ -41,6 +46,10 @@ public class Wetter {
 
     public void setDauer(int dauer) {
         this.dauer = dauer;
+    }
+
+    public void setDauer(){
+        this.dauer = 5;
     }
 
     public String getName() {

@@ -1,5 +1,6 @@
 package main.klassen;
 
+import java.awt.color.ICC_ColorSpace;
 import java.util.Random;
 
 public class AngriffsMechaniken {
@@ -19,24 +20,24 @@ public class AngriffsMechaniken {
         }
 
         switch(angriff.getId()){
-            case 2, 75, 116, 152, 163, 177:
+            case 2, 75, 116, 152, 163, 177, 238:
                 b1.incrementCritStage();
                 break;
             case 3, 4, 31, 42, 131, 140, 154, 198:
                 angriff.randomAnzahl(4,2);
                 break;
             case 7, 52, 53, 126, 172:
-                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10){
+                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 10)){
                     b2.getStatusEffekt().setEffekt(1);
                 }
                 break;
             case 8, 58, 181:
-                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10){
+                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 15)){
                     b2.getStatusEffekt().setEffekt(2);
                 }
                 break;
             case 9, 84, 85:
-                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10){
+                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 13)){
                     b2.getStatusEffekt().setEffekt(3);
                 }
                 break;
@@ -52,12 +53,13 @@ public class AngriffsMechaniken {
             case 16:
                 if(b2.isBFS()){
                     angriff.setPower(angriff.getPower()*2);
+                    b1.setTrifftTrotzdem(true);
                 }
                 break;
             case 19:
                 b1.setBFS(!b1.isBFS());
                 break;
-            case 20, 35, 83, 128:
+            case 20, 35, 83, 128, 250:
                 if(!b2.isBound()){
                     b2.setBindDauer(random.nextInt(2) + 4);
                 }
@@ -73,8 +75,8 @@ public class AngriffsMechaniken {
             case 28, 108, 134, 148, 189:
                 b2.decrementStat(6,1);
                 break;
-            case 34, 122:
-                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 30){
+            case 34, 122, 209, 225:
+                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 13)){
                     b2.getStatusEffekt().setEffekt(3);
                 }
                 break;
@@ -124,9 +126,8 @@ public class AngriffsMechaniken {
                     b2.setSleepDauer();
                 }
                 break;
-            case 48, 109, 186:
+            case 48, 109, 186, 223:
                 if(!b2.isVerwirrt()) {
-                    b2.setVerwirrt(true);
                     b2.setVerwirrtDauer(4,1);
                 }
                 break;
@@ -143,10 +144,11 @@ public class AngriffsMechaniken {
             case 57:
                 if(b2.isDive()){
                     angriff.setPower(angriff.getPower()*2);
+                    b1.setTrifftTrotzdem(true);
                 }
                 break;
             case 59:
-                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10){
+                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 15)){
                     b2.getStatusEffekt().setEffekt(2);
                 }
                 if(wetter.getId() == 4){
@@ -157,7 +159,6 @@ public class AngriffsMechaniken {
                 break;
             case 60, 93:
                 if(!b2.isVerwirrt() && wahrscheinlichkeit < 10) {
-                    b2.setVerwirrt(true);
                     b2.setVerwirrtDauer(4,1);
                 }
                 break;
@@ -213,7 +214,7 @@ public class AngriffsMechaniken {
                     b2.getStatusEffekt().setEffekt(4);
                 }
                 break;
-            case 78, 137:
+            case 78, 137, 86, 192:
                 if(!b2.getStatusEffekt().hatEffekt() && !mech.istTyp(b2.getTyp(), 13)){
                     b2.getStatusEffekt().setEffekt(3);
                 }
@@ -224,13 +225,8 @@ public class AngriffsMechaniken {
             case 82:
                 b2.setHp(b2.getHp() - 40);
                 break;
-            case 86, 192:
-                if(!b2.getStatusEffekt().hatEffekt()){
-                    b2.getStatusEffekt().setEffekt(3);
-                }
-                break;
             case 87:
-                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 30){
+                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 13)){
                     b2.getStatusEffekt().setEffekt(3);
                 }
                 if(wetter.getId() == 2){
@@ -244,6 +240,7 @@ public class AngriffsMechaniken {
             case 89:
                 if(b2.isDig()){
                     angriff.setPower(angriff.getPower()*2);
+                    b1.setTrifftTrotzdem(true);
                 }
                 break;
             case 91:
@@ -269,7 +266,7 @@ public class AngriffsMechaniken {
             case 103:
                 b2.decrementStat(2,2);
                 break;
-            case 105, 135:
+            case 105, 135, 208:
                 if(b1.getHp() > b1.getMaxHp()/2){
                     b1.setHp(b1.getMaxHp());
                 }   else{
@@ -330,7 +327,6 @@ public class AngriffsMechaniken {
                 break;
             case 146:
                 if(!b2.isVerwirrt() && wahrscheinlichkeit < 20) {
-                    b2.setVerwirrt(true);
                     b2.setVerwirrtDauer(4,1);
                 }
                 break;
@@ -424,13 +420,160 @@ public class AngriffsMechaniken {
                     b2.decrementStat(6,1);
                 }
                 break;
-
+            case 201:
+                wetter.setWetter(3);
+                break;
+            case 203:
+                for(int i = 0; i < 4; i++){
+                    b1.incrementPrio();
+                }
+                b1.setEndure(true);
+                break;
+            case 204:
+                b2.decrementStat(1,2);
+                break;
+            case 205:
+                if(!b1.isRollout()){
+                    b1.setRolloutDauer();
+                }   else{
+                    angriff.setPower(angriff.getPower()*2);
+                }
+                break;
+            case 207:
+                if(!b2.isVerwirrt()){
+                    b2.setVerwirrtDauer(4,1);
+                }
+                b2.incrementStat(1,2);
+                break;
+            case 210:
+                angriff.setPower(angriff.getPower()*2);
+                break;
+            case 211:
+                if(wahrscheinlichkeit < 10){
+                    b1.incrementStat(2,1);
+                }
+                break;
+            case 215:
+                b1.getStatusEffekt().setEffekt(0);
+                break;
+            case 217:
+                if(wahrscheinlichkeit < 40){
+                    angriff.setPower(40);
+                }   else if (wahrscheinlichkeit < 70){
+                    angriff.setPower(80);
+                }   else if (wahrscheinlichkeit < 80){
+                    angriff.setPower(120);
+                }   else {
+                    if(b2.getMaxHp() > b2.getHp() + (b2.getMaxHp()/4)){
+                        b2.setHp(b2.getHp() + (b2.getMaxHp()/4));
+                    }   else {
+                        b2.setHp(b2.getMaxHp());
+                    }
+                }
+                break;
+            case 219:
+                b1.setSafeguard();
+                break;
+            case 220:
+                int split = (b1.getHp() + b2.getHp()) / 2;
+                b1.setHp(split);
+                b2.setHp(split);
+                break;
+            case 221:
+                if(!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 50 && !mech.istTyp(b2.getTyp(), 10)){
+                    b2.getStatusEffekt().setEffekt(1);
+                }
+                break;
+            case 222:
+                if(wahrscheinlichkeit < 5){
+                    angriff.setPower(10);
+                }   else if (wahrscheinlichkeit < 15){
+                    angriff.setPower(30);
+                }   else if (wahrscheinlichkeit < 35){
+                    angriff.setPower(50);
+                }   else if (wahrscheinlichkeit < 65){
+                    angriff.setPower(70);
+                }   else if (wahrscheinlichkeit < 85){
+                    angriff.setPower(90);
+                }   else if(wahrscheinlichkeit < 95){
+                    angriff.setPower(110);
+                }   else{
+                    angriff.setPower(150);
+                }
+                break;
+            case 229:
+                b1.setBound(false);
+                b1.setBindDauer(0);
+                b1.incrementStat(5,1);
+                break;
+            case 230:
+                b1.incrementStat(6,1);
+                break;
+            case 231:
+                if(wahrscheinlichkeit < 30){
+                    b2.decrementStat(2,1);
+                }
+                break;
+            case 232:
+                if(wahrscheinlichkeit < 10){
+                    b1.incrementStat(1,1);
+                }
+                break;
+            case 233:
+                b1.vitalThrowPrio();
+                break;
+            case 239:
+                if(wahrscheinlichkeit < 30){
+                    b2.setFlinched(true);
+                }
+                if(b2.isBFS()){
+                    angriff.setPower(angriff.getPower()*2);
+                    b1.setTrifftTrotzdem(true);
+                }
+                break;
+            case 240:
+                wetter.setWetter(2);
+                break;
+            case 241:
+                wetter.setWetter(1);
+                break;
+            case 242:
+                if(wahrscheinlichkeit < 20){
+                    b2.decrementStat(2,1);
+                }
+                break;
+            case 244:
+                b1.resetStats();
+                b1.setStatsAenderungen(b2.getStatsAenderungen());
+                b1.statNeuRechnen();
+                break;
+            case 245:
+                b1.incrementPrio();
+                b1.incrementPrio();
+                break;
+            case 246:
+                if(wahrscheinlichkeit < 10){
+                    for(int i = 1; i < 6; i++){
+                        b1.incrementStat(i, 1);
+                    }
+                }
+                break;
+            case 247:
+                 if(wahrscheinlichkeit < 20){
+                     b2.decrementStat(4,1);
+                 }
+                 break;
+            case 249:
+                if(wahrscheinlichkeit < 50){
+                    b2.decrementStat(2,1);
+                }
+                break;
         }
     }
 
     public void warum2(Buddy b1, Buddy b2, Angriff angriff, Wetter wetter, int schaden){
         switch(angriff.getId()){
-            case 2, 75, 152, 163, 177:
+            case 2, 75, 152, 163, 177, 238:
                 b1.decrementCritStage();
                 break;
             case 13:
@@ -438,7 +581,7 @@ public class AngriffsMechaniken {
                     b1.decrementCritStage();
                 }
                 break;
-            case 16:
+            case 16, 239:
                 if(b2.isBFS()){
                     angriff.setPower(angriff.getPower()/2);
                 }
@@ -450,7 +593,6 @@ public class AngriffsMechaniken {
                 if(b1.getThrashingDauer() == 0 && b1.isThrashing()){
                     b1.setThrashing(false);
                     b1.setVerwirrtDauer(4,1);
-                    b1.setVerwirrt(true);
                 }
                 break;
             case 57:
@@ -475,6 +617,17 @@ public class AngriffsMechaniken {
                 }   else {
                     b1.setHp(b1.getMaxHp());
                 }
+                break;
+            case 205:
+                if(b1.getRolloutDauer() > 0) {
+                    b1.setRolloutDauer(b1.getRolloutDauer() - 1);
+                }   else {
+                    b1.setRollout(false);
+                    angriff.setPower(30);
+                }
+                break;
+            case 233:
+                b1.incrementPrio();
                 break;
         }
     }

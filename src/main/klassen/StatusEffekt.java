@@ -19,9 +19,15 @@ class StatusEffekt {
     }
 
     public void setEffekt(int id){
-        this.id = id;
-        hatEffekt = true;
-        setName(id);
+        if(id == 0){
+            this.id = 0;
+            hatEffekt = false;
+            setName(id);
+        }   else {
+            this.id = id;
+            hatEffekt = true;
+            setName(id);
+        }
     }
 
     public boolean hatEffekt() {
