@@ -36,6 +36,7 @@ public class Buddy {
     private int thrashingDauer;
     private boolean isVerwirrt;
     private int verwirrtDauer;
+    private boolean isSleepy;
     private int sleepDauer;
     private boolean usedHyperbeam;
     private boolean isCursed;
@@ -634,5 +635,13 @@ public class Buddy {
     public void setSafeguard(){
         setHatSafeguard(true);
         setSafeguardDauer(5);
+    }
+
+    public boolean isSleepy() {
+        return isSleepy;
+    }
+
+    public void setSleepy(boolean sleepy) {
+        isSleepy = sleepy;
     }
 }
