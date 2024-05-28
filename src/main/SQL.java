@@ -32,6 +32,7 @@ public class SQL {
             if(pokemonWahl.next()){
                 buddy.setId(pokemonWahl.getInt(1));
                 buddy.setName(pokemonWahl.getString(2));
+                buddy.setGewicht((pokemonWahl.getInt(4)));
             }
 
             pokemonWahl.close();

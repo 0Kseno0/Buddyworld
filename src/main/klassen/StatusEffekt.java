@@ -12,7 +12,14 @@ class StatusEffekt {
         this.name = name;
     }
 
+    public StatusEffekt(){
+        hatEffekt = false;
+        id = 0;
+        name = "";
+    }
+
     public void setEffekt(int id){
+        this.id = id;
         hatEffekt = true;
         setName(id);
     }
@@ -49,7 +56,6 @@ class StatusEffekt {
             case 4 -> setName("poison");
             case 5 -> setName("badly-poisoned");
             case 6 -> setName("sleep");
-            case 7 -> setName("sleepy");
             default -> setName("unknown");
         }
     }
@@ -62,7 +68,6 @@ class StatusEffekt {
             case "poison" -> setId(4);
             case "badly-poisoned" -> setId(5);
             case "sleep" -> setId(6);
-            case "sleepy" -> setId(7);
             default -> setId(0);
         }
     }

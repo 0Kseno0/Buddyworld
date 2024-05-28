@@ -1,5 +1,6 @@
 package main.klassen;
 import java.util.Random;
+import java.util.Vector;
 
 public class Mechaniken {
 
@@ -80,5 +81,17 @@ public class Mechaniken {
         istRichtig = wetterTyp == aId;
 
         return istRichtig;
+    }
+
+    public boolean istTyp(Vector<Typ> typ, int id){
+        boolean istTyp = false;
+
+        for(int i = typ.size(); i > 0; i--){
+            if(typ.elementAt(i).getId() == id){
+             istTyp = true;
+            }
+        }
+
+        return istTyp;
     }
 }

@@ -13,7 +13,7 @@ public class Main {
         try {
             sql.pokemonWahl(buddy);
 
-            System.out.println(buddy.getId() + " " + buddy.getName());
+            System.out.println(buddy.getId() + " " + buddy.getName() + " " + buddy.getGewicht());
 
             buddy.printBaseStats();
 
@@ -37,7 +37,7 @@ public class Main {
 
             //buddy.getAngriffsListe();
 
-            //buddy.ansichtAngriffe();
+            buddy.ansichtAngriffe();
         }
         catch(ArrayIndexOutOfBoundsException e){
             e.printStackTrace();

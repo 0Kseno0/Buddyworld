@@ -81,9 +81,9 @@ public class Angriff {
         this.anzahl = anzahl;
     }
 
-    public void randomAnzahl(){
+    public void randomAnzahl(int anzahl, int start){
         Random random = new Random();
 
-        setAnzahl(random.nextInt(5) + 1);
+        setAnzahl(random.nextInt(anzahl) + start);
     }
 }

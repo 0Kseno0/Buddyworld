@@ -12,6 +12,8 @@ public class Buddy {
     private int hp;
     private int id;
     private String name;
+    private int gewicht;
+    private int prio;
     private Angriff[] angriffe = new Angriff[4];
     private Vector<Typ> typ = new Vector<Typ>();
     private int[] statsAenderungen = new int[7];
@@ -22,7 +24,24 @@ public class Buddy {
     private StatusEffekt statusEffekt;
     private int critStage;
     private boolean isCharging;
+    //Bounce Fly Skydrop
     private boolean isBFS;
+    private boolean isDive;
+    private boolean isDig;
+    private boolean isBound;
+    private int bindDauer;
+    private boolean isFlinched;
+    private boolean isThrashing;
+    private int thrashingDauer;
+    private boolean isVerwirrt;
+    private int verwirrtDauer;
+    private int sleepDauer;
+    private boolean usedHyperbeam;
+    private boolean isCursed;
+    private boolean hatLightScreen;
+    private int lightScreenDuration;
+    private boolean hatReflect;
+    private int reflectDuration;
 
     enum Nature{
         HARDY(-1, -1),
@@ -69,6 +88,7 @@ public class Buddy {
     }
 
     public Buddy(){
+        prio = 0;
         Random random = new Random();
         for(int i = 0; i < IVs.length; i++){
             IVs[i] = random.nextInt(32);
@@ -76,14 +96,20 @@ public class Buddy {
         nature = Nature.values()[random.nextInt(Nature.values().length)];
     }
 
-
-
-    public int getHp() {
+    public int getMaxHp(){
         return hp;
     }
 
-    public void setHp(int hp) {
+    public void setMaxHp(int hp){
         this.hp = hp;
+    }
+
+    public int getHp() {
+        return stats[0];
+    }
+
+    public void setHp(int hp) {
+        this.stats[0] = hp;
     }
 
     public int getLvl() {
@@ -92,6 +118,14 @@ public class Buddy {
 
     public void setLvl(int lvl) {
         this.lvl = lvl;
+    }
+
+    public int getGewicht() {
+        return gewicht;
+    }
+
+    public void setGewicht(int gewicht) {
+        this.gewicht = gewicht;
     }
 
     public void holeTyp() throws SQLException{
@@ -143,7 +177,7 @@ public class Buddy {
             System.out.println("\tPP: " + angriffe[i].getPp());
             System.out.println("\tPower: " + angriffe[i].getPower());
             System.out.println("\tTyp: " + angriffe[i].getTyp().getName());
-            System.out.println("\tKKategorie: " + angriffe[i].getKategorie());
+            System.out.println("\tKategorie: " + angriffe[i].getKategorie());
             System.out.println("\tAcc: " + angriffe[i].getGenauigkeit() + "%");
         }
     }
@@ -161,6 +195,22 @@ public class Buddy {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPrio() {
+        return prio;
+    }
+
+    public void setPrio(int prio) {
+        this.prio = prio;
+    }
+
+    public void incrementPrio(){
+        this.prio++;
+    }
+
+    public void decrementPrio(){
+        this.prio--;
     }
 
     public double[] getBaseStats() {
@@ -205,6 +255,14 @@ public class Buddy {
         }
     }
 
+    public void multiplyStat(int index, int menge){
+        stats[index] = stats[index] * menge;
+    }
+
+    public void divideStat(int index, int menge){
+        stats[index] = stats[index] / menge;
+    }
+
     public int[] getStats() {
         return stats;
     }
@@ -216,6 +274,7 @@ public class Buddy {
     public void calculateStats(){
 
         stats[0] = (int) ((((2 * baseStats[0] + IVs[0]) * lvl) / 100) + lvl + 10);
+        hp = stats[0];
 
         for(int i = 1; i < 6; i++){
             if(i == nature.getIncreasedStat()){
@@ -327,5 +386,168 @@ public class Buddy {
 
     public void setBFS(boolean BFS) {
         isBFS = BFS;
+    }
+
+    public boolean isDive() {
+        return isDive;
+    }
+
+    public void setDive(boolean dive) {
+        isDive = dive;
+    }
+
+    public int getBindDauer() {
+        return bindDauer;
+    }
+
+    public void setBindDauer(int bindDauer) {
+        this.bindDauer = bindDauer;
+    }
+
+    public boolean isBound() {
+        return isBound;
+    }
+
+    public void setBound(boolean bound) {
+        isBound = bound;
+    }
+
+    public boolean isFlinched() {
+        return isFlinched;
+    }
+
+    public void setFlinched(boolean flinched) {
+        isFlinched = flinched;
+    }
+
+    public boolean isThrashing() {
+        return isThrashing;
+    }
+
+    public void setThrashing(boolean thrashing) {
+        isThrashing = thrashing;
+    }
+
+    public int getThrashingDauer() {
+        return thrashingDauer;
+    }
+
+    public void setThrashingDauer(int thrashingDauer) {
+        this.thrashingDauer = thrashingDauer;
+    }
+
+    public void setThrashingDauer() {
+        Random random = new Random();
+        this.thrashingDauer = random.nextInt(2) + 2;
+    }
+
+    public boolean isVerwirrt() {
+        return isVerwirrt;
+    }
+
+    public void setVerwirrt(boolean verwirrt) {
+        isVerwirrt = verwirrt;
+    }
+
+    public int getVerwirrtDauer() {
+        return verwirrtDauer;
+    }
+
+    public void setVerwirrtDauer(int anzahl, int start){
+        Random random = new Random();
+        this.verwirrtDauer = random.nextInt(anzahl) + start;
+    }
+
+    public void setVerwirrtDauer(int verwirrtDauer) {
+        this.verwirrtDauer = verwirrtDauer;
+    }
+
+    public int getSleepDauer() {
+        return sleepDauer;
+    }
+
+    public void setSleepDauer(int sleepDauer) {
+        this.sleepDauer = sleepDauer;
+    }
+
+    public void setSleepDauer(){
+        Random random = new Random();
+        this.sleepDauer = random.nextInt(3) + 1;
+    }
+
+    public boolean isUsedHyperbeam() {
+        return usedHyperbeam;
+    }
+
+    public void usedHyperbeam(boolean usedHyperbeam) {
+        this.usedHyperbeam = usedHyperbeam;
+    }
+
+    public boolean isDig() {
+        return isDig;
+    }
+
+    public void setDig(boolean dig) {
+        isDig = dig;
+    }
+
+    public boolean isCursed() {
+        return isCursed;
+    }
+
+    public void setCursed(boolean cursed) {
+        isCursed = cursed;
+    }
+
+    public boolean isHatLightScreen() {
+        return hatLightScreen;
+    }
+
+    public void setHatLightScreen(boolean hatLightScreen) {
+        this.hatLightScreen = hatLightScreen;
+    }
+
+    public int getLightScreenDuration() {
+        return lightScreenDuration;
+    }
+
+    public void setLightScreenDuration(int lightScreenDuration) {
+        this.lightScreenDuration = lightScreenDuration;
+    }
+
+    public void setLightScreen(){
+        setHatLightScreen(true);
+        setLightScreenDuration(5);
+    }
+
+    public boolean isHatReflect() {
+        return hatReflect;
+    }
+
+    public void setHatReflect(boolean hatReflect) {
+        this.hatReflect = hatReflect;
+    }
+
+    public int getReflectDuration() {
+        return reflectDuration;
+    }
+
+    public void setReflectDuration(int reflectDuration) {
+        this.reflectDuration = reflectDuration;
+    }
+
+    public void setReflect(){
+        setHatReflect(true);
+        setReflectDuration(5);
+    }
+
+    public void resetStats(){
+        int tmpHp = getHp();
+
+        calculateStats();
+
+        setHp(tmpHp);
+
+        statsAenderungen = new int[]{0,0,0,0,0,0};
     }
 }
