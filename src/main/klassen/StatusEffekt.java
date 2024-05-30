@@ -1,6 +1,6 @@
 package main.klassen;
 
-class StatusEffekt {
+public class StatusEffekt {
 
     private boolean hatEffekt;
     private int id;
@@ -56,13 +56,13 @@ class StatusEffekt {
 
     public void setName(int id){
         switch(id){
-            case 1 -> setName("burn");
-            case 2 -> setName("freeze");
-            case 3 -> setName("paralysis");
-            case 4 -> setName("poison");
-            case 5 -> setName("badly-poisoned");
-            case 6 -> setName("sleep");
-            default -> setName("unknown");
+            case 1 -> setName("burned");
+            case 2 -> setName("frozen");
+            case 3 -> setName("paralyzed");
+            case 4 -> setName("poisoned");
+            case 5 -> setName("badly poisoned");
+            case 6 -> setName("asleep");
+            default -> setName("");
         }
     }
 

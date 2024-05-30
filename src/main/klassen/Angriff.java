@@ -5,7 +5,7 @@ import java.util.Random;
 public class Angriff {
 //
     public Angriff(){
-
+        typ = new Typ();
     }
      private int id;
      private String name;
@@ -15,6 +15,7 @@ public class Angriff {
      private int genauigkeit;
      // 0 = Statusaenderung, 1 = physisch, 2 = spezial
      private int kategorie = -1;
+     private String kategorieString = "";
      private int anzahl = 1;
 
     public int getKategorie() {
@@ -85,5 +86,13 @@ public class Angriff {
         Random random = new Random();
 
         setAnzahl(random.nextInt(anzahl) + start);
+    }
+
+    public String getKategorieString() {
+        return kategorieString;
+    }
+
+    public void setKategorieString(String kategorieString) {
+        this.kategorieString = kategorieString;
     }
 }

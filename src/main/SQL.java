@@ -1,8 +1,10 @@
 package main;
 
+import com.mysql.cj.protocol.Resultset;
 import main.klassen.*;
 
 import java.sql.*;
+import java.util.Random;
 import java.util.Vector;
 
 public class SQL {
@@ -74,7 +76,7 @@ public class SQL {
             typ.elementAt(zaehler).setSchadensTypId(typ.elementAt(zaehler).getId());
             typ.elementAt(zaehler).setName(typ.elementAt(zaehler).typNamen(typ.elementAt(zaehler).getId()));
 
-            System.out.println(typ.elementAt(zaehler).getName());
+        //    System.out.println(typ.elementAt(zaehler).getName());
         //    System.out.println(typ.elementAt(zaehler).getId());
 
             zaehler++;
@@ -92,17 +94,13 @@ public class SQL {
     Connection con = DriverManager.getConnection(url, username, password);
     Statement stat = con.createStatement();
 
-    ResultSet liste = stat.executeQuery("select * from pokemon_moves where pok_id='" + id + "'");
+    ResultSet liste = stat.executeQuery("select distinct(move_id) from pokemon_moves where pok_id='" + id + "' order by move_id ASC");
 
     Vector<Integer> angriffsId = new Vector<Integer>();
 
     while(liste.next()){
 
-        if(!angriffsId.contains(liste.getInt(3))) {
-
-            angriffsId.add(liste.getInt(3));
-
-        }
+            angriffsId.add(liste.getInt(1));
     }
 
     con.close();
@@ -112,6 +110,26 @@ public class SQL {
     return angriffsId;
     }
 
+    public void ansichtAngriffe(int id) throws SQLException {
+
+        Connection con = DriverManager.getConnection(url, username, password);
+        Statement stat = con.createStatement();
+
+        ResultSet liste = stat.executeQuery("select distinct(moves.move_id),moves.move_name " +
+                "from moves join pokemon_moves ON moves.move_id = pokemon_moves.move_id " +
+                "where pokemon_moves.pok_id='" + id + "' " +
+                "order by moves.move_id ASC");
+
+        while(liste.next()){
+            System.out.println(liste.getInt(1) + " " + liste.getString(2));
+        }
+
+        liste.close();
+        stat.close();
+        con.close();
+
+    }
+
     public Vector<String> getAngriffsListe(int id) throws SQLException{
 
         Vector<String> angriffe = new Vector<String>();
@@ -119,8 +137,8 @@ public class SQL {
         Connection con = DriverManager.getConnection(url, username, password);
         Statement stat = con.createStatement();
 
-        ResultSet liste = stat.executeQuery("select moves.move_name from moves " +
-                "join pokemon_moves ON moves.move_id = pokemon_moves.move_id " +
+        ResultSet liste = stat.executeQuery("select moves.move_name " +
+                "from moves join pokemon_moves ON moves.move_id = pokemon_moves.move_id " +
                 "where pokemon_moves.pok_id='" + id + "'");
 
         while(liste.next()){
@@ -134,81 +152,105 @@ public class SQL {
         return angriffe;
     }
 
-    public Angriff[] getAngriffeAusListe(int id) throws SQLException{
+    public Vector<Angriff> getAngriffeAusListe(int id) throws SQLException{
 
-        Angriff[] angriffe = new Angriff[4];
-
-        for(int i = 0; i < 4; i++){
-
-            angriffe[i] = new Angriff();
-
-        }
-
+        Vector<Angriff> angriffe = new Vector<>();
+        
         Connection con = DriverManager.getConnection(url, username, password);
         Statement stat = con.createStatement();
 
         Vector<Integer> liste = angriffsListeId(id);
 
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < liste.size(); i++){
 
-            int zufallsZahl = (int) (Math.random() * liste.size()) + 1;
+            ResultSet ausgewaehlterAngriff = stat.executeQuery("select * from moves where move_id='" + liste.elementAt(i) + "'");
 
-            Typ typ = new Typ();
-
-            ResultSet ausgewaehlterAngriff = stat.executeQuery("select * from moves where move_id='" + liste.elementAt(zufallsZahl) + "'");
+            Angriff angriff = new Angriff();
 
             //Bestimmte Angriffe "ignorieren"
             if(ausgewaehlterAngriff.next()) {
-                angriffe[i].setId(ausgewaehlterAngriff.getInt(1));
-                angriffe[i].setName(ausgewaehlterAngriff.getString(2));
-                typ.setTyp(ausgewaehlterAngriff.getInt(3));
-                angriffe[i].setTyp(typ);
-                angriffe[i].setPower(ausgewaehlterAngriff.getInt(4));
-                angriffe[i].setPp(ausgewaehlterAngriff.getInt(5));
-                angriffe[i].setGenauigkeit(ausgewaehlterAngriff.getInt(6));
-                angriffe[i].setKategorie(ausgewaehlterAngriff.getInt(7));
+                angriff.setId(ausgewaehlterAngriff.getInt(1));
+                angriff.setName(ausgewaehlterAngriff.getString(2));
+                angriff.getTyp().setTyp(ausgewaehlterAngriff.getInt(3));
+                angriff.setPower(ausgewaehlterAngriff.getInt(4));
+                angriff.setPp(ausgewaehlterAngriff.getInt(5));
+                angriff.setGenauigkeit(ausgewaehlterAngriff.getInt(6));
+                angriff.setKategorie(ausgewaehlterAngriff.getInt(7));
+                if(ausgewaehlterAngriff.getInt(7) == 0){
+                    angriff.setKategorieString("Statusaenderung");
+                }   else if(ausgewaehlterAngriff.getInt(7) == 1){
+                    angriff.setKategorieString("Physisch");
+                }   else if(ausgewaehlterAngriff.getInt(7) == 2){
+                    angriff.setKategorieString("Spezial");
+                }
             }
 
-            System.out.println(angriffe[i].getName());
+            if(!angriffe.contains(angriff)){
+                angriffe.add(angriff);
+            }
 
             ausgewaehlterAngriff.close();
 
         }
 
+        Random random = new Random();
+
+        Vector<Angriff> ausgewaehlteAngriffe = new Vector<>();
+
+        for(int i = 0; i < 4; i++){
+
+            int randomZahl = random.nextInt(angriffe.size());
+
+            if(!ausgewaehlteAngriffe.contains(angriffe.elementAt(randomZahl))){
+                ausgewaehlteAngriffe.add(angriffe.elementAt(randomZahl));
+            }   else{
+                i--;
+            }
+        }
+
+
         con.close();
         stat.close();
 
-        return angriffe;
+        return ausgewaehlteAngriffe;
     }
 
-    public Vector<String> angriffsListe(int id) throws SQLException {
+    public Angriff angriffAuswahl(int id, int bId) throws SQLException{
 
         Connection con = DriverManager.getConnection(url, username, password);
         Statement stat = con.createStatement();
 
-        //Statements überarbeiten und einen join drauß machen
-        ResultSet liste = stat.executeQuery("select * from pokemon_moves where pok_id='" + id + "'");
+        Angriff angriff = new Angriff();
+        Vector<Integer> moeglicheIds = angriffsListeId(bId);
 
-        Vector<Integer> angriffsId = angriffsListeId(id);
+        ResultSet ausgewaehlterAngriff = stat.executeQuery("select * from moves where move_id='" + id + "'");
 
-        Vector<String> angriffe = new Vector<String>();
+        if(moeglicheIds.contains(id)){
 
-        for(int i = 0; i < angriffsId.size(); i++){
-
-            ResultSet angriff = stat.executeQuery("select * from moves where move_id='" + angriffsId.elementAt(i) + "'");
-
-            if(angriff.next()) {
-                angriffe.add(angriff.getString(2));
+                //Bestimmte Angriffe "ignorieren"
+                if (ausgewaehlterAngriff.next()) {
+                    angriff.setId(ausgewaehlterAngriff.getInt(1));
+                    angriff.setName(ausgewaehlterAngriff.getString(2));
+                    angriff.getTyp().setTyp(ausgewaehlterAngriff.getInt(3));
+                    angriff.setPower(ausgewaehlterAngriff.getInt(4));
+                    angriff.setPp(ausgewaehlterAngriff.getInt(5));
+                    angriff.setGenauigkeit(ausgewaehlterAngriff.getInt(6));
+                    angriff.setKategorie(ausgewaehlterAngriff.getInt(7));
+                    if (ausgewaehlterAngriff.getInt(7) == 0) {
+                        angriff.setKategorieString("Statusaenderung");
+                    } else if (ausgewaehlterAngriff.getInt(7) == 1) {
+                        angriff.setKategorieString("Physisch");
+                    } else if (ausgewaehlterAngriff.getInt(7) == 2) {
+                        angriff.setKategorieString("Spezial");
+                    }
+                }
             }
 
-            angriff.close();
-
-    //        System.out.println(angriffe.elementAt(i));
-        }
-
+        ausgewaehlterAngriff.close();
         con.close();
         stat.close();
-        return angriffe;
 
+        return angriff;
     }
+
 }

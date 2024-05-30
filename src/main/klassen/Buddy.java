@@ -1,6 +1,7 @@
 package main.klassen;
 import main.SQL;
 import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.Vector;
 import java.util.Random;
 
@@ -95,8 +96,12 @@ public class Buddy {
     }
 
     public Buddy(){
+        for(Angriff angriff: angriffe){
+            angriff = new Angriff();
+        }
         prio = 0;
         Random random = new Random();
+        statusEffekt = new StatusEffekt();
         for(int i = 0; i < IVs.length; i++){
             IVs[i] = random.nextInt(32);
         }
@@ -158,14 +163,54 @@ public class Buddy {
         }
     }
 
-    public void angriffeAuswaehlen() throws SQLException{
-        Vector<String> angriffe = sql.getAngriffsListe(id);
+    public void angriffAuswahl() throws SQLException {
 
+        sql.ansichtAngriffe(id);
+
+        Scanner scanner = new Scanner(System.in);
+
+        Vector<Integer> moeglich = sql.angriffsListeId(id);
+        Vector<Integer> schonEingegeben = new Vector<>();
+        int eingabe;
+
+        Angriff ausgewaehlteAngriffe[] = new Angriff[4];
+
+        for(Angriff angriff: ausgewaehlteAngriffe){
+            angriff = new Angriff();
+        }
+
+        for(int i = 0; i < 4;){
+
+            eingabe = scanner.nextInt();
+
+            if(moeglich.contains(eingabe)){
+
+                if(!schonEingegeben.contains(eingabe)){
+
+                    schonEingegeben.add(eingabe);
+                    ausgewaehlteAngriffe[i] = sql.angriffAuswahl(eingabe, id);
+                    i++;
+
+                }   else{
+                    System.out.println("Schon ausgewaehlt!");
+                }
+            }   else{
+                System.out.println("Dieser Buddy kann diesen Angriff nicht lernen!");
+            }
+        }
+
+        setAngriffe(ausgewaehlteAngriffe);
+        scanner.close();
 
     }
 
     public void zufaelligeAngriffe() throws SQLException {
-        angriffe = sql.getAngriffeAusListe(id);
+
+        Vector<Angriff> ausgewaehlteAngriffe = sql.getAngriffeAusListe(id);
+
+        for(int i = 0; i < 4; i++){
+            angriffe[i] = ausgewaehlteAngriffe.elementAt(i);
+        }
 
     }
 
