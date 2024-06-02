@@ -4,11 +4,9 @@ public class Typ {
 
     private int id;
     private String name;
-    private int schadensTypId;
     public Typ(){
         id = 0;
         name = "";
-        schadensTypId = 0;
     }
 
     public int getId() {
@@ -23,14 +21,6 @@ public class Typ {
         this.id = id;
         name = typNamen(id);
 
-        if(id == 10001){
-            schadensTypId = 1;
-        }   else if(id == 10002){
-            schadensTypId = 2;
-        }   else{
-            schadensTypId = id;
-        }
-
     }
 
     public String getName() {
@@ -39,14 +29,6 @@ public class Typ {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getSchadensTypId() {
-        return schadensTypId;
-    }
-
-    public void setSchadensTypId(int schadensTypId) {
-        this.schadensTypId = schadensTypId;
     }
     
     public String typNamen(int id){

@@ -73,7 +73,6 @@ public class SQL {
 
             typ.add(new Typ());
             typ.elementAt(zaehler).setId(typListe.getInt(2));
-            typ.elementAt(zaehler).setSchadensTypId(typ.elementAt(zaehler).getId());
             typ.elementAt(zaehler).setName(typ.elementAt(zaehler).typNamen(typ.elementAt(zaehler).getId()));
 
         //    System.out.println(typ.elementAt(zaehler).getName());

@@ -4,20 +4,34 @@ import java.util.Vector;
 
 public class Mechaniken {
 
-    public int schadensBerechnung(int lvl, double power, double atk, double def,
-                                  int wetterTyp, boolean stab, int aTyp, int dId1, int dId2, boolean burn, int critStage){
+    public int schadensBerechnung(Buddy b1, Buddy b2, Angriff angriff, Wetter wetter){
 
         Random random = new Random();
         double randomValue = 0.85 + (1 - 0.85) * random.nextDouble();
+        int dId1 = 0, dId2 = 0;
 
-        double schaden = ((((((double) (2 * lvl) / 5 ) + 2 ) * power * ( atk / def )) / 50 ) + 2 )
-                         * getEffektivitaet(aTyp, dId1, dId2) * randomValue;
+        if(b2.getTyp().size() == 1){
+            dId1 = b2.getTyp().elementAt(0).getId();
+            dId2 = -1;
+        }   else if(b2.getTyp().size() == 2){
+            dId1 = b2.getTyp().elementAt(0).getId();
+            dId2 = b2.getTyp().elementAt(1).getId();
+        }   else{
+            System.out.println("Irgendwas hat nicht richtig funktioniert.");
+            dId1 = -1;
+            dId2 = -1;
+        }
 
-        double critChance = switch (critStage) {
+        int atk = angriff.getKategorie() == 1 ? b1.getStatValue(1) : b1.getStatValue(3);
+        int def = angriff.getKategorie() == 1 ? b1.getStatValue(2) : b1.getStatValue(4);
+
+        double schaden = ((((((double) (2 * b1.getLvl()) / 5 ) + 2 ) * angriff.getPower() * ((double) atk / def )) / 50 ) + 2 )
+                         * getEffektivitaet(angriff.getTyp().getId(), dId1, dId2) * randomValue;
+
+        double critChance = switch (b1.getCritStage()) {
             case 0 -> 4.17;
             case 1 -> 12.5;
             case 2 -> 50;
-            case 3 -> 100;
             default -> 100;
         };
 
@@ -25,11 +39,17 @@ public class Mechaniken {
 
         schaden = critChance >= critCheck ? schaden * 1.5 : schaden;
 
-        boolean wetter = istRichtigesWetter(wetterTyp, aTyp);
+        boolean istWetter = istRichtigesWetter(wetter.getId(), angriff.getTyp().getId());
 
-        schaden = wetter ? schaden * 1.5 : schaden;
+        schaden = istWetter ? schaden * 1.5 : schaden;
+
+        boolean stab = b1.getTyp().contains(angriff.getTyp());
+
+        System.out.println("Stab: " + stab);
 
         schaden = stab ? schaden * 1.5 : schaden;
+
+        boolean burn = b1.getStatusEffekt().getId() == 1;
 
         schaden = burn ? schaden * 0.5 : schaden;
 
@@ -78,7 +98,10 @@ public class Mechaniken {
     public boolean istRichtigesWetter(int wetterTyp, int aId){
 
         boolean istRichtig = false;
-        istRichtig = wetterTyp == aId;
+
+        if(wetterTyp == 1 && aId == 10 || wetterTyp == 2 && aId == 11){
+            istRichtig = true;
+        }
 
         return istRichtig;
     }

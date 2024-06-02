@@ -377,7 +377,7 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 175:
-                indikator = (48 * b1.getHp()) / b1.getMaxHp();
+                indikator = (double) (48 * b1.getHp()) / b1.getMaxHp();
 
                 if (indikator >= 0 && indikator < 2) {
                     angriff.setPower(200);
@@ -394,7 +394,7 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 179:
-                indikator = b1.getHp() / b1.getMaxHp();
+                indikator = (double) b1.getHp() / b1.getMaxHp();
 
                 if (indikator > 0.7) {
                     angriff.setPower(20);

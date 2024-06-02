@@ -149,6 +149,20 @@ public class GUI {
                 disableAllComponents(panel2);
             }
         });
+
+        button2_2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                b2.setHp(b2.getHp() - 40);
+            }
+        });
+
+        button2_3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                b2.setHp(b2.getHp() + angriffe[2].getPower());
+            }
+        });
     }
     private static void enableAllComponents(Container container) {
         for (Component component : container.getComponents()) {

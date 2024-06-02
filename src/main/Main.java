@@ -10,6 +10,7 @@ public class Main {
         Buddy buddy = new Buddy();
         Buddy buddy2 = new Buddy();
 
+        System.out.println("\b");
             sql.pokemonWahl(buddy);
             sql.pokemonWahl(buddy2);
 
@@ -30,13 +31,13 @@ public class Main {
             buddy.printStats();
             */
 
+            buddy.holeTyp();
+            buddy2.holeTyp();
+
             buddy.angriffAuswahl();
             buddy2.zufaelligeAngriffe();
 
             //System.out.println();
-
-            buddy.holeTyp();
-            buddy2.holeTyp();
 
             /*
             System.out.println();
@@ -45,8 +46,6 @@ public class Main {
 
             buddy.ansichtAngriffe();
              */
-
         GUI gui = new GUI(buddy, buddy2);
-
     }
 }

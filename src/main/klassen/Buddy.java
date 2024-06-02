@@ -411,6 +411,10 @@ public class Buddy {
 
     }
 
+    public int getStatValue(int index){
+        return stats[index];
+    }
+
     public void printNature(){
         System.out.println(nature.getIncreasedStat());
         System.out.println(nature.getDecreasedStat());
