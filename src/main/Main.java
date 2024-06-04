@@ -9,6 +9,7 @@ public class Main {
         SQL sql = new SQL();
         Buddy buddy = new Buddy();
         Buddy buddy2 = new Buddy();
+        Wetter wetter = new Wetter();
 
         System.out.println("\b");
             sql.pokemonWahl(buddy);

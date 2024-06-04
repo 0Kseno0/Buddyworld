@@ -15,6 +15,12 @@ public class Wetter {
     -> alle Wettereffekte halten 5 Runden
      */
 
+    public Wetter() {
+        id = 0;
+        name = "";
+        dauer = 0;
+    }
+
     public void setWetter(int id){
         this.id = id;
         setName(id);

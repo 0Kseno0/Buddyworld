@@ -50,6 +50,7 @@ public class Buddy {
     private int rolloutDauer;
     private boolean hatSafeguard;
     private int safeguardDauer;
+    private int badlyPoisonedDauer;
 
     enum Nature{
         HARDY(-1, -1),
@@ -693,4 +694,14 @@ public class Buddy {
     public void setSleepy(boolean sleepy) {
         isSleepy = sleepy;
     }
+
+    public int getBadlyPoisonedDauer() {
+        return badlyPoisonedDauer;
+    }
+
+    public void setBadlyPoisonedDauer(int badlyPoisonedDauer) {
+        this.badlyPoisonedDauer = badlyPoisonedDauer;
+    }
 }
+
+
