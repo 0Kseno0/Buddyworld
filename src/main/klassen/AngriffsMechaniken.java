@@ -30,6 +30,7 @@ public class AngriffsMechaniken {
             case 8, 58, 181:
                 if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 15)) {
                     b2.getStatusEffekt().setEffekt(2);
+                    b2.setKannAngreifen(false);
                 }
                 break;
             case 9, 84, 85:
@@ -120,6 +121,7 @@ public class AngriffsMechaniken {
             case 47, 79, 95, 142, 147, 320:
                 if (!b2.getStatusEffekt().hatEffekt()) {
                     b2.getStatusEffekt().setEffekt(6);
+                    b2.setKannAngreifen(false);
                     b2.setSleepDauer();
                 }
                 break;
@@ -147,6 +149,7 @@ public class AngriffsMechaniken {
             case 59:
                 if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 15)) {
                     b2.getStatusEffekt().setEffekt(2);
+                    b2.setKannAngreifen(false);
                 }
                 if (wetter.getId() == 4) {
                     angriff.setGenauigkeit(-1);
@@ -341,6 +344,7 @@ public class AngriffsMechaniken {
                 b1.setHp(b1.getMaxHp());
                 b1.setSleepDauer(2);
                 b1.getStatusEffekt().setEffekt(6);
+                b1.setKannAngreifen(false);
                 break;
             case 161:
                 if (!b2.getStatusEffekt().hatEffekt()) {
@@ -350,6 +354,7 @@ public class AngriffsMechaniken {
                         b2.getStatusEffekt().setEffekt(3);
                     } else if (wahrscheinlichkeit < 20 && !mech.istTyp(b2.getTyp(), 15)) {
                         b2.getStatusEffekt().setEffekt(2);
+                        b2.setKannAngreifen(false);
                     }
                 }
                 break;
@@ -418,6 +423,14 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 201:
+                if(wetter.getId() != 3) {
+                    if (mech.istTyp(b1.getTyp(), 6)) {
+                        b1.setStatValue(4, (int) (b1.getStatValue(4) * 1.50));
+                    }
+                    if (mech.istTyp(b2.getTyp(), 6)) {
+                        b2.setStatValue(4, (int) (b2.getStatValue(4) * 1.50));
+                    }
+                }
                 wetter.setWetter(3);
                 break;
             case 203:
@@ -452,6 +465,8 @@ public class AngriffsMechaniken {
                 break;
             case 215, 312:
                 b1.getStatusEffekt().setEffekt(0);
+                b1.setKannAngreifen(true);
+                b1.setBadlyPoisonedDauer(0);
                 break;
             case 217:
                 if (wahrscheinlichkeit < 40) {
@@ -479,6 +494,7 @@ public class AngriffsMechaniken {
             case 221:
                 if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 50 && !mech.istTyp(b2.getTyp(), 10)) {
                     b2.getStatusEffekt().setEffekt(1);
+
                 }
                 break;
             case 222:
@@ -568,9 +584,11 @@ public class AngriffsMechaniken {
             case 253:
                 if (b1.getStatusEffekt().getId() == 6) {
                     b1.getStatusEffekt().setEffekt(0);
+                    b1.setKannAngreifen(true);
                 }
                 if (b2.getStatusEffekt().getId() == 6) {
                     b2.getStatusEffekt().setEffekt(0);
+                    b2.setKannAngreifen(true);
                 }
                 break;
             case 258:
@@ -766,6 +784,12 @@ public class AngriffsMechaniken {
                 }   else {
                     b1.setHp(b1.getMaxHp());
                 }
+                break;
+            case 203:
+                for (int i = 0; i < 4; i++) {
+                    b1.decrementPrio();
+                }
+                b1.setEndure(false);
                 break;
             case 205:
                 if(b1.getRolloutDauer() > 0) {

@@ -22,9 +22,15 @@ public class Wetter {
     }
 
     public void setWetter(int id){
+        if(id == 0){
+            setDauer(0);
+        }   else{
+            setDauer();
+        }
+
         this.id = id;
         setName(id);
-        setDauer();
+
     }
     public void setName(int id) {
         switch (id) {

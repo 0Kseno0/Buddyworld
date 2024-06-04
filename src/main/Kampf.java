@@ -2,7 +2,15 @@ package main;
 
 import main.klassen.*;
 
+import java.util.Random;
+import java.util.Scanner;
+
 public class Kampf {
+
+    Mechaniken mech = new Mechaniken();
+    KI ki = new KI();
+    AngriffsMechaniken aMech = new AngriffsMechaniken();
+
 //SONIC BOOM, DRAGON RAGE, PSYWAVE, SUPER FANG KEINE SCHADENSRECHNUNG
     /*
         Binding Müll
@@ -25,40 +33,63 @@ public class Kampf {
 
     public void kampf(Buddy b1, Buddy b2, Wetter w){
 
+        boolean b1Zuerst = false;
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcher Angriff soll benutzt werden: ");
+
+        int eingabe = scanner.nextInt();
+
+
         if(b1.getPrio() > b2.getPrio()){
-            durchlauf(b1, b2, w);
+            durchlauf(b1, b2, w, b1.getAngriffe()[eingabe-1]);
+        }   else if(b1.getPrio() < b2.getPrio()){
+            durchlauf(b2, b1, w, ki.angriffAuswahl(b2, b2.getAngriffe()));
         }   else{
-            durchlauf(b2, b1, w);
+
         }
 
-        if(w.getDauer() > 1){
-            w.setDauer(w.getDauer()-1);
+        mech.reflectCounter(b1);
+        mech.reflectCounter(b2);
 
-            if(w.getDauer() == 0){
-                w.setId(0);
-                w.setName("");
-            }
-        }
+        mech.lightScreenCounter(b1);
+        mech.lightScreenCounter(b2);
+
+        mech.statusEffektAktion(b1);
+        mech.statusEffektAktion(b2);
+
+        mech.wetterAktion(b1, b2, w);
 
     }
 
-    public void durchlauf(Buddy b1, Buddy b2, Wetter w){
+    public void durchlauf(Buddy b1, Buddy b2, Wetter w, Angriff a){
 
-        //b1 erster Angreifer
+        Random random = new Random();
 
+        double wahrscheinlichkeit = random.nextDouble(100);
 
-    }
+        //b1 Angreifer
+        switch (a.getId()) {
+            case 1:
+                break;
+            default:
+                if(a.getKategorie() > 0) {
+                    if (wahrscheinlichkeit < a.getGenauigkeit()) {
+                        if (b1.getStatusEffekt().getId() == 3 && wahrscheinlichkeit < 25) {
+                            System.out.println("Paralysiert.");
+                        }   else{
 
-    public void statusEffektAktion(Buddy b){
+                        }
+                    }   else{
+                        if(a.getId() == 210){
 
-        if(b.getStatusEffekt().getId() > 1){
-            if(b.getHp() > b.getMaxHp()/8){
-                b.setHp(b.getMaxHp()/8);
-            }   else{
-                b.setHp(0);
-            }
-        }   else if(b.getStatusEffekt().getId() > 4){
+                        }
+                    }
+                }   else if(a.getKategorie() == 0){
 
+                }   else System.out.println("Invalider Angriff!");
+                break;
         }
     }
 }

@@ -1,0 +1,28 @@
+
+        String[] typen = {"GRAS", "GESTEIN", "EIS",
+                "DRACHE", "UNLICHT", "PSYCHO",
+                "KAEFER", "FLUG", "STAHL",
+                "FEUER", "KAMPF", "BODEN",
+                "GEIST", "GIFT", "WASSER",
+                "FEE", "ELEKTRO", "NORMAL"};
+
+        /*
+        0 gras | pflanze
+        1 gestein | stein
+        2 eis
+        3 drache
+        4 unlicht | dunkel
+        5 psycho
+        6 käfer | kaefer
+        7 flug
+        8 stahl
+        9 feuer
+        10 kampf
+        11 boden
+        12 geist
+        13 gift
+        14 wasser
+        15 fee
+        16 elektro
+        17 normal
+         */

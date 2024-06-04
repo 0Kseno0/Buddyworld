@@ -50,6 +50,25 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `att_def_hp`
+--
+
+DROP TABLE IF EXISTS `att_def_hp`;
+/*!50001 DROP VIEW IF EXISTS `att_def_hp`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `att_def_hp` AS SELECT 
+ 1 AS `pok_id`,
+ 1 AS `pok_name`,
+ 1 AS `b_atk`,
+ 1 AS `b_def`,
+ 1 AS `b_hp`,
+ 1 AS `b_speed`,
+ 1 AS `b_sp_atk`,
+ 1 AS `b_sp_def`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `top_10_view`
 --
 
@@ -67,25 +86,6 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `b_sp_atk`,
  1 AS `b_sp_def`,
  1 AS `TOTAL`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary view structure for view `att_def_hp`
---
-
-DROP TABLE IF EXISTS `att_def_hp`;
-/*!50001 DROP VIEW IF EXISTS `att_def_hp`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `att_def_hp` AS SELECT 
- 1 AS `pok_id`,
- 1 AS `pok_name`,
- 1 AS `b_atk`,
- 1 AS `b_def`,
- 1 AS `b_hp`,
- 1 AS `b_speed`,
- 1 AS `b_sp_atk`,
- 1 AS `b_sp_def`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -145,24 +145,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `top_10_view`
---
-
-/*!50001 DROP VIEW IF EXISTS `top_10_view`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb3 */;
-/*!50001 SET character_set_results     = utf8mb3 */;
-/*!50001 SET collation_connection      = utf8mb3_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `top_10_view` AS select 1 AS `pok_id`,1 AS `pok_name`,1 AS `b_atk`,1 AS `b_def`,1 AS `b_hp`,1 AS `b_speed`,1 AS `b_sp_atk`,1 AS `b_sp_def`,1 AS `TOTAL` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
 -- Final view structure for view `att_def_hp`
 --
 
@@ -176,6 +158,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `att_def_hp` AS select 1 AS `pok_id`,1 AS `pok_name`,1 AS `b_atk`,1 AS `b_def`,1 AS `b_hp`,1 AS `b_speed`,1 AS `b_sp_atk`,1 AS `b_sp_def` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `top_10_view`
+--
+
+/*!50001 DROP VIEW IF EXISTS `top_10_view`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb3 */;
+/*!50001 SET character_set_results     = utf8mb3 */;
+/*!50001 SET collation_connection      = utf8mb3_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `top_10_view` AS select 1 AS `pok_id`,1 AS `pok_name`,1 AS `b_atk`,1 AS `b_def`,1 AS `b_hp`,1 AS `b_speed`,1 AS `b_sp_atk`,1 AS `b_sp_def`,1 AS `TOTAL` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -207,4 +207,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-25 13:08:14
+-- Dump completed on 2024-06-04 13:29:44

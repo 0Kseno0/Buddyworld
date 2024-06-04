@@ -51,6 +51,7 @@ public class Buddy {
     private boolean hatSafeguard;
     private int safeguardDauer;
     private int badlyPoisonedDauer;
+    private boolean kannAngreifen;
 
     enum Nature{
         HARDY(-1, -1),
@@ -416,6 +417,10 @@ public class Buddy {
         return stats[index];
     }
 
+    public void setStatValue(int index, int value){
+        stats[index] = value;
+    }
+
     public void printNature(){
         System.out.println(nature.getIncreasedStat());
         System.out.println(nature.getDecreasedStat());
@@ -701,6 +706,14 @@ public class Buddy {
 
     public void setBadlyPoisonedDauer(int badlyPoisonedDauer) {
         this.badlyPoisonedDauer = badlyPoisonedDauer;
+    }
+
+    public boolean isKannAngreifen() {
+        return kannAngreifen;
+    }
+
+    public void setKannAngreifen(boolean kannAngreifen) {
+        this.kannAngreifen = kannAngreifen;
     }
 }
 

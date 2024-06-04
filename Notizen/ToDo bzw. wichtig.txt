@@ -1,0 +1,9 @@
+235 weg, alles über 575
+(Ditto wsl auch entfernen?)
+
+ToDo:
+
+komplexe Angriffe entfernen
+Doppelte Angriffe nicht erlauben 
+Level auswahl
+Erste Kampfmechaniken einbauen

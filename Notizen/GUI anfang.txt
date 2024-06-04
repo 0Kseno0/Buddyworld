@@ -1,0 +1,137 @@
+package main;
+
+import main.klassen.Buddy;
+import main.klassen.Angriff;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class GUI {
+
+    JFrame frame = new JFrame("Buddyworld");
+
+    public GUI(Buddy b1, Buddy b2){
+
+        JFrame frame = new JFrame("Centered Split Window Example");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(500, 1080));
+        Angriff angriffe[] = b1.getAngriffe();
+        String angriffeString[] = new String[4];
+
+        for(int i = 0; i < angriffe.length; i++){
+            angriffeString[i] = angriffe[i].getName();
+        }
+
+        // Create two panels
+        JPanel panel1 = new JPanel();
+        panel1.setBackground(Color.LIGHT_GRAY);
+
+        JPanel panel2 = new JPanel();
+        panel2.setBackground(Color.DARK_GRAY);
+
+        // Customize panel1 with labels and buttons
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+        JLabel label1 = new JLabel("This is Panel 1");
+        label1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton button1 = new JButton("Button 1");
+        button1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton button3 = new JButton("Button 3");
+        button3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel1.add(Box.createRigidArea(new Dimension(0, 20))); // Adds vertical space
+        panel1.add(label1);
+        panel1.add(Box.createRigidArea(new Dimension(0, 10))); // Adds vertical space
+        panel1.add(button1);
+        panel1.add(Box.createRigidArea(new Dimension(0, 10))); // Adds vertical space
+        panel1.add(button3);
+
+        panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
+
+        panel2.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        // First part of panel2: 2 rows of 2 buttons each
+        JPanel gridPanel = new JPanel(new GridLayout(2,2,10,10));
+        gridPanel.setBackground(Color.DARK_GRAY);
+        gridPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY,10));
+
+        JButton button2_1 = new JButton(angriffeString[0]);
+        button2_1.setToolTipText("<html>" + "Typ: " + angriffe[0].getTyp().getName() +
+                "<br>" + "DMG: " + angriffe[0].getPower() +
+                "<br>" + "PP:  " + angriffe[0].getPp() +
+                "<br>" + "ACC: " + angriffe[0].getGenauigkeit() + "%" +
+                "<br>" + "CAT: " + angriffe[0].getKategorieString() +
+                "</html>");
+        
+        JButton button2_2 = new JButton(angriffeString[1]);
+        button2_2.setToolTipText("<html>" + "Typ: " + angriffe[1].getTyp().getName() +
+                "<br>" + "DMG: " + angriffe[1].getPower() +
+                "<br>" + "PP:  " + angriffe[1].getPp() +
+                "<br>" + "ACC: " + angriffe[1].getGenauigkeit() + "%" +
+                "<br>" + "CAT: " + angriffe[1].getKategorieString() +
+                "</html>");
+
+        JButton button2_3 = new JButton(angriffeString[2]);
+        button2_3.setToolTipText("<html>" + "Typ: " + angriffe[2].getTyp().getName() +
+                "<br>" + "DMG: " + angriffe[2].getPower() +
+                "<br>" + "PP:  " + angriffe[2].getPp() +
+                "<br>" + "ACC: " + angriffe[2].getGenauigkeit() + "%" +
+                "<br>" + "CAT: " + angriffe[2].getKategorieString() +
+                "</html>");
+
+        JButton button2_4 = new JButton(angriffeString[3]);
+        button2_4.setToolTipText("<html>" + "Typ: " + angriffe[3].getTyp().getName() +
+                "<br>" + "DMG: " + angriffe[3].getPower() +
+                "<br>" + "PP:  " + angriffe[3].getPp() +
+                "<br>" + "ACC: " + angriffe[3].getGenauigkeit() + "%" +
+                "<br>" + "CAT: " + angriffe[3].getKategorieString() +
+                "</html>");
+
+        gridPanel.add(button2_1);
+        gridPanel.add(button2_2);
+        gridPanel.add(button2_3);
+        gridPanel.add(button2_4);
+
+        // Second part of panel2: 1 row of 3 buttons
+        JPanel flowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        flowPanel.setBackground(Color.DARK_GRAY);
+        JButton button2_5 = new JButton("Button 2-5");
+        JButton button2_6 = new JButton("Button 2-6");
+        JButton button2_7 = new JButton("Button 2-7");
+        flowPanel.add(button2_5);
+        flowPanel.add(button2_6);
+        flowPanel.add(button2_7);
+
+        // Add grid and flow panels to panel2
+        panel2.add(gridPanel, BorderLayout.CENTER);
+        panel2.add(Box.createRigidArea(new Dimension(0, 200))); // Adds vertical space
+        panel2.add(flowPanel, BorderLayout.SOUTH);
+        panel2.add(Box.createVerticalGlue()); // Pushes the flowPanel to the bottom
+
+        // Create a split pane and add the panels
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panel1, panel2);
+        splitPane.setDividerLocation(540); // Split at half of 1080 height
+        splitPane.setResizeWeight(0.5); // Evenly divide space between the two panels
+        splitPane.setEnabled(false); // Disable the ability to move the divider
+        splitPane.setPreferredSize(new Dimension(500, 1080));
+        splitPane.setMinimumSize(new Dimension(500, 1080));
+
+        // Create a panel with GridBagLayout to center the split pane
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel.setBackground(Color.BLACK);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        centerPanel.add(splitPane, gbc);
+
+        // Add the center panel to the frame
+        frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
+
+        // Display the window
+        frame.pack();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
+        frame.setVisible(true);
+    }
+
+}
