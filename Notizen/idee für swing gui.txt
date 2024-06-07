@@ -1,0 +1,1 @@
+eigene Strings fürs Leben in der GUI selbst? die dann darstellen (Listener vermeiden mby)

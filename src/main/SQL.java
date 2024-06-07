@@ -5,6 +5,7 @@ import main.klassen.*;
 
 import java.sql.*;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class SQL {
@@ -13,7 +14,78 @@ public class SQL {
     String username = "root";
     String password = "meinPasswort";
 
-    public void pokemonWahl(Buddy buddy) throws SQLException{
+    public Buddy pokemonWahl() throws SQLException{
+        Buddy buddy = new Buddy();
+
+        Connection connection = DriverManager.getConnection(url, username, password);
+        Statement statement = connection.createStatement();
+
+        Scanner scanner = new Scanner(System.in);
+
+        String auswahl = "";
+        Vector<String> moeglichePokemon = new Vector<>();
+        int pokemon = 0;
+
+        System.out.println("Welches Pokemon soll gewählt werden?");
+
+        boolean weiter = false;
+
+        while(!weiter){
+
+        }
+
+        ResultSet pokemonWahl = statement.executeQuery("select * from pokemon where pok_name='" + auswahl + "'");
+
+        if(pokemonWahl.next()){
+            buddy.setId(pokemonWahl.getInt(1));
+            buddy.setName(pokemonWahl.getString(2));
+            buddy.setGewicht((pokemonWahl.getInt(4)));
+        }
+
+        pokemonWahl.close();
+
+        ResultSet baseStats = statement.executeQuery("select * from base_stats where pok_id='" + pokemon + "'");
+
+        if(baseStats.next()){
+            buddy.setBaseStat(0, baseStats.getDouble(2));
+            buddy.setBaseStat(1, baseStats.getDouble(3));
+            buddy.setBaseStat(2, baseStats.getDouble(4));
+            buddy.setBaseStat(3, baseStats.getDouble(5));
+            buddy.setBaseStat(4, baseStats.getDouble(6));
+            buddy.setBaseStat(5, baseStats.getDouble(7));
+            buddy.setBaseStat(6, 1);
+        }
+
+        baseStats.close();
+
+        statement.close();
+        connection.close();
+
+        return buddy;
+    }
+
+    public Vector<String> pokemonListe() throws SQLException{
+
+        Vector<String> pokemon = new Vector<>();
+
+        Connection connection = DriverManager.getConnection(url, username, password);
+        Statement statement = connection.createStatement();
+
+        ResultSet pokemonWahl = statement.executeQuery("select * from pokemon");
+
+        if(pokemonWahl.next()){
+            setId(pokemonWahl.getInt(1));
+            setName(pokemonWahl.getString(2));
+            setGewicht((pokemonWahl.getInt(4)));
+        }
+
+        pokemonWahl.close();
+
+        return pokemon;
+
+    }
+
+    public void pokemonWahlRandom(Buddy buddy) throws SQLException{
 
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();

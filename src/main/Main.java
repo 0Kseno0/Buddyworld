@@ -12,8 +12,9 @@ public class Main {
         Wetter wetter = new Wetter();
 
         System.out.println("\b");
-            sql.pokemonWahl(buddy);
-            sql.pokemonWahl(buddy2);
+
+            buddy = sql.pokemonWahl();
+            sql.pokemonWahlRandom(buddy2);
 
             //System.out.println(buddy.getId() + " " + buddy.getName() + " " + buddy.getGewicht());
 
@@ -43,10 +44,9 @@ public class Main {
             /*
             System.out.println();
 
-            buddy.getAngriffsListe();
-
-            buddy.ansichtAngriffe();
-             */
-        GUI gui = new GUI(buddy, buddy2);
+        buddy.getAngriffsListe();
+        
+        buddy.ansichtAngriffe();
+        */
     }
 }
