@@ -38,6 +38,7 @@ public class Buddy {
     private boolean isVerwirrt;
     private int verwirrtDauer;
     private boolean isSleepy;
+    private int sleepyDauer;
     private int sleepDauer;
     private boolean usedHyperbeam;
     private boolean isCursed;

@@ -44,9 +44,10 @@ public class Main {
             /*
             System.out.println();
 
-        buddy.getAngriffsListe();
+            buddy.getAngriffsListe();
         
-        buddy.ansichtAngriffe();
-        */
+            buddy.ansichtAngriffe();
+            */
+            System.out.println("test");
     }
 }

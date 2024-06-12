@@ -127,34 +127,59 @@ public class Mechaniken {
         return istTyp;
     }
 
-    public void statusEffektAktion(Buddy b) {
+    public void statusEffektAktion(Buddy b1, Buddy b2) {
 
         Random random = new Random();
         double wahrscheinlichkeit = random.nextDouble(100);
 
-        if (b.getStatusEffekt().getId() == 1 || b.getStatusEffekt().getId() == 4) {
-            if (b.getHp() > b.getMaxHp() / 8) {
-                b.setHp(b.getMaxHp() / 8);
+        if (b1.getStatusEffekt().getId() == 1 || b1.getStatusEffekt().getId() == 4) {
+            if (b1.getHp() > b1.getMaxHp() / 8) {
+                b1.setHp(b1.getMaxHp() / 8);
             } else {
-                b.setHp(0);
+                b1.setHp(0);
             }
-        } else if (b.getStatusEffekt().getId() == 2) {
-            b.setKannAngreifen(false);
+        } else if (b1.getStatusEffekt().getId() == 2) {
+            b1.setKannAngreifen(false);
 
             if (wahrscheinlichkeit < 20) {
-                b.getStatusEffekt().setId(0);
-                b.setKannAngreifen(true);
+                b1.getStatusEffekt().setId(0);
+                b1.setKannAngreifen(true);
             }
-        } else if (b.getStatusEffekt().getId() == 5) {
-            b.setBadlyPoisonedDauer(b.getBadlyPoisonedDauer() + 1);
-            if (b.getHp() > (b.getMaxHp() * b.getBadlyPoisonedDauer()) / 16) {
-                b.setHp((b.getMaxHp() * b.getBadlyPoisonedDauer()) / 16);
+        } else if (b1.getStatusEffekt().getId() == 5) {
+            b1.setBadlyPoisonedDauer(b1.getBadlyPoisonedDauer() + 1);
+            if (b1.getHp() > (b1.getMaxHp() * b1.getBadlyPoisonedDauer()) / 16) {
+                b1.setHp((b1.getMaxHp() * b1.getBadlyPoisonedDauer()) / 16);
             } else {
-                b.setHp(0);
+                b1.setHp(0);
             }
-        } else if (b.getStatusEffekt().getId() == 6) {
-            b.setKannAngreifen(false);
-            b.setSleepDauer(b.getSleepDauer() - 1);
+        } else if (b1.getStatusEffekt().getId() == 6) {
+            b1.setKannAngreifen(false);
+            b1.setSleepDauer(b1.getSleepDauer() - 1);
+        }
+
+        if (b2.getStatusEffekt().getId() == 1 || b2.getStatusEffekt().getId() == 4) {
+            if (b2.getHp() > b2.getMaxHp() / 8) {
+                b2.setHp(b2.getMaxHp() / 8);
+            } else {
+                b2.setHp(0);
+            }
+        } else if (b2.getStatusEffekt().getId() == 2) {
+            b2.setKannAngreifen(false);
+
+            if (wahrscheinlichkeit < 20) {
+                b2.getStatusEffekt().setId(0);
+                b2.setKannAngreifen(true);
+            }
+        } else if (b2.getStatusEffekt().getId() == 5) {
+            b2.setBadlyPoisonedDauer(b2.getBadlyPoisonedDauer() + 1);
+            if (b2.getHp() > (b2.getMaxHp() * b2.getBadlyPoisonedDauer()) / 16) {
+                b2.setHp((b2.getMaxHp() * b2.getBadlyPoisonedDauer()) / 16);
+            } else {
+                b2.setHp(0);
+            }
+        } else if (b2.getStatusEffekt().getId() == 6) {
+            b2.setKannAngreifen(false);
+            b2.setSleepDauer(b2.getSleepDauer() - 1);
         }
     }
 
@@ -210,15 +235,93 @@ public class Mechaniken {
         }
     }
 
-    public void reflectCounter(Buddy b){
-        if(b.getReflectDuration() > 0){
-            b.setReflectDuration(b.getReflectDuration() - 1);
+    public void reflectCounter(Buddy b1, Buddy b2){
+        if(b1.getReflectDuration() > 0){
+            b1.setReflectDuration(b1.getReflectDuration() - 1);
+        }
+        if(b1.getReflectDuration() == 0){
+            b1.setHatReflect(false);
+        }
+        if(b2.getReflectDuration() > 0){
+            b2.setReflectDuration(b2.getReflectDuration() - 1);
+        }
+        if(b2.getReflectDuration() == 0){
+            b2.setHatReflect(false);
         }
     }
 
-    public void lightScreenCounter(Buddy b){
-        if(b.getLightScreenDuration() > 0){
-            b.setLightScreenDuration(b.getLightScreenDuration() - 1);
+    public void lightScreenCounter(Buddy b1, Buddy b2){
+        if(b1.getLightScreenDuration() > 0){
+            b1.setLightScreenDuration(b1.getLightScreenDuration() - 1);
+        }
+        if(b1.getLightScreenDuration() == 0){
+            b1.setHatLightScreen(false);
+        }
+        if(b2.getLightScreenDuration() > 0){
+            b2.setLightScreenDuration(b2.getLightScreenDuration() - 1);
+        }
+        if(b2.getLightScreenDuration() == 0){
+            b2.setHatLightScreen(false);
+        }
+    }
+
+    public void sleepyToggle(Buddy b1, Buddy b2){
+        if(b1.isSleepy()){
+            b1.setSleepy(false);
+            b1.getStatusEffekt().setEffekt(6);
+        }
+        if(b2.isSleepy()){
+            b2.setSleepy(false);
+            b2.getStatusEffekt().setEffekt(6);
+        }
+    }
+
+    public void bindingCheck(Buddy b1, Buddy b2){
+        if(b1.isBound()){
+            if(b1.getBindDauer() == 0) {
+
+                b1.setBindDauer(b1.getBindDauer() - 1);
+                b1.setHp(b1.getMaxHp()/8);
+
+            }   else{
+                b1.setBound(false);
+            }
+        }
+        if(b2.isBound()){
+            if(b2.getBindDauer() == 0) {
+
+                b2.setBindDauer(b2.getBindDauer() - 1);
+                b2.setHp(b2.getMaxHp()/8);
+
+            }   else{
+                b2.setBound(false);
+            }
+        }
+    }
+
+    public boolean paraCheck(Buddy b){
+        if(b.getStatusEffekt().getId() == 3){
+            return true;
+        }   else{
+            return false;
+        }
+    }
+
+    public boolean speedCheck(Buddy b1, Buddy b2, double multiplikator){
+        Random random = new Random();
+
+        if(b1.getStatValue(5) * multiplikator > b2.getStatValue(5)){
+            return true;
+        }   else if(b1.getStatValue(5) * multiplikator < b2.getStatValue(5)){
+            return false;
+        }else {
+
+            int auswahl = random.nextInt(2);
+            if(auswahl == 0){
+                return true;
+            }   else{
+                return false;
+            }
         }
     }
 }

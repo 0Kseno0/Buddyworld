@@ -1,7 +1,8 @@
-jump kick und high jump kick extra behandlung, bei miss schaden an sich selbst (halbes derzeitiges leben)
-triple kick sonder behandlung, base schaden beim ersten hit 10, dann 20, dann 30
-sand attack kann luft angreifen obwohl boden angriff
-OHKO angriffe separat
++ jump kick und high jump kick extra behandlung, bei miss schaden an sich selbst (halbes derzeitiges leben)
+
+triple kick sonderbehandlung, base schaden beim ersten hit 10, dann 20, dann 30
+
++ OHKO angriffe separat
 
 Verwirrung im Kampf schauen und reduzieren
 
@@ -9,17 +10,14 @@ sonic boom, dragon rage, psywave, super fang keine schadensrechnung
 
 BFS = Bounce Fly Skydrop
 
-Thrash and Petal brechnen ab bei paralyse o.ä.
+Thrash and Petal brechen ab bei paralyse o.ä.
 
-Light Screen check und counter
++ Light Screen und counter check
 
++ Statuseffekte behandeln separat mit Funktion 
 
-Statuseffekte behandeln separat mit Funktion
++ Endure am ende prio runter machen und ausschalten
 
-Endure am ende prio runter machen und ausschalten
-
-fury cutter bei miss schaden zurücksetzen
-
-hidden power vielleicht implementieren falls zeit und lust
++ fury cutter bei miss schaden zurücksetzen
 
 sleepy tracken und auf schlafen ändern

@@ -78,11 +78,6 @@ public class AngriffsMechaniken {
                     b2.getStatusEffekt().setEffekt(3);
                 }
                 break;
-            case 36, 66:
-                if (!mech.istTyp(b2.getTyp(), 8)) {
-                    b1.setHp(b1.getHp() - (schaden / 4));
-                }
-                break;
             case 37, 80, 200:
                 if (!b1.isThrashing()) {
                     b1.setThrashingDauer();
@@ -135,11 +130,6 @@ public class AngriffsMechaniken {
                     b2.setHp(b2.getHp() - 20);
                 }
                 break;
-            case 51, 94:
-                if (wahrscheinlichkeit < 10) {
-                    b2.decrementStat(4, 1);
-                }
-                break;
             case 57:
                 if (b2.isDive()) {
                     angriff.setPower(angriff.getPower() * 2);
@@ -160,16 +150,6 @@ public class AngriffsMechaniken {
             case 60, 93, 324:
                 if (!b2.isVerwirrt() && wahrscheinlichkeit < 10) {
                     b2.setVerwirrtDauer(4, 1);
-                }
-                break;
-            case 61, 132, 145:
-                if (wahrscheinlichkeit < 10) {
-                    b2.decrementStat(5, 1);
-                }
-                break;
-            case 62:
-                if (wahrscheinlichkeit < 10) {
-                    b2.decrementStat(1, 1);
                 }
                 break;
             case 63:
@@ -318,6 +298,11 @@ public class AngriffsMechaniken {
             case 138:
                 if (b2.getStatusEffekt().getId() == 6) {
                     angriff.setPower(100);
+                    if(b1.getMaxHp() > b1.getHp() + (schaden/2)){
+                        b1.setHp(b1.getHp() + (schaden/2));
+                    }   else{
+                        b1.setHp(b1.getMaxHp());
+                    }
                 } else {
                     angriff.setPower(0);
                 }
@@ -416,11 +401,6 @@ public class AngriffsMechaniken {
             case 187:
                 b1.setHp(b1.getMaxHp() / 2);
                 b1.incrementStat(1, 6);
-                break;
-            case 190:
-                if (wahrscheinlichkeit < 50) {
-                    b2.decrementStat(6, 1);
-                }
                 break;
             case 201:
                 if(wetter.getId() != 3) {
@@ -522,16 +502,6 @@ public class AngriffsMechaniken {
             case 230:
                 b1.incrementStat(6, 1);
                 break;
-            case 231:
-                if (wahrscheinlichkeit < 30) {
-                    b2.decrementStat(2, 1);
-                }
-                break;
-            case 232:
-                if (wahrscheinlichkeit < 10) {
-                    b1.incrementStat(1, 1);
-                }
-                break;
             case 233:
                 b1.vitalThrowPrio();
                 break;
@@ -550,11 +520,6 @@ public class AngriffsMechaniken {
             case 241:
                 wetter.setWetter(1);
                 break;
-            case 242:
-                if (wahrscheinlichkeit < 20) {
-                    b2.decrementStat(2, 1);
-                }
-                break;
             case 244:
                 b1.resetStats();
                 b1.setStatsAenderungen(b2.getStatsAenderungen());
@@ -563,23 +528,6 @@ public class AngriffsMechaniken {
             case 245:
                 b1.incrementPrio();
                 b1.incrementPrio();
-                break;
-            case 246, 318:
-                if (wahrscheinlichkeit < 10) {
-                    for (int i = 1; i < 6; i++) {
-                        b1.incrementStat(i, 1);
-                    }
-                }
-                break;
-            case 247:
-                if (wahrscheinlichkeit < 20) {
-                    b2.decrementStat(4, 1);
-                }
-                break;
-            case 249, 306:
-                if (wahrscheinlichkeit < 50) {
-                    b2.decrementStat(2, 1);
-                }
                 break;
             case 253:
                 if (b1.getStatusEffekt().getId() == 6) {
@@ -654,16 +602,6 @@ public class AngriffsMechaniken {
             case 294:
                 b1.incrementStat(3,3);
                 break;
-            case 295:
-                if(wahrscheinlichkeit < 50){
-                    b2.decrementStat(4,1);
-                }
-                break;
-            case 296:
-                if(wahrscheinlichkeit < 50){
-                    b2.decrementStat(3,1);
-                }
-                break;
             case 299:
                 b1.incrementCritStage();
                 if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 10)) {
@@ -673,11 +611,6 @@ public class AngriffsMechaniken {
             case 305:
                 if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 50 && !mech.istTyp(b2.getTyp(), 4) || !mech.istTyp(b2.getTyp(), 9)) {
                     b2.getStatusEffekt().setEffekt(5);
-                }
-                break;
-            case 309:
-                if(wahrscheinlichkeit < 20){
-                    b1.incrementStat(1,1);
                 }
                 break;
             case 313, 319:
@@ -702,11 +635,6 @@ public class AngriffsMechaniken {
                     b1.setTrifftTrotzdem(true);
                 }
                 break;
-            case 330:
-                if(wahrscheinlichkeit < 30){
-                    b2.decrementStat(6,1);
-                }
-                break;
             case 340:
                 if(b1.isBFS()){
                     if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 13)) {
@@ -720,12 +648,6 @@ public class AngriffsMechaniken {
                 if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 50 && !mech.istTyp(b2.getTyp(), 4) || !mech.istTyp(b2.getTyp(), 9)) {
                     b2.getStatusEffekt().setEffekt(5);
                 }
-                break;
-            case 344:
-                if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 13)) {
-                    b2.getStatusEffekt().setEffekt(3);
-                }
-                b1.setHp(b1.getHp() - (schaden / 3));
                 break;
             case 347:
                 b1.incrementStat(3,1);
@@ -742,6 +664,11 @@ public class AngriffsMechaniken {
     }
 
     public void warum2(Buddy b1, Buddy b2, Angriff angriff, Wetter wetter, int schaden){
+
+        double indikator = 0;
+        Random random = new Random();
+        double wahrscheinlichkeit = random.nextDouble(100);
+
         switch(angriff.getId()){
             case 2, 75, 152, 163, 177, 238, 299, 314, 342, 348:
                 b1.decrementCritStage();
@@ -756,15 +683,35 @@ public class AngriffsMechaniken {
                     angriff.setPower(angriff.getPower()/2);
                 }
                 break;
+            case 36, 66:
+                if (!mech.istTyp(b2.getTyp(), 8)) {
+                    b1.setHp(b1.getHp() - (schaden / 4));
+                }
+                break;
             case 37, 80, 200:
                 if(b1.getThrashingDauer() == 0 && b1.isThrashing()){
                     b1.setThrashing(false);
                     b1.setVerwirrtDauer(4,1);
                 }
                 break;
+            case 51, 94:
+                if (wahrscheinlichkeit < 10) {
+                    b2.decrementStat(4, 1);
+                }
+                break;
             case 57:
                 if(b2.isDive()){
                     angriff.setPower(angriff.getPower()/2);
+                }
+                break;
+            case 61, 132, 145:
+                if (wahrscheinlichkeit < 10) {
+                    b2.decrementStat(5, 1);
+                }
+                break;
+            case 62:
+                if (wahrscheinlichkeit < 10) {
+                    b2.decrementStat(1, 1);
                 }
                 break;
             case 89:
@@ -785,6 +732,11 @@ public class AngriffsMechaniken {
                     b1.setHp(b1.getMaxHp());
                 }
                 break;
+            case 190:
+                if (wahrscheinlichkeit < 50) {
+                    b2.decrementStat(6, 1);
+                }
+                break;
             case 203:
                 for (int i = 0; i < 4; i++) {
                     b1.decrementPrio();
@@ -799,11 +751,69 @@ public class AngriffsMechaniken {
                     angriff.setPower(30);
                 }
                 break;
+            case 231:
+                if (wahrscheinlichkeit < 30) {
+                    b2.decrementStat(2, 1);
+                }
+                break;
+            case 232:
+                if (wahrscheinlichkeit < 10) {
+                    b1.incrementStat(1, 1);
+                }
+                break;
             case 233:
                 b1.incrementPrio();
                 break;
+            case 246, 318:
+                if (wahrscheinlichkeit < 10) {
+                    for (int i = 1; i < 6; i++) {
+                        b1.incrementStat(i, 1);
+                    }
+                }
+                break;
+            case 247:
+                if (wahrscheinlichkeit < 20) {
+                    b2.decrementStat(4, 1);
+                }
+                break;
+            case 249, 306:
+                if (wahrscheinlichkeit < 50) {
+                    b2.decrementStat(2, 1);
+                }
+                break;
+            case 242:
+                if (wahrscheinlichkeit < 20) {
+                    b2.decrementStat(2, 1);
+                }
+                break;
             case 263, 265:
                 angriff.setPower(70);
+                break;
+            case 295:
+                if(wahrscheinlichkeit < 50){
+                    b2.decrementStat(4,1);
+                }
+                break;
+            case 296:
+                if(wahrscheinlichkeit < 50){
+                    b2.decrementStat(3,1);
+                }
+                break;
+            case 309:
+                if(wahrscheinlichkeit < 20){
+                    b1.incrementStat(1,1);
+                }
+                break;
+            case 330:
+                if(wahrscheinlichkeit < 30){
+                    b2.decrementStat(6,1);
+                }
+                break;
+            case 344:
+                if (!b2.getStatusEffekt().hatEffekt() && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 13)) {
+                    b2.getStatusEffekt().setEffekt(3);
+                }
+                b1.setHp(b1.getHp() - (schaden / 3));
                 break;
         }
     }

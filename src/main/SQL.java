@@ -1,9 +1,10 @@
 package main;
 
-import com.mysql.cj.protocol.Resultset;
 import main.klassen.*;
 
 import java.sql.*;
+import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -23,18 +24,33 @@ public class SQL {
         Scanner scanner = new Scanner(System.in);
 
         String auswahl = "";
-        Vector<String> moeglichePokemon = new Vector<>();
-        int pokemon = 0;
+        HashMap<Integer, String> moeglichePokemon = pokemonMap();
+        boolean weiter = true ;
 
-        System.out.println("Welches Pokemon soll gewählt werden?");
-
-        boolean weiter = false;
-
-        while(!weiter){
-
+        for(Integer id : moeglichePokemon.keySet()){
+            System.out.println(id + " " + moeglichePokemon.get(id));
         }
 
-        ResultSet pokemonWahl = statement.executeQuery("select * from pokemon where pok_name='" + auswahl + "'");
+        System.out.println();
+
+        ResultSet pokemonWahl = null;
+
+        while(weiter){
+            System.out.println("Bitte eine ID oder einen Namen angeben.");
+            auswahl = scanner.nextLine();
+
+            if(!auswahl.isEmpty()){
+                if(istZahl(auswahl) && moeglichePokemon.containsKey(Integer.valueOf(auswahl))){
+                    pokemonWahl = statement.executeQuery("select * from pokemon where pok_id='" + Integer.valueOf(auswahl) + "'");
+                    weiter = false;
+                }   else if(!istZahl(auswahl) && moeglichePokemon.containsValue(auswahl.toLowerCase())){
+                    pokemonWahl = statement.executeQuery("select * from pokemon where pok_name='" + auswahl.toLowerCase() + "'");
+                    weiter = false;
+                }
+            }
+        }
+
+        assert pokemonWahl != null;
 
         if(pokemonWahl.next()){
             buddy.setId(pokemonWahl.getInt(1));
@@ -44,7 +60,7 @@ public class SQL {
 
         pokemonWahl.close();
 
-        ResultSet baseStats = statement.executeQuery("select * from base_stats where pok_id='" + pokemon + "'");
+        ResultSet baseStats = statement.executeQuery("select * from base_stats where pok_id='" + buddy.getId() + "'");
 
         if(baseStats.next()){
             buddy.setBaseStat(0, baseStats.getDouble(2));
@@ -57,29 +73,28 @@ public class SQL {
         }
 
         baseStats.close();
-
         statement.close();
         connection.close();
 
         return buddy;
     }
 
-    public Vector<String> pokemonListe() throws SQLException{
+    public HashMap<Integer, String> pokemonMap() throws SQLException{
 
-        Vector<String> pokemon = new Vector<>();
+        HashMap<Integer, String> pokemon = new HashMap<>();
 
         Connection connection = DriverManager.getConnection(url, username, password);
         Statement statement = connection.createStatement();
 
-        ResultSet pokemonWahl = statement.executeQuery("select * from pokemon");
+        ResultSet pokemonWahl = statement.executeQuery("select * from pokemon order by pok_id asc");
 
-        if(pokemonWahl.next()){
-            setId(pokemonWahl.getInt(1));
-            setName(pokemonWahl.getString(2));
-            setGewicht((pokemonWahl.getInt(4)));
+        while(pokemonWahl.next()){
+            pokemon.put(pokemonWahl.getInt(1), pokemonWahl.getString(2));
         }
 
         pokemonWahl.close();
+        statement.close();
+        connection.close();
 
         return pokemon;
 
@@ -322,6 +337,18 @@ public class SQL {
         stat.close();
 
         return angriff;
+    }
+
+    public static boolean istZahl(String string) {
+        if (string == null || string.isEmpty()) {
+            return false;
+        }
+        try {
+            Double.parseDouble(string); //
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 }
