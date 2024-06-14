@@ -21,13 +21,13 @@ public class Mechaniken {
             dId1 = b2.getTyp().elementAt(0).getId();
             dId2 = b2.getTyp().elementAt(1).getId();
         } else {
-            System.out.println("Irgendwas hat nicht richtig funktioniert.");
+            System.out.println("\nIrgendwas hat nicht richtig funktioniert.");
             dId1 = -1;
             dId2 = -1;
         }
 
         int atk = angriff.getKategorie() == 1 ? b1.getStatValue(1) : b1.getStatValue(3);
-        int def = angriff.getKategorie() == 1 ? b1.getStatValue(2) : b1.getStatValue(4);
+        int def = angriff.getKategorie() == 1 ? b2.getStatValue(2) : b2.getStatValue(4);
 
         double schaden = ((((((double) (2 * b1.getLvl()) / 5) + 2) * angriff.getPower() * ((double) atk / def)) / 50) + 2)
                 * getEffektivitaet(angriff.getTyp().getId(), dId1, dId2) * randomValue;
@@ -59,9 +59,7 @@ public class Mechaniken {
 
         schaden = schlechtesWetter ? schaden * 0.5 : schaden;
 
-        boolean stab = b1.getTyp().contains(angriff.getTyp());
-
-        System.out.println("Stab: " + stab);
+        boolean stab = istTyp(b1.getTyp(), angriff.getTyp().getId());
 
         schaden = stab ? schaden * 1.5 : schaden;
 
@@ -76,6 +74,16 @@ public class Mechaniken {
         return (int) schaden;
     }
 
+    public int verwirrungsSchaden(Buddy b1, Angriff angriff){
+
+
+        int atk = angriff.getKategorie() == 1 ? b1.getStatValue(1) : b1.getStatValue(3);
+        int def = angriff.getKategorie() == 1 ? b1.getStatValue(2) : b1.getStatValue(4);
+
+        double schaden = ((double) (((2 * b1.getLvl() / 5 + 2) * atk * 40) / def) / 50) + 2;
+
+        return (int) schaden;
+    }
 
     private static final double[][] effektiv = {
             //       NOR FIG FLY POI GRO ROC BUG GHO STE FIR WAT GRA ELE PSY ICE DRA DAR FAI
@@ -108,17 +116,13 @@ public class Mechaniken {
         double effectiveness1 = effektiv[attackId][defenderId1];
         double effectiveness2 = defenderId2 != -1 ? effektiv[attackId][defenderId2] : 1.0;
 
-        System.out.println();
-        System.out.println(effectiveness1 * effectiveness2);
-        System.out.println();
-
         return effectiveness1 * effectiveness2;
     }
 
     public boolean istTyp(Vector<Typ> typ, int id) {
         boolean istTyp = false;
 
-        for (int i = typ.size(); i > 0; i--) {
+        for (int i = typ.size()-1; i >= 0; i--) {
             if (typ.elementAt(i).getId() == id) {
                 istTyp = true;
             }
@@ -134,7 +138,7 @@ public class Mechaniken {
 
         if (b1.getStatusEffekt().getId() == 1 || b1.getStatusEffekt().getId() == 4) {
             if (b1.getHp() > b1.getMaxHp() / 8) {
-                b1.setHp(b1.getMaxHp() / 8);
+                b1.setHp(b1.getHp() - b1.getMaxHp() / 8);
             } else {
                 b1.setHp(0);
             }
@@ -142,24 +146,21 @@ public class Mechaniken {
             b1.setKannAngreifen(false);
 
             if (wahrscheinlichkeit < 20) {
-                b1.getStatusEffekt().setId(0);
+                b1.getStatusEffekt().setEffekt(0);
                 b1.setKannAngreifen(true);
             }
         } else if (b1.getStatusEffekt().getId() == 5) {
             b1.setBadlyPoisonedDauer(b1.getBadlyPoisonedDauer() + 1);
             if (b1.getHp() > (b1.getMaxHp() * b1.getBadlyPoisonedDauer()) / 16) {
-                b1.setHp((b1.getMaxHp() * b1.getBadlyPoisonedDauer()) / 16);
+                b1.setHp(b1.getHp() - (b1.getMaxHp() * b1.getBadlyPoisonedDauer()) / 16);
             } else {
                 b1.setHp(0);
             }
-        } else if (b1.getStatusEffekt().getId() == 6) {
-            b1.setKannAngreifen(false);
-            b1.setSleepDauer(b1.getSleepDauer() - 1);
         }
 
         if (b2.getStatusEffekt().getId() == 1 || b2.getStatusEffekt().getId() == 4) {
             if (b2.getHp() > b2.getMaxHp() / 8) {
-                b2.setHp(b2.getMaxHp() / 8);
+                b2.setHp(b2.getHp() - b2.getMaxHp() / 8);
             } else {
                 b2.setHp(0);
             }
@@ -167,20 +168,46 @@ public class Mechaniken {
             b2.setKannAngreifen(false);
 
             if (wahrscheinlichkeit < 20) {
-                b2.getStatusEffekt().setId(0);
+                b2.getStatusEffekt().setEffekt(0);
                 b2.setKannAngreifen(true);
             }
         } else if (b2.getStatusEffekt().getId() == 5) {
             b2.setBadlyPoisonedDauer(b2.getBadlyPoisonedDauer() + 1);
             if (b2.getHp() > (b2.getMaxHp() * b2.getBadlyPoisonedDauer()) / 16) {
-                b2.setHp((b2.getMaxHp() * b2.getBadlyPoisonedDauer()) / 16);
+                b2.setHp(b2.getHp() - (b2.getMaxHp() * b2.getBadlyPoisonedDauer()) / 16);
             } else {
                 b2.setHp(0);
             }
-        } else if (b2.getStatusEffekt().getId() == 6) {
+        }
+
+        if(b1.getStatusEffekt().getId() != 5){
+            b1.setBadlyPoisonedDauer(0);
+        }
+        if(b2.getStatusEffekt().getId() != 5){
+            b2.setBadlyPoisonedDauer(0);
+        }
+    }
+
+    public void schlafenAktion(Buddy b1, Buddy b2){
+        if (b1.getStatusEffekt().getId() == 6) {
+            b1.setKannAngreifen(false);
+            b1.setSleepDauer(b1.getSleepDauer() - 1);
+            if(b1.getSleepDauer() == 0){
+                b1.setKannAngreifen(true);
+                b1.getStatusEffekt().setEffekt(0);
+                System.out.println("\n" + b1.getName() + " ist aufgewacht.");
+            }
+        }
+
+        if (b2.getStatusEffekt().getId() == 6) {
             b2.setKannAngreifen(false);
             b2.setSleepDauer(b2.getSleepDauer() - 1);
-        }
+            if(b2.getSleepDauer() == 0){
+                b2.setKannAngreifen(true);
+                b2.getStatusEffekt().setEffekt(0);
+                System.out.println("\n" + b2.getName() + " ist aufgewacht.");
+            }
+            }
     }
 
     public void wetterAktion(Buddy b1, Buddy b2, Wetter w) {
@@ -202,35 +229,55 @@ public class Mechaniken {
                 if (w.getId() == 3) {
                     if(!istTyp(b1.getTyp(), 5) || !istTyp(b1.getTyp(), 6) || !istTyp(b1.getTyp(), 9)){
                         if (b1.getHp() > b1.getMaxHp() / 16) {
-                            b1.setHp(b1.getMaxHp() / 16);
+                            b1.setHp(b1.getHp() - b1.getMaxHp() / 16);
                         } else {
                             b1.setHp(0);
                         }
+                        System.out.println("\n" + b1.getName() + " wurde vom Sandsturm getroffen.");
                     }
                     if(!istTyp(b2.getTyp(), 5) || !istTyp(b2.getTyp(), 6) || !istTyp(b2.getTyp(), 9)){
                         if (b2.getHp() > b2.getMaxHp() / 16) {
-                            b2.setHp(b2.getMaxHp() / 16);
+                            b2.setHp(b2.getHp() - b2.getMaxHp() / 16);
                         } else {
                             b2.setHp(0);
                         }
+                        System.out.println("\n" + b2.getName() + " wurde vom Sandsturm getroffen.");
                     }
                 }
                 if (w.getId() == 4) {
                     if(!istTyp(b1.getTyp(), 15)){
                         if (b1.getHp() > b1.getMaxHp() / 16) {
-                            b1.setHp(b1.getMaxHp() / 16);
+                            b1.setHp(b1.getHp() - b1.getMaxHp() / 16);
                         } else {
                             b1.setHp(0);
                         }
+                        System.out.println("\n" + b1.getName() + " wurde vom Hagel getroffen.");
                     }
                     if(!istTyp(b2.getTyp(), 15)){
                         if (b2.getHp() > b2.getMaxHp() / 16) {
-                            b2.setHp(b2.getMaxHp() / 16);
+                            b2.setHp(b2.getHp() - b2.getMaxHp() / 16);
                         } else {
                             b2.setHp(0);
                         }
+                        System.out.println("\n" + b2.getName() + " wurde vom Hagel getroffen.");
                     }
                 }
+            }
+        }
+    }
+
+    public void verwirrungCounter(Buddy b1, Buddy b2){
+        if(b1.isVerwirrt()){
+            b1.setVerwirrtDauer(b1.getVerwirrtDauer()-1);
+            if(b1.getVerwirrtDauer() == 0){
+                b1.setVerwirrt(false);
+            }
+        }
+
+        if(b2.isVerwirrt()){
+            b2.setVerwirrtDauer(b2.getVerwirrtDauer()-1);
+            if(b2.getVerwirrtDauer() == 0){
+                b2.setVerwirrt(false);
             }
         }
     }
@@ -269,10 +316,12 @@ public class Mechaniken {
         if(b1.isSleepy()){
             b1.setSleepy(false);
             b1.getStatusEffekt().setEffekt(6);
+            System.out.println("\n" + b1.getName() + " ist eingeschlafen.");
         }
         if(b2.isSleepy()){
             b2.setSleepy(false);
             b2.getStatusEffekt().setEffekt(6);
+            System.out.println("\n" + b2.getName() + " ist eingeschlafen.");
         }
     }
 
@@ -323,5 +372,11 @@ public class Mechaniken {
                 return false;
             }
         }
+    }
+
+    public void gewinnerCheck(Buddy b1, Buddy b2){
+        if(b1.getHp() == 0 && b2.getHp() > 0) System.out.println("\n" + b2.getName() + " hat gewonnen!");
+        else if(b2.getHp() == 0 && b1.getHp() > 0) System.out.println("\n" + b1.getName() + " hat gewonnen!");
+        else System.out.println("Unentschieden?");
     }
 }

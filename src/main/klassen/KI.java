@@ -13,7 +13,7 @@ public class KI {
         int index = 0;
         Random random = new Random();
 
-        index = random.nextInt(5);
+        index = random.nextInt(4);
 
         return angriffe[index];
     }

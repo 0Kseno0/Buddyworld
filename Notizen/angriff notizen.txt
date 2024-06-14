@@ -1,16 +1,14 @@
 + jump kick und high jump kick extra behandlung, bei miss schaden an sich selbst (halbes derzeitiges leben)
 
-triple kick sonderbehandlung, base schaden beim ersten hit 10, dann 20, dann 30
++ triple kick sonderbehandlung, base schaden beim ersten hit 10, dann 20, dann 30
 
 + OHKO angriffe separat
 
-Verwirrung im Kampf schauen und reduzieren
++ Verwirrung im Kampf schauen und reduzieren
 
-sonic boom, dragon rage, psywave, super fang keine schadensrechnung
++ sonic boom, dragon rage, psywave, super fang keine schadensrechnung
 
-BFS = Bounce Fly Skydrop
-
-Thrash and Petal brechen ab bei paralyse o.ä.
++ Thrash and Petal brechen ab bei paralyse o.ä.
 
 + Light Screen und counter check
 
@@ -20,4 +18,4 @@ Thrash and Petal brechen ab bei paralyse o.ä.
 
 + fury cutter bei miss schaden zurücksetzen
 
-sleepy tracken und auf schlafen ändern
++ sleepy tracken und auf schlafen ändern

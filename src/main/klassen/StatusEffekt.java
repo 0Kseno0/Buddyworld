@@ -68,12 +68,12 @@ public class StatusEffekt {
 
     public void setId(String name) {
         switch (name.toLowerCase()) {
-            case "burn" -> setId(1);
-            case "freeze" -> setId(2);
-            case "paralysis" -> setId(3);
-            case "poison" -> setId(4);
+            case "burned" -> setId(1);
+            case "frozen" -> setId(2);
+            case "paralyzed" -> setId(3);
+            case "poisoned" -> setId(4);
             case "badly-poisoned" -> setId(5);
-            case "sleep" -> setId(6);
+            case "asleep" -> setId(6);
             default -> setId(0);
         }
     }

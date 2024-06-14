@@ -58,6 +58,9 @@ public class SQL {
             buddy.setGewicht((pokemonWahl.getInt(4)));
         }
 
+        String tmpName = buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1);
+        buddy.setName(tmpName);
+
         pokemonWahl.close();
 
         ResultSet baseStats = statement.executeQuery("select * from base_stats where pok_id='" + buddy.getId() + "'");
@@ -123,6 +126,9 @@ public class SQL {
                 buddy.setName(pokemonWahl.getString(2));
                 buddy.setGewicht((pokemonWahl.getInt(4)));
             }
+
+            String tmpName = buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1);
+            buddy.setName(tmpName);
 
             pokemonWahl.close();
 

@@ -25,11 +25,6 @@ public class Buddy {
     private StatusEffekt statusEffekt;
     private int critStage;
     private boolean isCharging;
-    //Bounce Fly Skydrop
-    private boolean isBFS;
-    private boolean isDive;
-    private boolean isDig;
-    private boolean trifftTrotzdem;
     private boolean isBound;
     private int bindDauer;
     private boolean isFlinched;
@@ -203,7 +198,6 @@ public class Buddy {
         }
 
         setAngriffe(ausgewaehlteAngriffe);
-        scanner.close();
 
     }
 
@@ -463,30 +457,6 @@ public class Buddy {
         isCharging = charging;
     }
 
-    public boolean isBFS() {
-        return isBFS;
-    }
-
-    public void setBFS(boolean BFS) {
-        isBFS = BFS;
-    }
-
-    public boolean isDive() {
-        return isDive;
-    }
-
-    public void setDive(boolean dive) {
-        isDive = dive;
-    }
-
-    public boolean isTrifftTrotzdem() {
-        return trifftTrotzdem;
-    }
-
-    public void setTrifftTrotzdem(boolean trifftTrotzdem) {
-        this.trifftTrotzdem = trifftTrotzdem;
-    }
-
     public int getBindDauer() {
         return bindDauer;
     }
@@ -573,14 +543,6 @@ public class Buddy {
 
     public void usedHyperbeam(boolean usedHyperbeam) {
         this.usedHyperbeam = usedHyperbeam;
-    }
-
-    public boolean isDig() {
-        return isDig;
-    }
-
-    public void setDig(boolean dig) {
-        isDig = dig;
     }
 
     public boolean isCursed() {

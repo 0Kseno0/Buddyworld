@@ -6,21 +6,14 @@ check for full paralysis
 check if there was no PP left for the move
 
 SUBTRACT the appropriate amount of PP from the move (if the move called another move at step 19, use the original move for PP subtraction)
+
 check for move condition failures, part 1
 
-protection moves: automatically fail if there are no other pending moves this turn, otherwise check for failure chance if repeated
-
 Rest: user has full HP, or is already asleep (through Sleep Talk, or user's Comatose)
-Snore/Sleep Talk: user isn't asleep
-
-if move requires charging, APPLY Defense boost if Skull Bash, and unless it's Solar Beam/Solar Blade in sun, or Power Herb can be consumed, SUSPEND the move until next turn (does not count as failing)
-check for move failure due to lack of target (includes Helping Hand/Ally Switch in singles)
 
 if move is Explosion/Self-Destruct/Mind Blown, LOSE 100/100/50% of own max HP respectively, but don't fail the move from user fainting
 
 check for move condition failures, part 2
-
-Rest: Uproar is in effect
 
 status affliction when target already has one
 attempted creation of weather/field effect/pseudo-status that already exists

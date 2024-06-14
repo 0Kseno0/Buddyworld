@@ -4,12 +4,16 @@ import main.klassen.*;
 import java.sql.SQLException;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
 
-        SQL sql = new SQL();
-        Buddy buddy = new Buddy();
-        Buddy buddy2 = new Buddy();
-        Wetter wetter = new Wetter();
+    static SQL sql = new SQL();
+    static Buddy buddy = new Buddy();
+    static Buddy buddy2 = new Buddy();
+    static Wetter wetter = new Wetter();
+    static Kampf kampf = new Kampf();
+    static Mechaniken mech = new Mechaniken();
+    static int eingabe = 0;
+
+    public static void main(String[] args) throws SQLException {
 
         System.out.println("\b");
 
@@ -48,6 +52,19 @@ public class Main {
         
             buddy.ansichtAngriffe();
             */
-            System.out.println("test");
+
+            while(buddy.getHp() != 0 && buddy2.getHp() != 0) {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+                kampf.kampf(buddy, buddy2, wetter);
+                System.out.println("\n" + buddy.getName() + ": " + buddy.getHp() + "/" + buddy.getMaxHp() + " hp.");
+                System.out.println("Statuseffekt: " + buddy.getStatusEffekt().getName());
+                System.out.println();
+                System.out.println(buddy2.getName() +  ": " + buddy2.getHp() + "/" + buddy2.getMaxHp() + " hp.");
+                System.out.println("Statuseffekt: " + buddy2.getStatusEffekt().getName());
+                System.out.println("\nWetter: " + wetter.getName());
+            }
+
+            mech.gewinnerCheck(buddy, buddy2);
     }
 }
