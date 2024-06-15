@@ -48,6 +48,7 @@ public class AngriffsMechaniken {
                 if (!b2.isBound()) {
                     b2.setBindDauer(random.nextInt(2) + 4);
                     b2.setBound(true);
+                    System.out.println("\n" + b2.getName() + " wird in einer Falle festgehalten.");
                 }
                 break;
             case 23, 27, 29, 44, 157, 302, 310, 239:
@@ -58,23 +59,10 @@ public class AngriffsMechaniken {
             case 24, 155:
                 angriff.setAnzahl(2);
                 break;
-            case 28, 108, 134, 148, 189:
-                b2.decrementStat(6, 1);
-                break;
             case 34, 122, 209, 225:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 13)) {
                     b2.getStatusEffekt().setEffekt(3);
                     System.out.println("\n" + b2.getName() + " wurde paralysiert.");
-                }
-                break;
-            case 37, 80, 200:
-                if (!b1.isThrashing()) {
-                    b1.setThrashingDauer();
-                    b1.setThrashing(true);
-                } else {
-                    if (b1.getThrashingDauer() > 0) {
-                        b1.setThrashingDauer(b1.getThrashingDauer() - 1);
-                    }
                 }
                 break;
             case 38:
@@ -118,6 +106,7 @@ public class AngriffsMechaniken {
             case 48, 109, 186, 223, 298:
                 if (!b2.isVerwirrt()) {
                     b2.setVerwirrtDauer(4, 1);
+                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 break;
             case 59:
@@ -135,6 +124,7 @@ public class AngriffsMechaniken {
             case 60, 93, 324:
                 if (!b2.isVerwirrt() && wahrscheinlichkeit < 10) {
                     b2.setVerwirrtDauer(4, 1);
+                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 break;
             case 63:
@@ -288,6 +278,7 @@ public class AngriffsMechaniken {
             case 146, 352:
                 if (!b2.isVerwirrt() && wahrscheinlichkeit < 20) {
                     b2.setVerwirrtDauer(4, 1);
+                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 break;
             case 150:
@@ -388,25 +379,13 @@ public class AngriffsMechaniken {
                 }
                 wetter.setWetter(3);
                 break;
-            case 203:
-                for (int i = 0; i < 4; i++) {
-                    b1.incrementPrio();
-                }
-                b1.setEndure(true);
-                break;
             case 204, 297:
                 b2.decrementStat(1, 2);
-                break;
-            case 205:
-                if (!b1.isRollout()) {
-                    b1.setRolloutDauer();
-                } else {
-                    angriff.setPower(angriff.getPower() * 2);
-                }
                 break;
             case 207:
                 if (!b2.isVerwirrt()) {
                     b2.setVerwirrtDauer(4, 1);
+                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 b2.incrementStat(1, 2);
                 break;
@@ -514,6 +493,7 @@ public class AngriffsMechaniken {
             case 260:
                 if (!b2.isVerwirrt()) {
                     b2.setVerwirrtDauer(4, 1);
+                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 b2.incrementStat(3, 1);
                 break;
@@ -648,12 +628,6 @@ public class AngriffsMechaniken {
                     System.out.println("\nHat leider keinen Effekt.");
                 }
                 break;
-            case 37, 80, 200:
-                if(b1.getThrashingDauer() == 0 && b1.isThrashing()){
-                    b1.setThrashing(false);
-                    b1.setVerwirrtDauer(4,1);
-                }
-                break;
             case 51, 94:
                 if (wahrscheinlichkeit < 10) {
                     b2.decrementStat(4, 1);
@@ -685,25 +659,6 @@ public class AngriffsMechaniken {
             case 156:
                 for(int i = 0; i < 4; i++){
                     b1.decrementPrio();
-                }
-                break;
-            case 190:
-                if (wahrscheinlichkeit < 50) {
-                    b2.decrementStat(6, 1);
-                }
-                break;
-            case 203:
-                for (int i = 0; i < 4; i++) {
-                    b1.decrementPrio();
-                }
-                b1.setEndure(false);
-                break;
-            case 205:
-                if(b1.getRolloutDauer() > 0) {
-                    b1.setRolloutDauer(b1.getRolloutDauer() - 1);
-                }   else {
-                    b1.setRollout(false);
-                    angriff.setPower(30);
                 }
                 break;
             case 231:
@@ -757,11 +712,6 @@ public class AngriffsMechaniken {
             case 309:
                 if(wahrscheinlichkeit < 20){
                     b1.incrementStat(1,1);
-                }
-                break;
-            case 330:
-                if(wahrscheinlichkeit < 30){
-                    b2.decrementStat(6,1);
                 }
                 break;
             case 344:

@@ -79,6 +79,10 @@ public class SQL {
         statement.close();
         connection.close();
 
+        buddy.calculateStats();
+        buddy.holeTyp();
+        buddy.angriffAuswahl();
+
         return buddy;
     }
 
@@ -103,7 +107,52 @@ public class SQL {
 
     }
 
-    public void pokemonWahlRandom(Buddy buddy) throws SQLException{
+    public Buddy pokemonParameterWahl(int id, int a1, int a2, int a3, int a4) throws SQLException{
+        Buddy buddy = new Buddy();
+
+        int[] angriffIds = { a1, a2, a3, a4 };
+
+        Connection connection = DriverManager.getConnection(url, username, password);
+        Statement statement = connection.createStatement();
+
+        ResultSet pokemonWahl = statement.executeQuery("select * from pokemon where pok_id='" + id + "'");
+
+        if(pokemonWahl.next()){
+            buddy.setId(pokemonWahl.getInt(1));
+            buddy.setName(pokemonWahl.getString(2));
+            buddy.setGewicht((pokemonWahl.getInt(4)));
+        }
+
+        String tmpName = buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1);
+        buddy.setName(tmpName);
+
+        pokemonWahl.close();
+
+        ResultSet baseStats = statement.executeQuery("select * from base_stats where pok_id='" + buddy.getId() + "'");
+
+        if(baseStats.next()){
+            buddy.setBaseStat(0, baseStats.getDouble(2));
+            buddy.setBaseStat(1, baseStats.getDouble(3));
+            buddy.setBaseStat(2, baseStats.getDouble(4));
+            buddy.setBaseStat(3, baseStats.getDouble(5));
+            buddy.setBaseStat(4, baseStats.getDouble(6));
+            buddy.setBaseStat(5, baseStats.getDouble(7));
+            buddy.setBaseStat(6, 1);
+        }
+
+        connection.close();
+        statement.close();
+        baseStats.close();
+
+        buddy.calculateStats();
+        buddy.holeTyp();
+        buddy.angriffParameterWahl(angriffIds);
+
+        return buddy;
+    }
+
+    public Buddy pokemonWahlRandom() throws SQLException{
+            Buddy buddy = new Buddy();
 
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
@@ -148,6 +197,12 @@ public class SQL {
 
             statement.close();
             connection.close();
+
+            buddy.calculateStats();
+            buddy.holeTyp();
+            buddy.zufaelligeAngriffe();
+
+            return buddy;
     }
 
     public Vector<Typ> getTyp(int id) throws SQLException{
@@ -200,6 +255,38 @@ public class SQL {
     liste.close();
 
     return angriffsId;
+    }
+
+    public Angriff findeAngriffDurchId(int id) throws SQLException{
+        Angriff angriff = new Angriff();
+
+        Connection con = DriverManager.getConnection(url, username, password);
+        Statement stat = con.createStatement();
+
+        ResultSet ausgewaehlterAngriff = stat.executeQuery("select * from moves where move_id='" + id + "'");
+
+        if(ausgewaehlterAngriff.next()) {
+            angriff.setId(ausgewaehlterAngriff.getInt(1));
+            angriff.setName(ausgewaehlterAngriff.getString(2));
+            angriff.getTyp().setTyp(ausgewaehlterAngriff.getInt(3));
+            angriff.setPower(ausgewaehlterAngriff.getInt(4));
+            angriff.setPp(ausgewaehlterAngriff.getInt(5));
+            angriff.setGenauigkeit(ausgewaehlterAngriff.getInt(6));
+            angriff.setKategorie(ausgewaehlterAngriff.getInt(7));
+            if(ausgewaehlterAngriff.getInt(7) == 0){
+                angriff.setKategorieString("Statusaenderung");
+            }   else if(ausgewaehlterAngriff.getInt(7) == 1){
+                angriff.setKategorieString("Physisch");
+            }   else if(ausgewaehlterAngriff.getInt(7) == 2){
+                angriff.setKategorieString("Spezial");
+            }
+        }
+
+        ausgewaehlterAngriff.close();
+        con.close();
+        stat.close();
+
+        return angriff;
     }
 
     public void ansichtAngriffe(int id) throws SQLException {
@@ -289,14 +376,13 @@ public class SQL {
 
         Vector<Angriff> ausgewaehlteAngriffe = new Vector<>();
 
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 4;){
 
             int randomZahl = random.nextInt(angriffe.size());
 
             if(!ausgewaehlteAngriffe.contains(angriffe.elementAt(randomZahl))){
                 ausgewaehlteAngriffe.add(angriffe.elementAt(randomZahl));
-            }   else{
-                i--;
+                i++;
             }
         }
 

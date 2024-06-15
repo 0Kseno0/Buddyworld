@@ -19,3 +19,5 @@
 + fury cutter bei miss schaden zurücksetzen
 
 + sleepy tracken und auf schlafen ändern
+
+endure wsl löschen

@@ -28,8 +28,6 @@ public class Buddy {
     private boolean isBound;
     private int bindDauer;
     private boolean isFlinched;
-    private boolean isThrashing;
-    private int thrashingDauer;
     private boolean isVerwirrt;
     private int verwirrtDauer;
     private boolean isSleepy;
@@ -41,9 +39,6 @@ public class Buddy {
     private int lightScreenDuration;
     private boolean hatReflect;
     private int reflectDuration;
-    private boolean isEndure;
-    private boolean isRollout;
-    private int rolloutDauer;
     private boolean hatSafeguard;
     private int safeguardDauer;
     private int badlyPoisonedDauer;
@@ -97,6 +92,8 @@ public class Buddy {
         for(Angriff angriff: angriffe){
             angriff = new Angriff();
         }
+        isVerwirrt = false;
+
         prio = 0;
         Random random = new Random();
         statusEffekt = new StatusEffekt();
@@ -199,6 +196,12 @@ public class Buddy {
 
         setAngriffe(ausgewaehlteAngriffe);
 
+    }
+
+    public void angriffParameterWahl(int[] angriffIds) throws SQLException{
+        for(int i = 0; i < 4; i++){
+            angriffe[i] = sql.findeAngriffDurchId(angriffIds[i]);
+        }
     }
 
     public void zufaelligeAngriffe() throws SQLException {
@@ -378,7 +381,7 @@ public class Buddy {
         for(; menge > 0; menge--) {
             if (statsAenderungen[index] < 6) {
                 statsAenderungen[index]++;
-                stats[index] += stats[index] * 0.5;
+                stats[index] += (int) (stats[index] * 0.5);
             }
         }
     }
@@ -391,7 +394,7 @@ public class Buddy {
         for(; menge > 0; menge--) {
             if (statsAenderungen[index] > -6) {
                 statsAenderungen[index]--;
-                stats[index] -= stats[index] * 0.5;
+                stats[index] -= (int) (stats[index] * 0.5);
             }
         }
     }
@@ -479,27 +482,6 @@ public class Buddy {
 
     public void setFlinched(boolean flinched) {
         isFlinched = flinched;
-    }
-
-    public boolean isThrashing() {
-        return isThrashing;
-    }
-
-    public void setThrashing(boolean thrashing) {
-        isThrashing = thrashing;
-    }
-
-    public int getThrashingDauer() {
-        return thrashingDauer;
-    }
-
-    public void setThrashingDauer(int thrashingDauer) {
-        this.thrashingDauer = thrashingDauer;
-    }
-
-    public void setThrashingDauer() {
-        Random random = new Random();
-        this.thrashingDauer = random.nextInt(2) + 2;
     }
 
     public boolean isVerwirrt() {
@@ -603,35 +585,6 @@ public class Buddy {
         setHp(tmpHp);
 
         statsAenderungen = new int[]{0,0,0,0,0,0};
-    }
-
-    public boolean isEndure() {
-        return isEndure;
-    }
-
-    public void setEndure(boolean endure) {
-        isEndure = endure;
-    }
-
-    public boolean isRollout() {
-        return isRollout;
-    }
-
-    public void setRollout(boolean rollout) {
-        isRollout = rollout;
-    }
-
-    public int getRolloutDauer() {
-        return rolloutDauer;
-    }
-
-    public void setRolloutDauer(int rolloutDauer) {
-        this.rolloutDauer = rolloutDauer;
-    }
-
-    public void setRolloutDauer(){
-        this.rolloutDauer = 5;
-        this.isRollout = true;
     }
 
     public boolean isHatSafeguard() {

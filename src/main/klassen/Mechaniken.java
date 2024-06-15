@@ -327,23 +327,25 @@ public class Mechaniken {
 
     public void bindingCheck(Buddy b1, Buddy b2){
         if(b1.isBound()){
+
+            b1.setBindDauer(b1.getBindDauer() - 1);
+            b1.setHp(Math.max((b1.getHp() - b1.getMaxHp()/8),0));
+            System.out.println("\n" + b1.getName() + " wurde durch eine Falle verletzt.");
+
             if(b1.getBindDauer() == 0) {
-
-                b1.setBindDauer(b1.getBindDauer() - 1);
-                b1.setHp(b1.getMaxHp()/8);
-
-            }   else{
                 b1.setBound(false);
+                System.out.println("\n" + b1.getName() + " konnte sich von der Falle befreien.");
             }
         }
         if(b2.isBound()){
+
+            b2.setBindDauer(b2.getBindDauer() - 1);
+            b2.setHp(Math.max((b2.getHp() - b2.getMaxHp()/8),0));
+            System.out.println("\n" + b2.getName() + " wurde durch eine Falle verletzt.");
+
             if(b2.getBindDauer() == 0) {
-
-                b2.setBindDauer(b2.getBindDauer() - 1);
-                b2.setHp(b2.getMaxHp()/8);
-
-            }   else{
                 b2.setBound(false);
+                System.out.println("\n" + b2.getName() + " konnte sich von der Falle befreien.");
             }
         }
     }

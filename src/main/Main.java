@@ -11,21 +11,21 @@ public class Main {
     static Wetter wetter = new Wetter();
     static Kampf kampf = new Kampf();
     static Mechaniken mech = new Mechaniken();
-    static int eingabe = 0;
 
     public static void main(String[] args) throws SQLException {
 
         System.out.println("\b");
 
             buddy = sql.pokemonWahl();
-            sql.pokemonWahlRandom(buddy2);
+            //buddy = sql.pokemonParameterWahl(25, 205, 207, 174, 173);
+
+            //buddy2 = sql.pokemonWahlRandom();
+            //Medium Schwierigkeit
+            buddy2 = sql.pokemonParameterWahl(565, 89, 57, 58, 157);
 
             //System.out.println(buddy.getId() + " " + buddy.getName() + " " + buddy.getGewicht());
 
             //buddy.printBaseStats();
-
-            buddy.calculateStats();
-            buddy2.calculateStats();
 
             /*
             System.out.println();
@@ -36,12 +36,6 @@ public class Main {
 
             buddy.printStats();
             */
-
-            buddy.holeTyp();
-            buddy2.holeTyp();
-
-            buddy.angriffAuswahl();
-            buddy2.zufaelligeAngriffe();
 
             //System.out.println();
 
@@ -54,8 +48,6 @@ public class Main {
             */
 
             while(buddy.getHp() != 0 && buddy2.getHp() != 0) {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
                 kampf.kampf(buddy, buddy2, wetter);
                 System.out.println("\n" + buddy.getName() + ": " + buddy.getHp() + "/" + buddy.getMaxHp() + " hp.");
                 System.out.println("Statuseffekt: " + buddy.getStatusEffekt().getName());

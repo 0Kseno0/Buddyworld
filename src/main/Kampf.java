@@ -23,11 +23,9 @@ public class Kampf {
         Scanner scanner = new Scanner(System.in);
         int eingabe = 0;
 
-        if(!b1.isThrashing() || !b1.isRollout()){
-            while(eingabe < 1 || eingabe > 4) {
-                System.out.println("\nWelcher Angriff soll benutzt werden: ");
-                eingabe = scanner.nextInt();
-            }
+        while(eingabe < 1 || eingabe > 4) {
+            System.out.println("\nWelcher Angriff soll benutzt werden: ");
+            eingabe = scanner.nextInt();
         }
 
         if(b1.getPrio() > b2.getPrio()){
@@ -48,12 +46,12 @@ public class Kampf {
             durchlauf(b1, b2, b1.getAngriffe()[eingabe-1], w);
 
             if(b2.getHp() > 0) {
-                durchlauf(b2, b1, ki.angriffAuswahl(b2, b2.getAngriffe()), w);
+                durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w);
             }   else{
                 System.out.println("\n" + b2.getName() + " wurde getötet.");
             }
         }   else{
-            durchlauf(b2, b1, ki.angriffAuswahl(b2, b2.getAngriffe()), w);
+            durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w);
             if(b1.getHp() > 0) {
                 durchlauf(b1, b2, b1.getAngriffe()[eingabe-1], w);
             }   else{
@@ -86,10 +84,6 @@ public class Kampf {
 
                     if (b1.getStatusEffekt().getId() == 3 && wahrscheinlichkeit < 25) {
                         System.out.println("\n" + b1.getName() + " ist paralysiert.");
-                        if(a.getId() == 37 || a.getId() == 80 || a.getId() == 200){
-                            b1.setThrashing(false);
-                            b1.setThrashingDauer(0);
-                        }
                     }   else {
                         //b1 Angreifer
                         switch (a.getId()) {
@@ -150,7 +144,6 @@ public class Kampf {
                                             case 210:
                                                 a.setPower(40);
                                                 break;
-
                                         }
                                     }
                                 } else if (a.getKategorie() == 0) {
