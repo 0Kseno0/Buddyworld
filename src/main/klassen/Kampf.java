@@ -1,6 +1,6 @@
-package main;
+package main.klassen;
 
-import main.klassen.*;
+import main.GUI;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -16,17 +16,21 @@ public class Kampf {
 
     }
 
-    public void kampf(Buddy b1, Buddy b2, Wetter w, int schaden){
+    public void kampf(Buddy b1, Buddy b2, Wetter w, GUI gui) throws InterruptedException {
 
         boolean b1Zuerst = false;
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
+        /*
         int eingabe = 0;
 
         while(eingabe < 1 || eingabe > 4) {
-            System.out.println("\nWelcher Angriff soll benutzt werden: ");
+            gui.addChatMessage("\nWelcher Angriff soll benutzt werden: ");
             eingabe = scanner.nextInt();
         }
+         */
+
+        int eingabe = gui.getLastPressedButton();
 
         if(b1.getPrio() > b2.getPrio()){
             b1Zuerst = true;
@@ -40,38 +44,46 @@ public class Kampf {
             }
         }
 
-        mech.schlafenAktion(b1, b2);
+        mech.schlafenAktion(b1, b2, gui);
 
         if(b1Zuerst){
-            durchlauf(b1, b2, b1.getAngriffe()[eingabe-1], w, schaden);
+            durchlauf(b1, b2, b1.getAngriffe()[eingabe], w, gui, true);
+
+            Thread.sleep(500);
 
             if(b2.getHp() > 0) {
-                durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w, schaden);
+                durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w, gui, false);
             }   else{
-                System.out.println("\n" + b2.getName() + " wurde getötet.");
+                gui.addChatMessage("\n" + b2.getName() + " wurde getötet.");
             }
         }   else{
-            durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w, schaden);
+            durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w, gui, false);
+
+            Thread.sleep(500);
+
             if(b1.getHp() > 0) {
-                durchlauf(b1, b2, b1.getAngriffe()[eingabe-1], w, schaden);
+                durchlauf(b1, b2, b1.getAngriffe()[eingabe], w, gui, true);
             }   else{
-                System.out.println("\n" + b1.getName() + " wurde getötet.");
+                gui.addChatMessage("\n" + b1.getName() + " wurde getötet.");
             }
         }
 
-        mech.bindingCheck(b1, b2);
-        mech.sleepyToggle(b1, b2);
+        mech.bindingCheck(b1, b2, gui);
+        mech.sleepyToggle(b1, b2, gui);
         mech.verwirrungCounter(b1, b2);
         mech.reflectCounter(b1, b2);
         mech.lightScreenCounter(b1, b2);
         mech.statusEffektAktion(b1, b2);
-        mech.wetterAktion(b1, b2, w);
+        mech.wetterAktion(b1, b2, w, gui);
         b1.setFlinched(false);
         b2.setFlinched(false);
+
+        gui.update(b1, b2, b1.getAngriffe());
     }
 
-    public void durchlauf(Buddy b1, Buddy b2, Angriff a, Wetter w, int s){
+    public void durchlauf(Buddy b1, Buddy b2, Angriff a, Wetter w, GUI gui, boolean b1Dran){
 
+        boolean kriegtSchaden = false;
         Random random = new Random();
         double wahrscheinlichkeit = random.nextDouble(100);
 
@@ -79,11 +91,11 @@ public class Kampf {
             if(a.getPp() != 0 ) {
                 if (b1.isVerwirrt() && wahrscheinlichkeit < 50) {
                     b1.setHp(Math.max(b1.getHp() - mech.verwirrungsSchaden(b1, a), 0));
-                    System.out.println("\n" + b1.getName() + " hat sich vor Verwirrung selbst verletzt.");
+                    gui.addChatMessage("\n" + b1.getName() + " hat sich vor Verwirrung selbst verletzt.");
+                    gui.damageImageSet();
                 } else {
-
                     if (b1.getStatusEffekt().getId() == 3 && wahrscheinlichkeit < 25) {
-                        System.out.println("\n" + b1.getName() + " ist paralysiert.");
+                        gui.addChatMessage("\n" + b1.getName() + " ist paralysiert.");
                     }   else {
                         //b1 Angreifer
                         switch (a.getId()) {
@@ -91,48 +103,55 @@ public class Kampf {
                                 if (wahrscheinlichkeit < 30) {
                                     b2.setHp(0);
                                 }
-                                printAngriff(b1, a);
+                                printAngriff(b1, a, gui);
+                                kriegtSchaden = true;
                                 break;
                             case 49:
                                 b2.setHp(Math.max(b2.getHp() - 20, 0));
-                                printAngriff(b1, a);
-                                System.out.println("\n" + b1.getName() + " fügt 20 Schaden zu.");
+                                printAngriff(b1, a, gui);
+                                gui.addChatMessage("\n" + b1.getName() + " fügt 20 Schaden zu.");
+                                kriegtSchaden = true;
                                 break;
                             case 82:
                                 b2.setHp(Math.max(b2.getHp() - 40, 0));
-                                printAngriff(b1, a);
-                                System.out.println("\n" + b1.getName() + " fügt 40 Schaden zu.");
+                                printAngriff(b1, a, gui);
+                                gui.addChatMessage("\n" + b1.getName() + " fügt 40 Schaden zu.");
+                                kriegtSchaden = true;
                                 break;
                             case 149:
                                 double multiplikator = random.nextDouble(1) + 0.5;
                                 b2.setHp(Math.max((b2.getHp() - (int) (b2.getLvl() * multiplikator)), 0));
-                                printAngriff(b1, a);
-                                System.out.println("\n" + b1.getName() + " fügt " + b2.getLvl() * multiplikator + " Schaden zu.");
+                                printAngriff(b1, a, gui);
+                                gui.addChatMessage("\n" + b1.getName() + " fügt " + b2.getLvl() * multiplikator + " Schaden zu.");
+                                kriegtSchaden = true;
                                 break;
                             case 162:
                                 b2.setHp(Math.max((b2.getHp() / 2), 0));
-                                printAngriff(b1, a);
-                                System.out.println("\n" + b1.getName() + " fügt " + b2.getHp() / 2 + " Schaden zu.");
+                                printAngriff(b1, a, gui);
+                                gui.addChatMessage("\n" + b1.getName() + " fügt " + b2.getHp() / 2 + " Schaden zu.");
+                                kriegtSchaden = true;
                                 break;
                             case 167:
                                 for (int i = 0; i < 3; i++) {
                                     a.setPower((i+1) * 10);
                                     int schaden = mech.schadensBerechnung(b1, b2, a, w);
-                                    s = schaden;
                                     b2.setHp(Math.max(b2.getHp() - schaden, 0));
-                                    printEffektivitaet(b2, a);
-                                    System.out.println("\n" + b1.getName() + " fügt " + schaden + " Schaden zu.");
+                                    printEffektivitaet(b2, a, gui);
+                                    gui.addChatMessage("\n" + b1.getName() + " fügt " + schaden + " Schaden zu.");
+
+                                    if(b1Dran) gui.damageImageSetGegner();
+                                    else gui.damageImageSet();
                                 }
-                                printAngriff(b1, a);
+                                printAngriff(b1, a, gui);
                                 break;
                             default:
-                                printAngriff(b1, a);
+                                printAngriff(b1, a, gui);
                                 if (a.getKategorie() > 0) {
                                     if ((wahrscheinlichkeit / b1.getStatValue(6)) < a.getGenauigkeit()) {
-                                        angriffsAusfuehrung(b1, b2, a, w);
+                                        angriffsAusfuehrung(b1, b2, a, w, gui);
+                                        kriegtSchaden = true;
                                     } else {
-
-                                        System.out.println("\n" + b1.getName() + " hat verfehlt.");
+                                        gui.addChatMessage("\n" + b1.getName() + " hat verfehlt.");
 
                                         //Spezielle Effekte beim Verfehlen von einem Angriff
                                         switch (a.getId()) {
@@ -140,7 +159,7 @@ public class Kampf {
                                                 if (b1.getHp() > 1) {
                                                     b1.setHp(b1.getHp() / 2);
                                                 }
-                                                System.out.println("\n" + b1.getName() + " stürzt und verletzt sich dabei.");
+                                                gui.addChatMessage("\n" + b1.getName() + " stürzt und verletzt sich dabei.");
                                                 break;
                                             case 210:
                                                 a.setPower(40);
@@ -148,40 +167,45 @@ public class Kampf {
                                         }
                                     }
                                 } else if (a.getKategorie() == 0) {
-                                    aMech.warum(b1, b2, a, w, mech.schadensBerechnung(b1, b2, a, w));
-                                } else System.out.println("Invalider Angriff!");
+                                    aMech.warum(b1, b2, a, w, mech.schadensBerechnung(b1, b2, a, w), gui);
+                                } else gui.addChatMessage("Invalider Angriff!");
                                 break;
                         }
                     }
                 }
             }   else{
-                System.out.println("Angriff kann nicht mehr benutzt werden!");
+                gui.addChatMessage("Angriff kann nicht mehr benutzt werden!");
             }
         }   else{
-            System.out.println("\n" + b1.getName() + " ist gerade nicht in der Lage anzugreifen.");
+            gui.addChatMessage("\n" + b1.getName() + " ist gerade nicht in der Lage anzugreifen.");
+        }
+
+        if(kriegtSchaden){
+            if(b1Dran) gui.damageImageSetGegner();
+            else gui.damageImageSet();
         }
     }
 
-    public void angriffsAusfuehrung(Buddy b1, Buddy b2, Angriff a, Wetter w){
-        int schaden = mech.schadensBerechnung(b1, b2, a, w);
+    public void angriffsAusfuehrung(Buddy b1, Buddy b2, Angriff a, Wetter w, GUI gui){
+        int schaden = b2.getHp() - mech.schadensBerechnung(b1, b2, a, w) >= 0 ? mech.schadensBerechnung(b1, b2, a, w) : b2.getHp();
 
-        aMech.warum(b1, b2, a, w, schaden);
+        aMech.warum(b1, b2, a, w, schaden, gui);
 
         b2.setHp(Math.max(b2.getHp() - schaden, 0));
 
-        printEffektivitaet(b2, a);
-        System.out.println("\n" + b1.getName() + " fügt " + schaden + " Schaden zu.");
+        printEffektivitaet(b2, a, gui);
+        gui.addChatMessage("\n" + b1.getName() + " fügt " + schaden + " Schaden zu.");
 
-        aMech.warum2(b1, b2, a, w, schaden);
+        aMech.warum2(b1, b2, a, w, schaden, gui);
 
         a.setPp(a.getPp() - 1);
     }
 
-    public void printAngriff(Buddy b,  Angriff a){
-        System.out.println("\n" + b.getName() + " setzt " + a.getName() + " ein.");
+    public void printAngriff(Buddy b,  Angriff a, GUI gui){
+        gui.addChatMessage("\n" + b.getName() + " setzt " + a.getName() + " ein.");
     }
 
-    public void printEffektivitaet(Buddy b, Angriff a){
+    public void printEffektivitaet(Buddy b, Angriff a, GUI gui){
         //b ist Verteidiger nicht Angreifer!
         //Typ Buddy
         int dId1 = 0, dId2 = 0;
@@ -193,7 +217,7 @@ public class Kampf {
             dId1 = b.getTyp().elementAt(0).getId();
             dId2 = b.getTyp().elementAt(1).getId();
         } else {
-            System.out.println("\nIrgendwas hat nicht richtig funktioniert.");
+            gui.addChatMessage("\nIrgendwas hat nicht richtig funktioniert.");
             dId1 = -1;
             dId2 = -1;
         }
@@ -202,16 +226,16 @@ public class Kampf {
 
         switch(String.valueOf(effektiv)){
             case "0":
-                System.out.println("\n" + b.getName() + " ist Immun gegen diesen Typ.");
+                gui.addChatMessage("\n" + b.getName() + " ist Immun gegen diesen Typ.");
                 break;
             case "0.25", "0.5":
-                System.out.println("Das war nicht sehr effektiv.");
+                gui.addChatMessage("Das war nicht sehr effektiv.");
                 break;
             case "1.0":
-                System.out.println("Das war effektiv.");
+                gui.addChatMessage("Das war effektiv.");
                 break;
             case "2.0", "4.0":
-                System.out.println("Das war sehr effektiv");
+                gui.addChatMessage("Das war sehr effektiv");
                 break;
         }
     }

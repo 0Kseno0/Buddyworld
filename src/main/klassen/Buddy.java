@@ -194,6 +194,10 @@ public class Buddy {
             }
         }
 
+        for(Angriff angriff : ausgewaehlteAngriffe){
+            angriff.setName(angriff.getName().replace("-", " "));
+        }
+
         setAngriffe(ausgewaehlteAngriffe);
 
     }
@@ -210,6 +214,7 @@ public class Buddy {
 
         for(int i = 0; i < 4; i++){
             angriffe[i] = ausgewaehlteAngriffe.elementAt(i);
+            angriffe[i].setName(angriffe[i].getName().replace("-"," "));
         }
 
     }
@@ -409,6 +414,10 @@ public class Buddy {
         System.out.println("SPEED:   " + stats[5]);
         System.out.println("ACC:     " + stats[6]);
 
+    }
+
+    public int getStatAenderung(int index){
+        return statsAenderungen[index];
     }
 
     public int getStatValue(int index){

@@ -1,4 +1,6 @@
 package main.klassen;
+import main.GUI;
+
 import java.util.Random;
 import java.util.Vector;
 
@@ -21,7 +23,6 @@ public class Mechaniken {
             dId1 = b2.getTyp().elementAt(0).getId();
             dId2 = b2.getTyp().elementAt(1).getId();
         } else {
-            System.out.println("\nIrgendwas hat nicht richtig funktioniert.");
             dId1 = -1;
             dId2 = -1;
         }
@@ -188,14 +189,14 @@ public class Mechaniken {
         }
     }
 
-    public void schlafenAktion(Buddy b1, Buddy b2){
+    public void schlafenAktion(Buddy b1, Buddy b2, GUI gui){
         if (b1.getStatusEffekt().getId() == 6) {
             b1.setKannAngreifen(false);
             b1.setSleepDauer(b1.getSleepDauer() - 1);
             if(b1.getSleepDauer() == 0){
                 b1.setKannAngreifen(true);
                 b1.getStatusEffekt().setEffekt(0);
-                System.out.println("\n" + b1.getName() + " ist aufgewacht.");
+                gui.addChatMessage("\n" + b1.getName() + " ist aufgewacht.");
             }
         }
 
@@ -205,12 +206,12 @@ public class Mechaniken {
             if(b2.getSleepDauer() == 0){
                 b2.setKannAngreifen(true);
                 b2.getStatusEffekt().setEffekt(0);
-                System.out.println("\n" + b2.getName() + " ist aufgewacht.");
+                gui.addChatMessage("\n" + b2.getName() + " ist aufgewacht.");
             }
-            }
+        }
     }
 
-    public void wetterAktion(Buddy b1, Buddy b2, Wetter w) {
+    public void wetterAktion(Buddy b1, Buddy b2, Wetter w, GUI gui) {
 
         if (w.getDauer() > 0) {
             w.setDauer(w.getDauer() - 1);
@@ -233,7 +234,7 @@ public class Mechaniken {
                         } else {
                             b1.setHp(0);
                         }
-                        System.out.println("\n" + b1.getName() + " wurde vom Sandsturm getroffen.");
+                        gui.addChatMessage("\n" + b1.getName() + " wurde vom Sandsturm getroffen.");
                     }
                     if(!istTyp(b2.getTyp(), 5) || !istTyp(b2.getTyp(), 6) || !istTyp(b2.getTyp(), 9)){
                         if (b2.getHp() > b2.getMaxHp() / 16) {
@@ -241,7 +242,7 @@ public class Mechaniken {
                         } else {
                             b2.setHp(0);
                         }
-                        System.out.println("\n" + b2.getName() + " wurde vom Sandsturm getroffen.");
+                        gui.addChatMessage("\n" + b2.getName() + " wurde vom Sandsturm getroffen.");
                     }
                 }
                 if (w.getId() == 4) {
@@ -251,7 +252,7 @@ public class Mechaniken {
                         } else {
                             b1.setHp(0);
                         }
-                        System.out.println("\n" + b1.getName() + " wurde vom Hagel getroffen.");
+                        gui.addChatMessage("\n" + b1.getName() + " wurde vom Hagel getroffen.");
                     }
                     if(!istTyp(b2.getTyp(), 15)){
                         if (b2.getHp() > b2.getMaxHp() / 16) {
@@ -259,7 +260,7 @@ public class Mechaniken {
                         } else {
                             b2.setHp(0);
                         }
-                        System.out.println("\n" + b2.getName() + " wurde vom Hagel getroffen.");
+                        gui.addChatMessage("\n" + b2.getName() + " wurde vom Hagel getroffen.");
                     }
                 }
             }
@@ -312,40 +313,40 @@ public class Mechaniken {
         }
     }
 
-    public void sleepyToggle(Buddy b1, Buddy b2){
+    public void sleepyToggle(Buddy b1, Buddy b2, GUI gui){
         if(b1.isSleepy()){
             b1.setSleepy(false);
             b1.getStatusEffekt().setEffekt(6);
-            System.out.println("\n" + b1.getName() + " ist eingeschlafen.");
+            gui.addChatMessage("\n" + b1.getName() + " ist eingeschlafen.");
         }
         if(b2.isSleepy()){
             b2.setSleepy(false);
             b2.getStatusEffekt().setEffekt(6);
-            System.out.println("\n" + b2.getName() + " ist eingeschlafen.");
+            gui.addChatMessage("\n" + b2.getName() + " ist eingeschlafen.");
         }
     }
 
-    public void bindingCheck(Buddy b1, Buddy b2){
+    public void bindingCheck(Buddy b1, Buddy b2, GUI gui){
         if(b1.isBound()){
 
             b1.setBindDauer(b1.getBindDauer() - 1);
             b1.setHp(Math.max((b1.getHp() - b1.getMaxHp()/8),0));
-            System.out.println("\n" + b1.getName() + " wurde durch eine Falle verletzt.");
+            gui.addChatMessage("\n" + b1.getName() + " wurde durch eine Falle verletzt.");
 
             if(b1.getBindDauer() == 0) {
                 b1.setBound(false);
-                System.out.println("\n" + b1.getName() + " konnte sich von der Falle befreien.");
+                gui.addChatMessage("\n" + b1.getName() + " konnte sich von der Falle befreien.");
             }
         }
         if(b2.isBound()){
 
             b2.setBindDauer(b2.getBindDauer() - 1);
             b2.setHp(Math.max((b2.getHp() - b2.getMaxHp()/8),0));
-            System.out.println("\n" + b2.getName() + " wurde durch eine Falle verletzt.");
+            gui.addChatMessage("\n" + b2.getName() + " wurde durch eine Falle verletzt.");
 
             if(b2.getBindDauer() == 0) {
                 b2.setBound(false);
-                System.out.println("\n" + b2.getName() + " konnte sich von der Falle befreien.");
+                gui.addChatMessage("\n" + b2.getName() + " konnte sich von der Falle befreien.");
             }
         }
     }
@@ -376,9 +377,9 @@ public class Mechaniken {
         }
     }
 
-    public void gewinnerCheck(Buddy b1, Buddy b2){
-        if(b1.getHp() == 0 && b2.getHp() > 0) System.out.println("\n" + b2.getName() + " hat gewonnen!");
-        else if(b2.getHp() == 0 && b1.getHp() > 0) System.out.println("\n" + b1.getName() + " hat gewonnen!");
-        else System.out.println("Unentschieden?");
+    public void gewinnerCheck(Buddy b1, Buddy b2, GUI gui){
+        if(b1.getHp() == 0 && b2.getHp() > 0) gui.addChatMessage("\n" + b2.getName() + " hat gewonnen!");
+        else if(b2.getHp() == 0 && b1.getHp() > 0) gui.addChatMessage("\n" + b1.getName() + " hat gewonnen!");
+        else gui.addChatMessage("Unentschieden?");
     }
 }

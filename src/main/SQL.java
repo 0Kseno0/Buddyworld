@@ -58,8 +58,7 @@ public class SQL {
             buddy.setGewicht((pokemonWahl.getInt(4)));
         }
 
-        String tmpName = buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1);
-        buddy.setName(tmpName);
+        buddy.setName(buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1));
 
         pokemonWahl.close();
 
@@ -123,8 +122,7 @@ public class SQL {
             buddy.setGewicht((pokemonWahl.getInt(4)));
         }
 
-        String tmpName = buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1);
-        buddy.setName(tmpName);
+        buddy.setName(buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1));
 
         pokemonWahl.close();
 
@@ -176,8 +174,7 @@ public class SQL {
                 buddy.setGewicht((pokemonWahl.getInt(4)));
             }
 
-            String tmpName = buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1);
-            buddy.setName(tmpName);
+            buddy.setName(buddy.getName().substring(0,1).toUpperCase() + buddy.getName().substring(1));
 
             pokemonWahl.close();
 
@@ -259,7 +256,6 @@ public class SQL {
 
     public Angriff findeAngriffDurchId(int id) throws SQLException{
         Angriff angriff = new Angriff();
-
         Connection con = DriverManager.getConnection(url, username, password);
         Statement stat = con.createStatement();
 
@@ -281,6 +277,8 @@ public class SQL {
                 angriff.setKategorieString("Spezial");
             }
         }
+
+        angriff.setName(angriff.getName().replace("-", " "));
 
         ausgewaehlterAngriff.close();
         con.close();

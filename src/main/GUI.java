@@ -7,22 +7,45 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
 
 
-public class GUI {
-
-    static Buddy pokemon;
-    static Buddy pokemon2;
+public class GUI extends JFrame{
     static int schaden;
-    JLabel buddy2 = new JLabel();
 
-    public GUI(Buddy b1, Buddy b2, Angriff[] a, int s){
+    JFrame frame = new JFrame("Buddyworld");
+    private JPanel panel1 = new JPanel();
+    private JPanel panel2 = new JPanel();
+    private JPanel chatPanel;
+    private JTextArea chatLog;
 
-        pokemon = b1;
-        pokemon2 = b2;
-        schaden = s;
+    private JLabel buddy1 = new JLabel();
+    private JLabel buddy2 = new JLabel();
+    private JLabel buddy3 = new JLabel();
+    private JLabel buddy4 = new JLabel();
 
-        JFrame frame = new JFrame("Buddyworld");
+    private CountDownLatch latch = new CountDownLatch(1);
+    static int gedrueckterButton;
+
+    public GUI(Buddy b1, Buddy b2){
+
+        chatPanel = new JPanel(new BorderLayout());
+        chatLog = new JTextArea();
+        chatLog.setEditable(false);
+        chatLog.setLineWrap(true);
+        chatLog.setWrapStyleWord(true);
+        JScrollPane scrollPane = new JScrollPane(chatLog);
+        chatPanel.add(scrollPane, BorderLayout.CENTER);
+
+        addChatMessage(b1.getName() + " gegen " + b2.getName());
+
+        frame.getContentPane().add(chatPanel, BorderLayout.WEST);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(500, 1080));
         Angriff angriffe[] = b1.getAngriffe();
@@ -32,33 +55,43 @@ public class GUI {
             angriffeString[i] = angriffe[i].getName();
         }
 
-        // Create two panels
-        JPanel panel1 = new JPanel();
         panel1.setBackground(Color.LIGHT_GRAY);
 
-        JPanel panel2 = new JPanel();
         panel2.setBackground(Color.DARK_GRAY);
 
-        // Customize panel1 with labels and buttons
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
 
         JPanel gridPanel = new JPanel(new GridLayout(2,2,20,70));
         gridPanel.setBackground(Color.LIGHT_GRAY);
         gridPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,20));
 
-        buddy2.setText("<html>" + pokemon2.getName() +
-                "<br>" + "lvl " + pokemon2.getLvl() +
+        buddy1.setText("<html>" + b2.getName() +
+                "<br>" + "lvl " + b2.getLvl() +
                 "<br>" +
                 "<br>" + "HP" +
-                "<br>" + pokemon2.getHp() + " / " + pokemon2.getMaxHp() +
-                "<br>" + pokemon2.getStatusEffekt().getName() +
+                "<br>" + b2.getHp() + " / " + b2.getMaxHp() +
+                "<br>" + b2.getStatusEffekt().getName() +
                 "</html>");
 
-        JLabel buddy = new JLabel("test");
+        Random random = new Random();
 
-        JLabel buddy3 = new JLabel("test");
+        setImage("C:/Users/e/Desktop/buddyworld/Buddyworld/img/" + (random.nextInt(5) + 6) + ".png",buddy2);
+        buddy2.setToolTipText("<html>" + "ATK: " + b2.getStatAenderung(1) +
+                "<br>" + "DEF: " + b2.getStatAenderung(2) +
+                "<br>" + "SpA: " + b2.getStatAenderung(3) +
+                "<br>" + "SpD: " + b2.getStatAenderung(4) +
+                "<br>" + "SPE: " + b2.getStatAenderung(5) +
+                "</html>");
 
-        JLabel buddy1 = new JLabel("<html>" + b1.getName() +
+        setImage("C:/Users/e/Desktop/buddyworld/Buddyworld/img/" + (random.nextInt(5) + 1) + ".png",buddy3);
+        buddy3.setToolTipText("<html>" + "ATK: " + b1.getStatAenderung(1) +
+                "<br>" + "DEF: " + b1.getStatAenderung(2) +
+                "<br>" + "SpA: " + b1.getStatAenderung(3) +
+                "<br>" + "SpD: " + b1.getStatAenderung(4) +
+                "<br>" + "SPE: " + b1.getStatAenderung(5) +
+                "</html>");
+
+        buddy4.setText("<html>" + b1.getName() +
                 "<br>" + "lvl " + b1.getLvl() +
                 "<br>" +
                 "<br>" + "HP" +
@@ -67,10 +100,10 @@ public class GUI {
                 "</html>");
 
 
-        gridPanel.add(buddy2);
-        gridPanel.add(buddy);
-        gridPanel.add(buddy3);
         gridPanel.add(buddy1);
+        gridPanel.add(buddy2);
+        gridPanel.add(buddy3);
+        gridPanel.add(buddy4);
 
         panel1.add(gridPanel);
 
@@ -78,39 +111,34 @@ public class GUI {
 
         panel2.add(Box.createRigidArea(new Dimension(0, 60)));
 
-        // First part of panel2: 2 rows of 2 buttons each
         JPanel gridPanel2 = new JPanel(new GridLayout(2,2,20,70));
         gridPanel2.setBackground(Color.DARK_GRAY);
         gridPanel2.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY,20));
 
-        JButton button2_1 = new JButton(angriffeString[0]);
+        JButton button2_1 = erstelleButton(angriffeString[0],0);
         button2_1.setToolTipText("<html>" + "Typ: " + angriffe[0].getTyp().getName() +
                 "<br>" + "DMG: " + angriffe[0].getPower() +
-                "<br>" + "PP:  " + angriffe[0].getPp() +
                 "<br>" + "ACC: " + angriffe[0].getGenauigkeit() + "%" +
                 "<br>" + "CAT: " + angriffe[0].getKategorieString() +
                 "</html>");
 
-        JButton button2_2 = new JButton(angriffeString[1]);
+        JButton button2_2 = erstelleButton(angriffeString[1],1);
         button2_2.setToolTipText("<html>" + "Typ: " + angriffe[1].getTyp().getName() +
                 "<br>" + "DMG: " + angriffe[1].getPower() +
-                "<br>" + "PP:  " + angriffe[1].getPp() +
                 "<br>" + "ACC: " + angriffe[1].getGenauigkeit() + "%" +
                 "<br>" + "CAT: " + angriffe[1].getKategorieString() +
                 "</html>");
 
-        JButton button2_3 = new JButton(angriffeString[2]);
+        JButton button2_3 = erstelleButton(angriffeString[2],2);
         button2_3.setToolTipText("<html>" + "Typ: " + angriffe[2].getTyp().getName() +
                 "<br>" + "DMG: " + angriffe[2].getPower() +
-                "<br>" + "PP:  " + angriffe[2].getPp() +
                 "<br>" + "ACC: " + angriffe[2].getGenauigkeit() + "%" +
                 "<br>" + "CAT: " + angriffe[2].getKategorieString() +
                 "</html>");
 
-        JButton button2_4 = new JButton(angriffeString[3]);
+        JButton button2_4 = erstelleButton(angriffeString[3],3);
         button2_4.setToolTipText("<html>" + "Typ: " + angriffe[3].getTyp().getName() +
                 "<br>" + "DMG: " + angriffe[3].getPower() +
-                "<br>" + "PP:  " + angriffe[3].getPp() +
                 "<br>" + "ACC: " + angriffe[3].getGenauigkeit() + "%" +
                 "<br>" + "CAT: " + angriffe[3].getKategorieString() +
                 "</html>");
@@ -120,20 +148,17 @@ public class GUI {
         gridPanel2.add(button2_3);
         gridPanel2.add(button2_4);
 
-        // Add grid and flow panels to panel2
         panel2.add(gridPanel2, BorderLayout.CENTER);
 
         panel2.add(Box.createRigidArea(new Dimension(0, 60)));
 
-        // Create a split pane and add the panels
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panel1, panel2);
-        splitPane.setDividerLocation(540); // Split at half of 1080 height
-        splitPane.setResizeWeight(0.5); // Evenly divide space between the two panels
-        splitPane.setEnabled(false); // Disable the ability to move the divider
+        splitPane.setDividerLocation(540);
+        splitPane.setResizeWeight(0.5);
+        splitPane.setEnabled(false);
         splitPane.setPreferredSize(new Dimension(500, 1080));
         splitPane.setMinimumSize(new Dimension(500, 1080));
 
-        // Create a panel with GridBagLayout to center the split pane
         JPanel centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setBackground(Color.BLACK);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -144,49 +169,133 @@ public class GUI {
         gbc.anchor = GridBagConstraints.CENTER;
         centerPanel.add(splitPane, gbc);
 
-        // Add the center panel to the frame
         frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
-
-        // Display the window
         frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
+    }
 
-        button2_1.addActionListener(new ActionListener() {
+    public void update(Buddy b1, Buddy b2, Angriff[] angriffe){
+
+        buddy1.setText("<html>" + b2.getName() +
+                "<br>" + "lvl " + b2.getLvl() +
+                "<br>" +
+                "<br>" + "HP" +
+                "<br>" + b2.getHp() + " / " + b2.getMaxHp() +
+                "<br>" + b2.getStatusEffekt().getName() +
+                "</html>");
+
+        buddy2.setToolTipText("<html>" + "ATK: " + b2.getStatAenderung(1) +
+                "<br>" + "DEF: " + b2.getStatAenderung(2) +
+                "<br>" + "SpA: " + b2.getStatAenderung(3) +
+                "<br>" + "SpD: " + b2.getStatAenderung(4) +
+                "<br>" + "SPE: " + b2.getStatAenderung(5) +
+                "</html>");
+
+        buddy3.setToolTipText("<html>" + "ATK: " + b1.getStatAenderung(1) +
+                "<br>" + "DEF: " + b1.getStatAenderung(2) +
+                "<br>" + "SpA: " + b1.getStatAenderung(3) +
+                "<br>" + "SpD: " + b1.getStatAenderung(4) +
+                "<br>" + "SPE: " + b1.getStatAenderung(5) +
+                "</html>");
+
+        buddy4.setText("<html>" + b1.getName() +
+                "<br>" + "lvl " + b1.getLvl() +
+                "<br>" +
+                "<br>" + "HP" +
+                "<br>" + b1.getHp() + " / " + b1.getMaxHp() +
+                "<br>" + b1.getStatusEffekt().getName() +
+                "</html>");
+    }
+
+    private JButton erstelleButton(String text, int buttonIndex) {
+        JButton button = new JButton(text);
+        button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //disableAllComponents(panel2);
-
-                //IRGENDWIE SO LEBEN AKTUALISIEREN
-                pokemon2.setHp(pokemon2.getHp() -10);
-                buddy2.setText("<html>" + pokemon2.getName() +
-                        "<br>" + "lvl " + pokemon2.getLvl() +
-                        "<br>" +
-                        "<br>" + "HP" +
-                        "<br>" + pokemon2.getHp() + " / " + pokemon2.getMaxHp() +
-                        "<br>" + pokemon2.getStatusEffekt().getName() +
-                        "</html>");
+                buttonPressed(buttonIndex);
             }
         });
+        return button;
     }
-    private static void enableAllComponents(Container container) {
-        for (Component component : container.getComponents()) {
-            component.setEnabled(true);
-            component.setVisible(true);
-            if (component instanceof Container) {
-                enableAllComponents((Container) component);
+
+    private void buttonPressed(int buttonIndex) {
+        gedrueckterButton = buttonIndex;
+        latch.countDown();
+
+        for (Component component : panel2.getComponents()) {
+            component.setEnabled(false);
+            component.setVisible(false);
+        }
+
+        revalidate();
+        repaint();
+
+        new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Component component : panel2.getComponents()) {
+                    component.setEnabled(true);
+                    component.setVisible(true);
+                }
+                revalidate();
+                repaint();
             }
+        }).start();
+    }
+
+    public int getLastPressedButton() throws InterruptedException {
+        latch = new CountDownLatch(1);
+        latch.await();
+        return gedrueckterButton;
+    }
+
+    public void addChatMessage(String message) {
+        chatLog.append(message + "\n");
+        chatLog.setCaretPosition(chatLog.getDocument().getLength());
+    }
+
+    public void setImage(String imagePath, JLabel jlabel) {
+        try {
+            BufferedImage originalImage = ImageIO.read(new File(imagePath)); // Read the image file
+            ImageIcon imageIcon = new ImageIcon(originalImage); // Create ImageIcon from BufferedImage
+
+            // Resize the ImageIcon to fit within the bounds of imageLabel while maintaining aspect ratio
+            Image scaledImage = originalImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(scaledImage);
+
+            jlabel.setIcon(imageIcon); // Set the ImageIcon to the imageLabel
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private static void disableAllComponents(Container container) {
-        for (Component component : container.getComponents()) {
-            component.setEnabled(false);
-            component.setVisible(false);
-            if (component instanceof Container) {
-                disableAllComponents((Container) component);
+    public void damageImageSet(){
+        Random random = new Random();
+
+        setImage("C:/Users/e/Desktop/buddyworld/Buddyworld/img/" + (random.nextInt(5) + 11) + ".png",buddy3);
+        Timer timer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setImage("C:/Users/e/Desktop/buddyworld/Buddyworld/img/" + (random.nextInt(5) + 1) + ".png",buddy3);
             }
-        }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    public void damageImageSetGegner(){
+        Random random = new Random();
+
+        setImage("C:/Users/e/Desktop/buddyworld/Buddyworld/img/" + (random.nextInt(5) + 16) + ".png", buddy2);
+        Timer timer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setImage("C:/Users/e/Desktop/buddyworld/Buddyworld/img/" + (random.nextInt(5) + 6) + ".png", buddy2);
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
 }

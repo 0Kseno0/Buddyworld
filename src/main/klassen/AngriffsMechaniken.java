@@ -1,5 +1,7 @@
 package main.klassen;
 
+import main.GUI;
+
 import java.awt.color.ICC_ColorSpace;
 import java.util.Random;
 
@@ -7,7 +9,7 @@ public class AngriffsMechaniken {
 
     Mechaniken mech = new Mechaniken();
 
-    public void warum(Buddy b1, Buddy b2, Angriff angriff, Wetter wetter, int schaden){
+    public void warum(Buddy b1, Buddy b2, Angriff angriff, Wetter wetter, int schaden, GUI gui){
 
         //b1 Angreifer, b2 Verteidiger, angriff Angriff von b1
 
@@ -25,20 +27,20 @@ public class AngriffsMechaniken {
             case 7, 52, 53, 126, 172, 257:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 10)) {
                     b2.getStatusEffekt().setEffekt(1);
-                    System.out.println("\n" + b2.getName() + " wurde verbrannt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verbrannt.");
                 }
                 break;
             case 8, 58, 181:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 15)) {
                     b2.getStatusEffekt().setEffekt(2);
-                    System.out.println("\n" + b2.getName() + " wurde eingefroren.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde eingefroren.");
                     b2.setKannAngreifen(false);
                 }
                 break;
             case 9, 84, 85:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 13)) {
                     b2.getStatusEffekt().setEffekt(3);
-                    System.out.println("\n" + b2.getName() + " wurde paralysiert.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde paralysiert.");
                 }
                 break;
             case 14:
@@ -48,12 +50,13 @@ public class AngriffsMechaniken {
                 if (!b2.isBound()) {
                     b2.setBindDauer(random.nextInt(2) + 4);
                     b2.setBound(true);
-                    System.out.println("\n" + b2.getName() + " wird in einer Falle festgehalten.");
+                    gui.addChatMessage("\n" + b2.getName() + " wird in einer Falle festgehalten.");
                 }
                 break;
             case 23, 27, 29, 44, 157, 302, 310, 239:
                 if (wahrscheinlichkeit < 30) {
                     b2.setFlinched(true);
+                    gui.addChatMessage("\n" + b2.getName() + " schreckt zurück.");
                 }
                 break;
             case 24, 155:
@@ -62,7 +65,7 @@ public class AngriffsMechaniken {
             case 34, 122, 209, 225:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 13)) {
                     b2.getStatusEffekt().setEffekt(3);
-                    System.out.println("\n" + b2.getName() + " wurde paralysiert.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde paralysiert.");
                 }
                 break;
             case 38:
@@ -70,7 +73,7 @@ public class AngriffsMechaniken {
                     b1.setHp(b1.getHp() - (schaden / 3));
                 }
                 if(mech.istTyp(b2.getTyp(), 8)){
-                    System.out.println("\nHat leider keinen Effekt.");
+                    gui.addChatMessage("\nHat leider keinen Effekt.");
                 }
                 break;
             case 39, 43:
@@ -79,7 +82,7 @@ public class AngriffsMechaniken {
             case 40, 124, 188:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 4) && !mech.istTyp(b2.getTyp(), 9)) {
                     b2.getStatusEffekt().setEffekt(4);
-                    System.out.println("\n" + b2.getName() + " wurde vergiftet.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde vergiftet.");
                 }
                 break;
             case 41:
@@ -87,7 +90,7 @@ public class AngriffsMechaniken {
                 for (int i = 0; i < 2; i++) {
                     if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 20 && !mech.istTyp(b2.getTyp(), 4) && !mech.istTyp(b2.getTyp(), 9)) {
                         b2.getStatusEffekt().setEffekt(4);
-                        System.out.println("\n" + b2.getName() + " wurde vergiftet.");
+                        gui.addChatMessage("\n" + b2.getName() + " wurde vergiftet.");
                     }
                     wahrscheinlichkeit = random.nextDouble(100);
                 }
@@ -98,7 +101,7 @@ public class AngriffsMechaniken {
             case 47, 79, 95, 142, 147, 320:
                 if (b2.getStatusEffekt().getId() == 0) {
                     b2.getStatusEffekt().setEffekt(6);
-                    System.out.println("\n" + b2.getName() + " ist eingeschlafen.");
+                    gui.addChatMessage("\n" + b2.getName() + " ist eingeschlafen.");
                     b2.setKannAngreifen(false);
                     b2.setSleepDauer();
                 }
@@ -106,13 +109,13 @@ public class AngriffsMechaniken {
             case 48, 109, 186, 223, 298:
                 if (!b2.isVerwirrt()) {
                     b2.setVerwirrtDauer(4, 1);
-                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 break;
             case 59:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 15)) {
                     b2.getStatusEffekt().setEffekt(2);
-                    System.out.println("\n" + b2.getName() + " wurde eingefroren.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde eingefroren.");
                     b2.setKannAngreifen(false);
                 }
                 if (wetter.getId() == 4) {
@@ -124,7 +127,7 @@ public class AngriffsMechaniken {
             case 60, 93, 324:
                 if (!b2.isVerwirrt() && wahrscheinlichkeit < 10) {
                     b2.setVerwirrtDauer(4, 1);
-                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 break;
             case 63:
@@ -167,19 +170,19 @@ public class AngriffsMechaniken {
             case 77, 139:
                 if (b2.getStatusEffekt().getId() == 0 && !mech.istTyp(b2.getTyp(), 4) && !mech.istTyp(b2.getTyp(), 9)) {
                     b2.getStatusEffekt().setEffekt(4);
-                    System.out.println("\n" + b2.getName() + " wurde vergiftet.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde vergiftet.");
                 }
                 if(mech.istTyp(b2.getTyp(), 4) || mech.istTyp(b2.getTyp(), 9)){
-                    System.out.println("\nHat leider keinen Effekt.");
+                    gui.addChatMessage("\nHat leider keinen Effekt.");
                 }
                 break;
             case 78, 137, 86, 192:
                 if (b2.getStatusEffekt().getId() == 0 && !mech.istTyp(b2.getTyp(), 13)) {
                     b2.getStatusEffekt().setEffekt(3);
-                    System.out.println("\n" + b2.getName() + " wurde paralysiert.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde paralysiert.");
                 }
                 if(mech.istTyp(b2.getTyp(), 13)){
-                    System.out.println("\nHat leider keinen Effekt.");
+                    gui.addChatMessage("\nHat leider keinen Effekt.");
                 }
                 break;
             case 81, 178, 184, 196:
@@ -188,7 +191,7 @@ public class AngriffsMechaniken {
             case 87:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 13)) {
                     b2.getStatusEffekt().setEffekt(3);
-                    System.out.println("\n" + b2.getName() + " wurde paralysiert.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde paralysiert.");
                 }
                 if (wetter.getId() == 2) {
                     angriff.setGenauigkeit(-1);
@@ -201,10 +204,10 @@ public class AngriffsMechaniken {
             case 92:
                 if (b2.getStatusEffekt().getId() == 0 && !mech.istTyp(b2.getTyp(), 4) && !mech.istTyp(b2.getTyp(), 9)) {
                     b2.getStatusEffekt().setEffekt(5);
-                    System.out.println("\n" + b2.getName() + " wurde stark vergiftet.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde stark vergiftet.");
                 }
                 if(mech.istTyp(b2.getTyp(), 4) || mech.istTyp(b2.getTyp(), 9)){
-                    System.out.println("\nHat leider keinen Effekt.");
+                    gui.addChatMessage("\nHat leider keinen Effekt.");
                 }
                 break;
             case 96, 159, 336:
@@ -247,21 +250,20 @@ public class AngriffsMechaniken {
             case 123:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 40) {
                     b2.getStatusEffekt().setEffekt(4);
-                    System.out.println("\n" + b2.getName() + " wurde vergiftet.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde vergiftet.");
                 }
                 break;
             case 125, 158, 326:
                 if (wahrscheinlichkeit < 10) {
                     b2.setFlinched(true);
+                    gui.addChatMessage("\n" + b2.getName() + " schreckt zurück.");
                 }
                 break;
             case 127:
                 if (wahrscheinlichkeit < 20) {
                     b2.setFlinched(true);
+                    gui.addChatMessage("\n" + b2.getName() + " schreckt zurück.");
                 }
-                break;
-            case 129, 185, 325, 332, 345, 351:
-                angriff.setGenauigkeit(-1);
                 break;
             case 130:
                 if (!b1.isCharging()) {
@@ -278,7 +280,7 @@ public class AngriffsMechaniken {
             case 146, 352:
                 if (!b2.isVerwirrt() && wahrscheinlichkeit < 20) {
                     b2.setVerwirrtDauer(4, 1);
-                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 break;
             case 150:
@@ -294,32 +296,22 @@ public class AngriffsMechaniken {
                 b1.setHp(b1.getMaxHp());
                 b1.setSleepDauer(2);
                 b1.getStatusEffekt().setEffekt(6);
-                System.out.println("\n" + b1.getName() + " ist eingeschlafen.");
+                gui.addChatMessage("\n" + b1.getName() + " ist eingeschlafen.");
                 b1.setKannAngreifen(false);
                 break;
             case 161:
                 if (b2.getStatusEffekt().getId() == 0) {
                     if (wahrscheinlichkeit < 6.68 && !mech.istTyp(b2.getTyp(), 10)) {
                         b2.getStatusEffekt().setEffekt(1);
-                        System.out.println("\n" + b2.getName() + " wurde verbrannt.");
+                        gui.addChatMessage("\n" + b2.getName() + " wurde verbrannt.");
                     } else if (wahrscheinlichkeit < 13.34 && !mech.istTyp(b2.getTyp(), 13)) {
                         b2.getStatusEffekt().setEffekt(3);
-                        System.out.println("\n" + b2.getName() + " wurde paralysiert.");
+                        gui.addChatMessage("\n" + b2.getName() + " wurde paralysiert.");
                     } else if (wahrscheinlichkeit < 20 && !mech.istTyp(b2.getTyp(), 15)) {
                         b2.getStatusEffekt().setEffekt(2);
-                        System.out.println("\n" + b2.getName() + " wurde eingefroren.");
+                        gui.addChatMessage("\n" + b2.getName() + " wurde eingefroren.");
                         b2.setKannAngreifen(false);
                     }
-                }
-                break;
-            case 173:
-                if (b1.getStatusEffekt().getId() == 6) {
-                    angriff.setPower(50);
-                    if (wahrscheinlichkeit < 10) {
-                        b2.setFlinched(true);
-                    }
-                } else {
-                    angriff.setPower(0);
                 }
                 break;
             case 174:
@@ -385,7 +377,7 @@ public class AngriffsMechaniken {
             case 207:
                 if (!b2.isVerwirrt()) {
                     b2.setVerwirrtDauer(4, 1);
-                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 b2.incrementStat(1, 2);
                 break;
@@ -399,7 +391,7 @@ public class AngriffsMechaniken {
                 break;
             case 215, 312:
                 b1.getStatusEffekt().setEffekt(0);
-                System.out.println("\n" + b1.getName() + " wurde von jeglichen Statuseffekten geheilt.");
+                gui.addChatMessage("\n" + b1.getName() + " wurde von jeglichen Statuseffekten geheilt.");
                 b1.setKannAngreifen(true);
                 break;
             case 217:
@@ -428,7 +420,7 @@ public class AngriffsMechaniken {
             case 221:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 50 && !mech.istTyp(b2.getTyp(), 10)) {
                     b2.getStatusEffekt().setEffekt(1);
-                    System.out.println("\n" + b2.getName() + " wurde verbrannt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verbrannt.");
 
                 }
                 break;
@@ -478,12 +470,12 @@ public class AngriffsMechaniken {
             case 253:
                 if (b1.getStatusEffekt().getId() == 6) {
                     b1.getStatusEffekt().setEffekt(0);
-                    System.out.println("\n" + b1.getName() + " wurde geweckt.");
+                    gui.addChatMessage("\n" + b1.getName() + " wurde geweckt.");
                     b1.setKannAngreifen(true);
                 }
                 if (b2.getStatusEffekt().getId() == 6) {
                     b2.getStatusEffekt().setEffekt(0);
-                    System.out.println("\n" + b2.getName() + " wurde geweckt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde geweckt.");
                     b2.setKannAngreifen(true);
                 }
                 break;
@@ -493,17 +485,17 @@ public class AngriffsMechaniken {
             case 260:
                 if (!b2.isVerwirrt()) {
                     b2.setVerwirrtDauer(4, 1);
-                    System.out.println("\n" + b2.getName() + " wurde verwirrt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verwirrt.");
                 }
                 b2.incrementStat(3, 1);
                 break;
             case 261:
                 if (b2.getStatusEffekt().getId() == 0 && !mech.istTyp(b2.getTyp(), 10)) {
                     b2.getStatusEffekt().setEffekt(1);
-                    System.out.println("\n" + b2.getName() + " wurde verbrannt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verbrannt.");
                 }
                 if(mech.istTyp(b2.getTyp(), 10)){
-                    System.out.println("\nHat leider keinen Effekt.");
+                    gui.addChatMessage("\nHat leider keinen Effekt.");
                 }
                 break;
             case 263:
@@ -515,7 +507,7 @@ public class AngriffsMechaniken {
                 if (b2.getStatusEffekt().getId() == 3) {
                     angriff.setPower(angriff.getPower() * 2);
                     b2.getStatusEffekt().setEffekt(0);
-                    System.out.println("\n" + b2.getName() + " ist nicht mehr paralysiert.");
+                    gui.addChatMessage("\n" + b2.getName() + " ist nicht mehr paralysiert.");
                 }
                 break;
             case 276:
@@ -548,7 +540,7 @@ public class AngriffsMechaniken {
             case 287:
                 if (b1.getStatusEffekt().getId() == 1 || b1.getStatusEffekt().getId() == 3 || b1.getStatusEffekt().getId() == 4){
                     b1.getStatusEffekt().setEffekt(0);
-                    System.out.println("\n" + b1.getName() + " wurde von seinem Statuseffekt geheilt.");
+                    gui.addChatMessage("\n" + b1.getName() + " wurde von seinem Statuseffekt geheilt.");
                 }
                 break;
             case 294:
@@ -558,13 +550,13 @@ public class AngriffsMechaniken {
                 b1.incrementCritStage();
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 10)) {
                     b2.getStatusEffekt().setEffekt(1);
-                    System.out.println("\n" + b2.getName() + " wurde verbrannt.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde verbrannt.");
                 }
                 break;
             case 305:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 50 && !mech.istTyp(b2.getTyp(), 4) && !mech.istTyp(b2.getTyp(), 9)) {
                     b2.getStatusEffekt().setEffekt(5);
-                    System.out.println("\n" + b2.getName() + " wurde stark vergiftet.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde stark vergiftet.");
                 }
                 break;
             case 313, 319:
@@ -588,7 +580,7 @@ public class AngriffsMechaniken {
                 b1.incrementCritStage();
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 50 && !mech.istTyp(b2.getTyp(), 4) && !mech.istTyp(b2.getTyp(), 9)) {
                     b2.getStatusEffekt().setEffekt(5);
-                    System.out.println("\n" + b2.getName() + " wurde stark vergiftet.");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde stark vergiftet.");
                 }
                 break;
             case 347:
@@ -605,7 +597,7 @@ public class AngriffsMechaniken {
         }
     }
 
-    public void warum2(Buddy b1, Buddy b2, Angriff angriff, Wetter wetter, int schaden){
+    public void warum2(Buddy b1, Buddy b2, Angriff angriff, Wetter wetter, int schaden, GUI gui){
 
         double indikator = 0;
         Random random = new Random();
@@ -625,7 +617,7 @@ public class AngriffsMechaniken {
                     b1.setHp(b1.getHp() - (schaden / 4));
                 }
                 if(mech.istTyp(b2.getTyp(), 8)){
-                    System.out.println("\nHat leider keinen Effekt.");
+                    gui.addChatMessage("\nHat leider keinen Effekt.");
                 }
                 break;
             case 51, 94:
@@ -717,7 +709,7 @@ public class AngriffsMechaniken {
             case 344:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 13)) {
                     b2.getStatusEffekt().setEffekt(3);
-                    System.out.println("\n" + b2.getName() + " wurde paralysiert");
+                    gui.addChatMessage("\n" + b2.getName() + " wurde paralysiert");
                 }
                 b1.setHp(b1.getHp() - (schaden / 3));
                 break;
