@@ -378,8 +378,12 @@ public class Mechaniken {
     }
 
     public void gewinnerCheck(Buddy b1, Buddy b2, GUI gui){
-        if(b1.getHp() == 0 && b2.getHp() > 0) gui.addChatMessage("\n" + b2.getName() + " hat gewonnen!");
-        else if(b2.getHp() == 0 && b1.getHp() > 0) gui.addChatMessage("\n" + b1.getName() + " hat gewonnen!");
-        else gui.addChatMessage("Unentschieden?");
+        if(b1.getHp() == 0 && b2.getHp() > 0){
+            gui.addChatMessage("\n" + b2.getName() + " hat gewonnen!");
+        }
+        else if(b2.getHp() == 0 && b1.getHp() > 0) {
+            gui.addChatMessage("\n" + b1.getName() + " hat gewonnen!");
+        }
+        else gui.addChatMessage("\nUnentschieden?");
     }
 }

@@ -298,4 +298,47 @@ public class GUI extends JFrame{
         timer.start();
     }
 
+    public void death(boolean buddy1){
+        //buddy1 ? true -> eigenes Buddy gestorben
+        Random random = new Random();
+
+        if(buddy1) {
+            Timer timer = new Timer(500, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setImage("C:/Users/e/Desktop/buddyworld/Buddyworld/img/" + (random.nextInt(5) + 11) + ".png",buddy3);
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
+        else {
+            Timer timer = new Timer(500, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setImage("C:/Users/e/Desktop/buddyworld/Buddyworld/img/" + (random.nextInt(5) + 16) + ".png",buddy2);
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
+    }
+
+    public void panel2Loeschen(Buddy b1, Buddy b2){
+
+        if(b1.getHp() == 0 && b2.getHp() == 0) {
+            death(true);
+            death(false);
+        } else if(b1.getHp()  == 0) {
+            death(true);
+        }
+        else {
+            death(false);
+        }
+
+        panel2.removeAll();
+        panel2.revalidate();
+        panel2.repaint();
+    }
+
 }

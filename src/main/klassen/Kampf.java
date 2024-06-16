@@ -92,7 +92,9 @@ public class Kampf {
                 if (b1.isVerwirrt() && wahrscheinlichkeit < 50) {
                     b1.setHp(Math.max(b1.getHp() - mech.verwirrungsSchaden(b1, a), 0));
                     gui.addChatMessage("\n" + b1.getName() + " hat sich vor Verwirrung selbst verletzt.");
-                    gui.damageImageSet();
+
+                    if(!b1Dran) gui.damageImageSetGegner();
+                    else gui.damageImageSet();
                 } else {
                     if (b1.getStatusEffekt().getId() == 3 && wahrscheinlichkeit < 25) {
                         gui.addChatMessage("\n" + b1.getName() + " ist paralysiert.");
