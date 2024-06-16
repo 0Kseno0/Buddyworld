@@ -1,0 +1,98 @@
+package main;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import main.klassen.*;
+
+public class GUI extends JFrame {
+
+    private static Buddy buddy = new Buddy();
+    private static Buddy buddy2 = new Buddy();
+    private JLabel buddyHealthLabel;
+    private JLabel buddy2HealthLabel;
+
+    public GUI(Buddy b1, Buddy b2) {
+        buddy = b1;
+        buddy2 = b2;
+
+        setTitle("Pokemon Battle GUI");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Create the main panel with a border layout
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // Create the upper panel with a 2x2 grid layout
+        JPanel upperPanel = new JPanel(new GridLayout(2, 2));
+
+        // Add stats and images for two Pokémon to the upper panel
+        upperPanel.add(createPokemonPanel(buddy));
+        upperPanel.add(createPokemonPanel(buddy2));
+
+        // Create the bottom panel with a 2x2 grid layout for attacks
+        JPanel bottomPanel = new JPanel(new GridLayout(2, 2));
+
+        // Add attack buttons for the second Pokémon (Charmander)
+        String[] a = new String[4];
+        for (int i = 0; i < 4; i++) {
+            a[i] = buddy2.getAngriffe()[i].getName();
+            for (String attack : a) {
+
+                bottomPanel.add(createAttackButton(attack, buddy, buddy2));
+            }
+
+            // Add upper and bottom panels to the main panel
+            mainPanel.add(upperPanel, BorderLayout.CENTER);
+            mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+            add(mainPanel);
+            setVisible(true);
+        }
+    }
+
+        private JPanel createPokemonPanel (Buddy buddy){
+            JPanel panel = new JPanel(new BorderLayout());
+
+            // Create and add the name and health labels
+            JLabel nameLabel = new JLabel("Name: " + buddy.getName());
+            JLabel healthLabel = new JLabel("Health: " + buddy.getHp());
+            if (buddy.getName().equals(buddy.getName())) {
+                buddyHealthLabel = healthLabel;
+            } else {
+                buddy2HealthLabel = healthLabel;
+            }
+            JPanel statsPanel = new JPanel(new GridLayout(2, 1));
+            statsPanel.add(nameLabel);
+            statsPanel.add(healthLabel);
+
+            // Create and add the image label
+            ImageIcon imageIcon = new ImageIcon("");
+            JLabel imageLabel = new JLabel(imageIcon);
+
+            panel.add(statsPanel, BorderLayout.NORTH);
+            panel.add(imageLabel, BorderLayout.CENTER);
+
+            return panel;
+        }
+
+        private JButton createAttackButton (String attackName, Buddy attacker, Buddy defender){
+            JButton button = new JButton(attackName);
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // For demonstration, decrease the defender's health by 10 each time an attack button is pressed
+                    defender.setHp(defender.getHp() - 10);
+
+                    // Update the health label for the defender
+                    if (defender == buddy) {
+                        buddyHealthLabel.setText("Health: " + defender.getHp());
+                    } else {
+                        buddy2HealthLabel.setText("Health: " + defender.getHp());
+                    }
+                }
+            });
+            return button;
+        }
+    }

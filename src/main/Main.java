@@ -11,13 +11,14 @@ public class Main {
     static Wetter wetter = new Wetter();
     static Kampf kampf = new Kampf();
     static Mechaniken mech = new Mechaniken();
+    static int schaden = 0;
 
     public static void main(String[] args) throws SQLException {
 
         System.out.println("\b");
 
-            buddy = sql.pokemonWahl();
-            //buddy = sql.pokemonParameterWahl(25, 205, 207, 174, 173);
+            //buddy = sql.pokemonWahl();
+            buddy = sql.pokemonParameterWahl(25, 324, 207, 174, 173);
 
             //buddy2 = sql.pokemonWahlRandom();
             //Medium Schwierigkeit
@@ -47,8 +48,11 @@ public class Main {
             buddy.ansichtAngriffe();
             */
 
+        // noch nicht richtig, parameter selbst in einer Methode übernehmen, ansonsten jedes mal neue Erzeugung der Klasse
+        GUI gui = new GUI(buddy, buddy2, buddy.getAngriffe(), schaden);
+/*
             while(buddy.getHp() != 0 && buddy2.getHp() != 0) {
-                kampf.kampf(buddy, buddy2, wetter);
+                kampf.kampf(buddy, buddy2, wetter, schaden);
                 System.out.println("\n" + buddy.getName() + ": " + buddy.getHp() + "/" + buddy.getMaxHp() + " hp.");
                 System.out.println("Statuseffekt: " + buddy.getStatusEffekt().getName());
                 System.out.println();
@@ -56,7 +60,7 @@ public class Main {
                 System.out.println("Statuseffekt: " + buddy2.getStatusEffekt().getName());
                 System.out.println("\nWetter: " + wetter.getName());
             }
-
+*/
             mech.gewinnerCheck(buddy, buddy2);
     }
 }

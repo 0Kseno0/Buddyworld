@@ -16,7 +16,7 @@ public class Kampf {
 
     }
 
-    public void kampf(Buddy b1, Buddy b2, Wetter w){
+    public void kampf(Buddy b1, Buddy b2, Wetter w, int schaden){
 
         boolean b1Zuerst = false;
         Random random = new Random();
@@ -43,17 +43,17 @@ public class Kampf {
         mech.schlafenAktion(b1, b2);
 
         if(b1Zuerst){
-            durchlauf(b1, b2, b1.getAngriffe()[eingabe-1], w);
+            durchlauf(b1, b2, b1.getAngriffe()[eingabe-1], w, schaden);
 
             if(b2.getHp() > 0) {
-                durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w);
+                durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w, schaden);
             }   else{
                 System.out.println("\n" + b2.getName() + " wurde getötet.");
             }
         }   else{
-            durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w);
+            durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w, schaden);
             if(b1.getHp() > 0) {
-                durchlauf(b1, b2, b1.getAngriffe()[eingabe-1], w);
+                durchlauf(b1, b2, b1.getAngriffe()[eingabe-1], w, schaden);
             }   else{
                 System.out.println("\n" + b1.getName() + " wurde getötet.");
             }
@@ -70,7 +70,7 @@ public class Kampf {
         b2.setFlinched(false);
     }
 
-    public void durchlauf(Buddy b1, Buddy b2, Angriff a, Wetter w){
+    public void durchlauf(Buddy b1, Buddy b2, Angriff a, Wetter w, int s){
 
         Random random = new Random();
         double wahrscheinlichkeit = random.nextDouble(100);
@@ -118,6 +118,7 @@ public class Kampf {
                                 for (int i = 0; i < 3; i++) {
                                     a.setPower((i+1) * 10);
                                     int schaden = mech.schadensBerechnung(b1, b2, a, w);
+                                    s = schaden;
                                     b2.setHp(Math.max(b2.getHp() - schaden, 0));
                                     printEffektivitaet(b2, a);
                                     System.out.println("\n" + b1.getName() + " fügt " + schaden + " Schaden zu.");
