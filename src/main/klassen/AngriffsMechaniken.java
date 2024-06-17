@@ -216,9 +216,6 @@ public class AngriffsMechaniken {
             case 97:
                 b1.incrementStat(5, 2);
                 break;
-            case 98, 183:
-                b1.incrementPrio();
-                break;
             case 101:
                 angriff.setPower(b1.getLvl());
                 break;
@@ -290,9 +287,6 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 156:
-                for(int i = 0; i < 4; i++){
-                    b1.incrementPrio();
-                }
                 b1.setHp(b1.getMaxHp());
                 b1.setSleepDauer(2);
                 b1.getStatusEffekt().setEffekt(6);
@@ -449,9 +443,6 @@ public class AngriffsMechaniken {
             case 230:
                 b1.incrementStat(6, 1);
                 break;
-            case 233:
-                b1.vitalThrowPrio();
-                break;
             case 240:
                 wetter.setWetter(2);
                 break;
@@ -462,10 +453,6 @@ public class AngriffsMechaniken {
                 b1.resetStats();
                 b1.setStatsAenderungen(b2.getStatsAenderungen());
                 b1.statNeuRechnen();
-                break;
-            case 245:
-                b1.incrementPrio();
-                b1.incrementPrio();
                 break;
             case 253:
                 if (b1.getStatusEffekt().getId() == 6) {
@@ -635,9 +622,6 @@ public class AngriffsMechaniken {
                     b2.decrementStat(1, 1);
                 }
                 break;
-            case 98, 183:
-                b1.decrementPrio();
-                break;
             case 120, 153:
                 b1.setHp(0);
                 break;
@@ -649,10 +633,6 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 156:
-                for(int i = 0; i < 4; i++){
-                    b1.decrementPrio();
-                }
-                break;
             case 231:
                 if (wahrscheinlichkeit < 30) {
                     b2.decrementStat(2, 1);
@@ -662,9 +642,6 @@ public class AngriffsMechaniken {
                 if (wahrscheinlichkeit < 10) {
                     b1.incrementStat(1, 1);
                 }
-                break;
-            case 233:
-                b1.incrementPrio();
                 break;
             case 246, 318:
                 if (wahrscheinlichkeit < 10) {

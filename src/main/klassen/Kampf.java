@@ -31,6 +31,10 @@ public class Kampf {
          */
 
         int eingabe = gui.getLastPressedButton();
+        Angriff kiAuswahl = ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w);
+
+        mech.prioHoch(b1, eingabe);
+        mech.prioHoch(b2, kiAuswahl.getId());
 
         if(b1.getPrio() > b2.getPrio()){
             b1Zuerst = true;
@@ -52,12 +56,12 @@ public class Kampf {
             Thread.sleep(500);
 
             if(b2.getHp() > 0) {
-                durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w, gui, false);
+                durchlauf(b2, b1, kiAuswahl, w, gui, false);
             }   else{
                 gui.addChatMessage("\n" + b2.getName() + " wurde getötet.");
             }
         }   else{
-            durchlauf(b2, b1, ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w), w, gui, false);
+            durchlauf(b2, b1, kiAuswahl, w, gui, false);
 
             Thread.sleep(500);
 
@@ -75,6 +79,8 @@ public class Kampf {
         mech.lightScreenCounter(b1, b2);
         mech.statusEffektAktion(b1, b2);
         mech.wetterAktion(b1, b2, w, gui);
+        mech.prioRunter(b1, eingabe);
+        mech.prioRunter(b2, kiAuswahl.getId());
         b1.setFlinched(false);
         b2.setFlinched(false);
 

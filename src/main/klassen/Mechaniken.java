@@ -215,32 +215,27 @@ public class Mechaniken {
 
         if (w.getDauer() > 0) {
             w.setDauer(w.getDauer() - 1);
-
             if (w.getDauer() == 0) {
-                if(w.getId() == 3){
-                    if (istTyp(b1.getTyp(), 6)) {
-                        b1.setStatValue(4, (int) (b1.getStatValue(4) * 0.50));
-                    }
-                    if (istTyp(b2.getTyp(), 6)) {
-                        b2.setStatValue(4, (int) (b2.getStatValue(4) * 0.50));
-                    }
-                }
                 w.setWetter(0);
             } else {
                 if (w.getId() == 3) {
                     if(!istTyp(b1.getTyp(), 5) || !istTyp(b1.getTyp(), 6) || !istTyp(b1.getTyp(), 9)){
                         if (b1.getHp() > b1.getMaxHp() / 16) {
                             b1.setHp(b1.getHp() - b1.getMaxHp() / 16);
+                            gui.damageImageSet();
                         } else {
                             b1.setHp(0);
+                            gui.damageImageSet();
                         }
                         gui.addChatMessage("\n" + b1.getName() + " wurde vom Sandsturm getroffen.");
                     }
                     if(!istTyp(b2.getTyp(), 5) || !istTyp(b2.getTyp(), 6) || !istTyp(b2.getTyp(), 9)){
                         if (b2.getHp() > b2.getMaxHp() / 16) {
                             b2.setHp(b2.getHp() - b2.getMaxHp() / 16);
+                            gui.damageImageSetGegner();
                         } else {
                             b2.setHp(0);
+                            gui.damageImageSetGegner();
                         }
                         gui.addChatMessage("\n" + b2.getName() + " wurde vom Sandsturm getroffen.");
                     }
@@ -249,16 +244,20 @@ public class Mechaniken {
                     if(!istTyp(b1.getTyp(), 15)){
                         if (b1.getHp() > b1.getMaxHp() / 16) {
                             b1.setHp(b1.getHp() - b1.getMaxHp() / 16);
+                            gui.damageImageSet();
                         } else {
                             b1.setHp(0);
+                            gui.damageImageSet();
                         }
                         gui.addChatMessage("\n" + b1.getName() + " wurde vom Hagel getroffen.");
                     }
                     if(!istTyp(b2.getTyp(), 15)){
                         if (b2.getHp() > b2.getMaxHp() / 16) {
                             b2.setHp(b2.getHp() - b2.getMaxHp() / 16);
+                            gui.damageImageSetGegner();
                         } else {
                             b2.setHp(0);
+                            gui.damageImageSetGegner();
                         }
                         gui.addChatMessage("\n" + b2.getName() + " wurde vom Hagel getroffen.");
                     }
@@ -331,6 +330,7 @@ public class Mechaniken {
 
             b1.setBindDauer(b1.getBindDauer() - 1);
             b1.setHp(Math.max((b1.getHp() - b1.getMaxHp()/8),0));
+            gui.damageImageSet();
             gui.addChatMessage("\n" + b1.getName() + " wurde durch eine Falle verletzt.");
 
             if(b1.getBindDauer() == 0) {
@@ -342,6 +342,7 @@ public class Mechaniken {
 
             b2.setBindDauer(b2.getBindDauer() - 1);
             b2.setHp(Math.max((b2.getHp() - b2.getMaxHp()/8),0));
+            gui.damageImageSetGegner();
             gui.addChatMessage("\n" + b2.getName() + " wurde durch eine Falle verletzt.");
 
             if(b2.getBindDauer() == 0) {
@@ -385,5 +386,33 @@ public class Mechaniken {
             gui.addChatMessage("\n" + b1.getName() + " hat gewonnen!");
         }
         else gui.addChatMessage("\nUnentschieden?");
+    }
+
+    public void prioHoch(Buddy buddy, int id){
+        switch(id){
+            case 23, 27, 29, 44, 98, 125, 127, 157, 158, 183, 233, 239, 302, 310, 326:
+                buddy.incrementPrio();
+                break;
+            case  156:
+                for(int i = 0; i < 4; i++) buddy.incrementPrio();
+                break;
+            case 245:
+                for(int i = 0; i < 2; i++) buddy.incrementPrio();
+                break;
+        }
+    }
+
+    public void prioRunter(Buddy buddy, int id){
+        switch(id){
+            case 23, 27, 29, 44, 98, 125, 127, 157, 158, 183, 233, 239, 302, 310, 326:
+                buddy.decrementPrio();
+                break;
+            case  156:
+                for(int i = 0; i < 4; i++) buddy.decrementPrio();
+                break;
+            case 245:
+                for(int i = 0; i < 2; i++) buddy.decrementPrio();
+                break;
+        }
     }
 }

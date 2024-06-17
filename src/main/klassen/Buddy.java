@@ -272,10 +272,6 @@ public class Buddy {
         }
     }
 
-    public void vitalThrowPrio(){
-        this.prio--;
-    }
-
     public double[] getBaseStats() {
         return baseStats;
     }
