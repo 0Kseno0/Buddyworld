@@ -144,11 +144,9 @@ public class Mechaniken {
                 b1.setHp(0);
             }
         } else if (b1.getStatusEffekt().getId() == 2) {
-            b1.setKannAngreifen(false);
 
             if (wahrscheinlichkeit < 20) {
                 b1.getStatusEffekt().setEffekt(0);
-                b1.setKannAngreifen(true);
             }
         } else if (b1.getStatusEffekt().getId() == 5) {
             b1.setBadlyPoisonedDauer(b1.getBadlyPoisonedDauer() + 1);
@@ -166,11 +164,9 @@ public class Mechaniken {
                 b2.setHp(0);
             }
         } else if (b2.getStatusEffekt().getId() == 2) {
-            b2.setKannAngreifen(false);
 
             if (wahrscheinlichkeit < 20) {
                 b2.getStatusEffekt().setEffekt(0);
-                b2.setKannAngreifen(true);
             }
         } else if (b2.getStatusEffekt().getId() == 5) {
             b2.setBadlyPoisonedDauer(b2.getBadlyPoisonedDauer() + 1);
@@ -191,20 +187,16 @@ public class Mechaniken {
 
     public void schlafenAktion(Buddy b1, Buddy b2, GUI gui){
         if (b1.getStatusEffekt().getId() == 6) {
-            b1.setKannAngreifen(false);
             b1.setSleepDauer(b1.getSleepDauer() - 1);
             if(b1.getSleepDauer() == 0){
-                b1.setKannAngreifen(true);
                 b1.getStatusEffekt().setEffekt(0);
                 gui.addChatMessage("\n" + b1.getName() + " ist aufgewacht.");
             }
         }
 
         if (b2.getStatusEffekt().getId() == 6) {
-            b2.setKannAngreifen(false);
             b2.setSleepDauer(b2.getSleepDauer() - 1);
             if(b2.getSleepDauer() == 0){
-                b2.setKannAngreifen(true);
                 b2.getStatusEffekt().setEffekt(0);
                 gui.addChatMessage("\n" + b2.getName() + " ist aufgewacht.");
             }

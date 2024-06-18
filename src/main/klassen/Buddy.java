@@ -1,4 +1,5 @@
 package main.klassen;
+import main.GUI;
 import main.SQL;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -24,14 +25,12 @@ public class Buddy {
     private final Nature nature;
     private StatusEffekt statusEffekt;
     private int critStage;
-    private boolean isCharging;
     private boolean isBound;
     private int bindDauer;
     private boolean isFlinched;
     private boolean isVerwirrt;
     private int verwirrtDauer;
     private boolean isSleepy;
-    private int sleepyDauer;
     private int sleepDauer;
     private boolean usedHyperbeam;
     private boolean isCursed;
@@ -355,9 +354,9 @@ public class Buddy {
 
         for(int i = 1; i < 6; i++){
             if(statsAenderungen[i] > 0){
-                incrementStat(i, statsAenderungen[i]);
+                incrementStatOhneNachricht(i, statsAenderungen[i]);
             }   else if(statsAenderungen[i] < 0){
-                decrementStat(i, statsAenderungen[i]);
+                decrementStatOhneNachricht(i, statsAenderungen[i]);
             }
         }
     }
@@ -374,7 +373,28 @@ public class Buddy {
         }
     }
 
-    public void incrementStat(int index, int menge) {
+    public void incrementStat(int index, int menge, GUI gui) {
+
+        String stat = "";
+        String staerke = "";
+
+        stat = switch (index) {
+            case 1 -> "\nAngriff ";
+            case 2 -> "\nVerteidigung ";
+            case 3 -> "\nSpezial Angriff ";
+            case 4 -> "\nSpezial Verteidigung ";
+            case 5 -> "\nGeschwindigkeit ";
+            default -> stat;
+        };
+
+        staerke = switch (menge) {
+            case 1 -> " erhöht.";
+            case 2 -> " stark erhöht.";
+            default -> staerke;
+        };
+
+        gui.addChatMessage(stat + "wurde" + staerke);
+
         if (index < 1 || index > 6) {
             throw new IllegalArgumentException("Index muss zwischen 0 und 7 liegen");
         }
@@ -387,7 +407,56 @@ public class Buddy {
         }
     }
 
-    public void decrementStat(int index, int menge) {
+    public void decrementStat(int index, int menge, GUI gui) {
+
+        String stat = "";
+        String staerke = "";
+
+        stat = switch (index) {
+            case 1 -> "\nAngriff ";
+            case 2 -> "\nVerteidigung ";
+            case 3 -> "\nSpezial Angriff ";
+            case 4 -> "\nSpezial Verteidigung ";
+            case 5 -> "\nGeschwindigkeit ";
+            default -> stat;
+        };
+
+        staerke = switch (menge) {
+            case 1 -> " verringert.";
+            case 2 -> " stark verringert.";
+            default -> staerke;
+        };
+
+        gui.addChatMessage(stat + "wurde" + staerke);
+
+        if (index < 1 || index > 6) {
+            throw new IllegalArgumentException("Index muss zwischen 0 und 7 sein");
+        }
+
+        for(; menge > 0; menge--) {
+            if (statsAenderungen[index] > -6) {
+                statsAenderungen[index]--;
+                stats[index] -= (int) (stats[index] * 0.5);
+            }
+        }
+    }
+
+    public void incrementStatOhneNachricht(int index, int menge) {
+
+        if (index < 1 || index > 6) {
+            throw new IllegalArgumentException("Index muss zwischen 0 und 7 liegen");
+        }
+
+        for(; menge > 0; menge--) {
+            if (statsAenderungen[index] < 6) {
+                statsAenderungen[index]++;
+                stats[index] += (int) (stats[index] * 0.5);
+            }
+        }
+    }
+
+    public void decrementStatOhneNachricht(int index, int menge) {
+
         if (index < 1 || index > 6) {
             throw new IllegalArgumentException("Index muss zwischen 0 und 7 sein");
         }
@@ -455,14 +524,6 @@ public class Buddy {
 
     public void setCritStage(int critStage) {
         this.critStage = critStage;
-    }
-
-    public boolean isCharging() {
-        return isCharging;
-    }
-
-    public void setCharging(boolean charging) {
-        isCharging = charging;
     }
 
     public int getBindDauer() {
@@ -627,14 +688,6 @@ public class Buddy {
 
     public void setBadlyPoisonedDauer(int badlyPoisonedDauer) {
         this.badlyPoisonedDauer = badlyPoisonedDauer;
-    }
-
-    public boolean isKannAngreifen() {
-        return kannAngreifen;
-    }
-
-    public void setKannAngreifen(boolean kannAngreifen) {
-        this.kannAngreifen = kannAngreifen;
     }
 }
 

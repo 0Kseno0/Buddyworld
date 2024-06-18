@@ -21,8 +21,8 @@ public class KampfDurchfuehrung {
     public void start() throws SQLException, InterruptedException {
 
         //buddy = sql.pokemonWahl();
-        //buddy = sql.pokemonParameterWahl(25, 324, 207, 174, 192);
-        buddy = sql.pokemonParameterWahl(4, 44, 349, 246, 241);
+        buddy = sql.pokemonParameterWahl(384, 337, 315, 304, 339);
+        //buddy = sql.pokemonParameterWahl(4, 44, 349, 246, 241);
 
         buddy2 = sql.pokemonWahlRandom();
         //Medium Schwierigkeit

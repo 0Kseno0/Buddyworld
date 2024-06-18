@@ -2,7 +2,6 @@ package main.klassen;
 
 import main.GUI;
 
-import java.awt.color.ICC_ColorSpace;
 import java.util.Random;
 
 public class AngriffsMechaniken {
@@ -34,7 +33,6 @@ public class AngriffsMechaniken {
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 15)) {
                     b2.getStatusEffekt().setEffekt(2);
                     gui.addChatMessage("\n" + b2.getName() + " wurde eingefroren.");
-                    b2.setKannAngreifen(false);
                 }
                 break;
             case 9, 84, 85:
@@ -44,7 +42,7 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 14:
-                b1.incrementStat(1, 2);
+                b1.incrementStat(1, 2, gui);
                 break;
             case 20, 35, 83, 128, 250, 328:
                 if (!b2.isBound()) {
@@ -77,7 +75,7 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 39, 43:
-                b2.decrementStat(2, 1);
+                b2.decrementStat(2, 1, gui);
                 break;
             case 40, 124, 188:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 4) && !mech.istTyp(b2.getTyp(), 9)) {
@@ -96,13 +94,12 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 45:
-                b2.decrementStat(1, 1);
+                b2.decrementStat(1, 1, gui);
                 break;
             case 47, 79, 95, 142, 147, 320:
                 if (b2.getStatusEffekt().getId() == 0) {
                     b2.getStatusEffekt().setEffekt(6);
                     gui.addChatMessage("\n" + b2.getName() + " ist eingeschlafen.");
-                    b2.setKannAngreifen(false);
                     b2.setSleepDauer();
                 }
                 break;
@@ -116,7 +113,6 @@ public class AngriffsMechaniken {
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 10 && !mech.istTyp(b2.getTyp(), 15)) {
                     b2.getStatusEffekt().setEffekt(2);
                     gui.addChatMessage("\n" + b2.getName() + " wurde eingefroren.");
-                    b2.setKannAngreifen(false);
                 }
                 if (wetter.getId() == 4) {
                     angriff.setGenauigkeit(-1);
@@ -159,13 +155,8 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 74:
-                b1.incrementStat(1, 1);
-                b1.incrementStat(3, 1);
-                break;
-            case 76:
-                if (wetter.getId() == 1) {
-                    b1.setCharging(!b1.isCharging());
-                }
+                b1.incrementStat(1, 1, gui);
+                b1.incrementStat(3, 1, gui);
                 break;
             case 77, 139:
                 if (b2.getStatusEffekt().getId() == 0 && !mech.istTyp(b2.getTyp(), 4) && !mech.istTyp(b2.getTyp(), 9)) {
@@ -186,7 +177,7 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 81, 178, 184, 196:
-                b2.decrementStat(5, 2);
+                b2.decrementStat(5, 2, gui);
                 break;
             case 87:
                 if (b2.getStatusEffekt().getId() == 0 && wahrscheinlichkeit < 30 && !mech.istTyp(b2.getTyp(), 13)) {
@@ -211,16 +202,16 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 96, 159, 336:
-                b1.incrementStat(1, 1);
+                b1.incrementStat(1, 1, gui);
                 break;
             case 97:
-                b1.incrementStat(5, 2);
+                b1.incrementStat(5, 2, gui);
                 break;
             case 101:
                 angriff.setPower(b1.getLvl());
                 break;
             case 103:
-                b2.decrementStat(2, 2);
+                b2.decrementStat(2, 2, gui);
                 break;
             case 105, 135, 208, 303, 355:
                 if (b1.getHp() > b1.getMaxHp() / 2) {
@@ -230,10 +221,10 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 106, 110, 111:
-                b1.incrementStat(2, 1);
+                b1.incrementStat(2, 1, gui);
                 break;
             case 112, 151:
-                b1.incrementStat(2, 2);
+                b1.incrementStat(2, 2, gui);
                 break;
             case 113:
                 b1.setLightScreen();
@@ -262,14 +253,8 @@ public class AngriffsMechaniken {
                     gui.addChatMessage("\n" + b2.getName() + " schreckt zurück.");
                 }
                 break;
-            case 130:
-                if (!b1.isCharging()) {
-                    b1.incrementStat(2, 1);
-                }
-                b1.setCharging(!b1.isCharging());
-                break;
             case 133:
-                b1.incrementStat(4, 2);
+                b1.incrementStat(4, 2, gui);
                 break;
             case 144:
                 b1 = b2;
@@ -291,7 +276,6 @@ public class AngriffsMechaniken {
                 b1.setSleepDauer(2);
                 b1.getStatusEffekt().setEffekt(6);
                 gui.addChatMessage("\n" + b1.getName() + " ist eingeschlafen.");
-                b1.setKannAngreifen(false);
                 break;
             case 161:
                 if (b2.getStatusEffekt().getId() == 0) {
@@ -304,7 +288,6 @@ public class AngriffsMechaniken {
                     } else if (wahrscheinlichkeit < 20 && !mech.istTyp(b2.getTyp(), 15)) {
                         b2.getStatusEffekt().setEffekt(2);
                         gui.addChatMessage("\n" + b2.getName() + " wurde eingefroren.");
-                        b2.setKannAngreifen(false);
                     }
                 }
                 break;
@@ -313,9 +296,9 @@ public class AngriffsMechaniken {
                     b1.setHp(b1.getHp() / 2);
                     b2.setCursed(true);
                 } else {
-                    b1.incrementStat(1, 1);
-                    b1.incrementStat(2, 1);
-                    b1.decrementStat(5, 1);
+                    b1.incrementStat(1, 1, gui);
+                    b1.incrementStat(2, 1, gui);
+                    b1.decrementStat(5, 1, gui);
                 }
                 break;
             case 175:
@@ -352,7 +335,7 @@ public class AngriffsMechaniken {
                 break;
             case 187:
                 b1.setHp(b1.getMaxHp() / 2);
-                b1.incrementStat(1, 6);
+                b1.incrementStat(1, 6, gui);
                 break;
             case 201:
                 if(wetter.getId() != 3) {
@@ -366,27 +349,26 @@ public class AngriffsMechaniken {
                 wetter.setWetter(3);
                 break;
             case 204, 297:
-                b2.decrementStat(1, 2);
+                b2.decrementStat(1, 2, gui);
                 break;
             case 207:
                 if (!b2.isVerwirrt()) {
                     b2.setVerwirrtDauer(4, 1);
                     gui.addChatMessage("\n" + b2.getName() + " wurde verwirrt.");
                 }
-                b2.incrementStat(1, 2);
+                b2.incrementStat(1, 2, gui);
                 break;
             case 210:
                 angriff.setPower(angriff.getPower() * 2);
                 break;
             case 211:
                 if (wahrscheinlichkeit < 10) {
-                    b1.incrementStat(2, 1);
+                    b1.incrementStat(2, 1, gui);
                 }
                 break;
             case 215, 312:
                 b1.getStatusEffekt().setEffekt(0);
                 gui.addChatMessage("\n" + b1.getName() + " wurde von jeglichen Statuseffekten geheilt.");
-                b1.setKannAngreifen(true);
                 break;
             case 217:
                 if (wahrscheinlichkeit < 40) {
@@ -438,10 +420,10 @@ public class AngriffsMechaniken {
             case 229:
                 b1.setBound(false);
                 b1.setBindDauer(0);
-                b1.incrementStat(5, 1);
+                b1.incrementStat(5, 1, gui);
                 break;
             case 230:
-                b1.incrementStat(6, 1);
+                b1.incrementStat(6, 1, gui);
                 break;
             case 240:
                 wetter.setWetter(2);
@@ -458,12 +440,10 @@ public class AngriffsMechaniken {
                 if (b1.getStatusEffekt().getId() == 6) {
                     b1.getStatusEffekt().setEffekt(0);
                     gui.addChatMessage("\n" + b1.getName() + " wurde geweckt.");
-                    b1.setKannAngreifen(true);
                 }
                 if (b2.getStatusEffekt().getId() == 6) {
                     b2.getStatusEffekt().setEffekt(0);
                     gui.addChatMessage("\n" + b2.getName() + " wurde geweckt.");
-                    b2.setKannAngreifen(true);
                 }
                 break;
             case 258:
@@ -474,7 +454,7 @@ public class AngriffsMechaniken {
                     b2.setVerwirrtDauer(4, 1);
                     gui.addChatMessage("\n" + b2.getName() + " wurde verwirrt.");
                 }
-                b2.incrementStat(3, 1);
+                b2.incrementStat(3, 1, gui);
                 break;
             case 261:
                 if (b2.getStatusEffekt().getId() == 0 && !mech.istTyp(b2.getTyp(), 10)) {
@@ -497,9 +477,9 @@ public class AngriffsMechaniken {
                     gui.addChatMessage("\n" + b2.getName() + " ist nicht mehr paralysiert.");
                 }
                 break;
-            case 276:
-                b1.incrementStat(1, 1);
-                b1.incrementStat(2, 1);
+            case 276, 339:
+                b1.incrementStat(1, 1, gui);
+                b1.incrementStat(2, 1, gui);
                 break;
             case 280:
                 if (b2.isHatLightScreen()) {
@@ -531,7 +511,7 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 294:
-                b1.incrementStat(3,3);
+                b1.incrementStat(3,3, gui);
                 break;
             case 299:
                 b1.incrementCritStage();
@@ -547,21 +527,21 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 313, 319:
-                b2.decrementStat(4,2);
+                b2.decrementStat(4,2, gui);
                 break;
             case 315:
-                b1.decrementStat(3,2);
+                b1.decrementStat(3,2, gui);
                 break;
             case 317, 341:
-                b2.decrementStat(5,1);
+                b2.decrementStat(5,1, gui);
                 break;
-            case 321, 339:
-                b2.decrementStat(1,1);
-                b2.decrementStat(2,1);
+            case 321:
+                b2.decrementStat(1,1, gui);
+                b2.decrementStat(2,1, gui);
                 break;
             case 322:
-                b1.incrementStat(2,1);
-                b1.incrementStat(4,1);
+                b1.incrementStat(2,1, gui);
+                b1.incrementStat(4,1, gui);
                 break;
             case 342:
                 b1.incrementCritStage();
@@ -571,15 +551,15 @@ public class AngriffsMechaniken {
                 }
                 break;
             case 347:
-                b1.incrementStat(3,1);
-                b1.incrementStat(4,1);
+                b1.incrementStat(3,1, gui);
+                b1.incrementStat(4,1, gui);
                 break;
             case 349:
-                b1.incrementStat(1,1);
-                b1.incrementStat(5,1);
+                b1.incrementStat(1,1, gui);
+                b1.incrementStat(5,1, gui);
                 break;
             case 354:
-                b1.incrementStat(3,2);
+                b1.incrementStat(3,2, gui);
                 break;
         }
     }
@@ -594,11 +574,6 @@ public class AngriffsMechaniken {
             case 2, 75, 152, 163, 177, 238, 299, 314, 342, 348:
                 b1.decrementCritStage();
                 break;
-            case 13:
-                if(!b1.isCharging()){
-                    b1.decrementCritStage();
-                }
-                break;
             case 36, 66:
                 if (!mech.istTyp(b2.getTyp(), 8)) {
                     b1.setHp(b1.getHp() - (schaden / 4));
@@ -609,17 +584,17 @@ public class AngriffsMechaniken {
                 break;
             case 51, 94:
                 if (wahrscheinlichkeit < 10) {
-                    b2.decrementStat(4, 1);
+                    b2.decrementStat(4, 1, gui);
                 }
                 break;
             case 61, 132, 145:
                 if (wahrscheinlichkeit < 10) {
-                    b2.decrementStat(5, 1);
+                    b2.decrementStat(5, 1, gui);
                 }
                 break;
             case 62:
                 if (wahrscheinlichkeit < 10) {
-                    b2.decrementStat(1, 1);
+                    b2.decrementStat(1, 1, gui);
                 }
                 break;
             case 120, 153:
@@ -635,34 +610,34 @@ public class AngriffsMechaniken {
             case 156:
             case 231:
                 if (wahrscheinlichkeit < 30) {
-                    b2.decrementStat(2, 1);
+                    b2.decrementStat(2, 1, gui);
                 }
                 break;
             case 232:
                 if (wahrscheinlichkeit < 10) {
-                    b1.incrementStat(1, 1);
+                    b1.incrementStat(1, 1, gui);
                 }
                 break;
             case 246, 318:
                 if (wahrscheinlichkeit < 10) {
                     for (int i = 1; i < 6; i++) {
-                        b1.incrementStat(i, 1);
+                        b1.incrementStat(i, 1, gui);
                     }
                 }
                 break;
             case 247:
                 if (wahrscheinlichkeit < 20) {
-                    b2.decrementStat(4, 1);
+                    b2.decrementStat(4, 1, gui);
                 }
                 break;
             case 249, 306:
                 if (wahrscheinlichkeit < 50) {
-                    b2.decrementStat(2, 1);
+                    b2.decrementStat(2, 1, gui);
                 }
                 break;
             case 242:
                 if (wahrscheinlichkeit < 20) {
-                    b2.decrementStat(2, 1);
+                    b2.decrementStat(2, 1, gui);
                 }
                 break;
             case 263, 265:
@@ -670,17 +645,17 @@ public class AngriffsMechaniken {
                 break;
             case 295:
                 if(wahrscheinlichkeit < 50){
-                    b2.decrementStat(4,1);
+                    b2.decrementStat(4,1, gui);
                 }
                 break;
             case 296:
                 if(wahrscheinlichkeit < 50){
-                    b2.decrementStat(3,1);
+                    b2.decrementStat(3,1, gui);
                 }
                 break;
             case 309:
                 if(wahrscheinlichkeit < 20){
-                    b1.incrementStat(1,1);
+                    b1.incrementStat(1,1, gui);
                 }
                 break;
             case 344:

@@ -84,7 +84,7 @@ public class Kampf {
         b1.setFlinched(false);
         b2.setFlinched(false);
 
-        gui.update(b1, b2, b1.getAngriffe());
+        gui.update(b1, b2);
     }
 
     public void durchlauf(Buddy b1, Buddy b2, Angriff a, Wetter w, GUI gui, boolean b1Dran){

@@ -39,13 +39,13 @@ public class GUI extends JFrame{
         frame.setMinimumSize(new Dimension(500, 1080));
 
         chatPanel = new JPanel(new BorderLayout());
-        chatPanel.setMinimumSize(new Dimension(200, 1080));
         chatLog = new JTextArea();
         chatLog.setEditable(false);
         chatLog.setLineWrap(true);
         chatLog.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(chatLog);
         chatPanel.add(scrollPane, BorderLayout.CENTER);
+        chatPanel.setPreferredSize(new Dimension(200, 0));
 
         addChatMessage(b1.getName() + " gegen " + b2.getName());
 
@@ -170,7 +170,8 @@ public class GUI extends JFrame{
         frame.setVisible(true);
     }
 
-    public void update(Buddy b1, Buddy b2, Angriff[] angriffe){
+    public void update(Buddy b1, Buddy b2){
+
 
         gegnerInfo.setText("<html>" + b2.getName() +
                 "<br>" + "lvl " + b2.getLvl() +
@@ -258,7 +259,6 @@ public class GUI extends JFrame{
             // Resize the ImageIcon to fit within the bounds of imageLabel while maintaining aspect ratio
             Image scaledImage = originalImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             imageIcon = new ImageIcon(scaledImage);
-
             jlabel.setIcon(imageIcon); // Set the ImageIcon to the imageLabel
         } catch (IOException e) {
             e.printStackTrace();
