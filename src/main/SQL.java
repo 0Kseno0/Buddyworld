@@ -220,9 +220,6 @@ public class SQL {
             typ.elementAt(zaehler).setId(typListe.getInt(2));
             typ.elementAt(zaehler).setName(typ.elementAt(zaehler).typNamen(typ.elementAt(zaehler).getId()));
 
-        //    System.out.println(typ.elementAt(zaehler).getName());
-        //    System.out.println(typ.elementAt(zaehler).getId());
-
             zaehler++;
         }
 

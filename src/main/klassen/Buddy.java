@@ -390,6 +390,8 @@ public class Buddy {
         staerke = switch (menge) {
             case 1 -> " erhöht.";
             case 2 -> " stark erhöht.";
+            case 3 -> " drastisch erhöht.";
+            case 12 -> " maxmiert.";
             default -> staerke;
         };
 

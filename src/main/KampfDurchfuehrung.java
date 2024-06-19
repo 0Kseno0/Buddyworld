@@ -18,20 +18,22 @@ public class KampfDurchfuehrung {
     static GUI gui;
     static Kampf kampf = new Kampf();
 
-    public void start() throws SQLException, InterruptedException {
+    public void start() throws SQLException{
 
-        //buddy = sql.pokemonWahl();
-        buddy = sql.pokemonParameterWahl(384, 337, 315, 304, 339);
+        buddy = sql.pokemonWahl();
+        //Rayquaza
+        //buddy = sql.pokemonParameterWahl(384, 337, 315, 304, 339);
+        //Charmander
         //buddy = sql.pokemonParameterWahl(4, 44, 349, 246, 241);
 
         buddy2 = sql.pokemonWahlRandom();
-        //Medium Schwierigkeit
+        //Carracosta
         //buddy2 = sql.pokemonParameterWahl(565, 89, 57, 58, 157);
 
         gui = new GUI(buddy, buddy2);
         while (buddy.getHp() != 0 && buddy2.getHp() != 0) {
 
-            gui.addChatMessage("\n\n\n");
+            gui.addChatMessage("\n\n");
             try {
                 kampf.kampf(buddy, buddy2, wetter, gui);
             } catch (InterruptedException e) {
@@ -52,11 +54,9 @@ public class KampfDurchfuehrung {
                     gui.addChatMessage("\nEs hagelt.");
                     break;
             }
-
         }
 
         mech.gewinnerCheck(buddy, buddy2, gui);
-
         gui.panel2Loeschen(buddy, buddy2);
     }
 }

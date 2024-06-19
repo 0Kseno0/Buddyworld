@@ -335,7 +335,7 @@ public class AngriffsMechaniken {
                 break;
             case 187:
                 b1.setHp(b1.getMaxHp() / 2);
-                b1.incrementStat(1, 6, gui);
+                b1.incrementStat(1, 12, gui);
                 break;
             case 201:
                 if(wetter.getId() != 3) {
@@ -564,9 +564,8 @@ public class AngriffsMechaniken {
         }
     }
 
-    public void warum2(Buddy b1, Buddy b2, Angriff angriff, Wetter wetter, int schaden, GUI gui){
+    public void warum2(Buddy b1, Buddy b2, Angriff angriff, int schaden, GUI gui){
 
-        double indikator = 0;
         Random random = new Random();
         double wahrscheinlichkeit = random.nextDouble(100);
 

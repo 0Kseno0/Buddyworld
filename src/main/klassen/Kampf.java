@@ -21,14 +21,6 @@ public class Kampf {
         boolean b1Zuerst = false;
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
-        /*
-        int eingabe = 0;
-
-        while(eingabe < 1 || eingabe > 4) {
-            gui.addChatMessage("\nWelcher Angriff soll benutzt werden: ");
-            eingabe = scanner.nextInt();
-        }
-         */
 
         int eingabe = gui.getLastPressedButton();
         Angriff kiAuswahl = ki.angriffAuswahl(b2, b1, b2.getAngriffe(), w);
@@ -39,11 +31,12 @@ public class Kampf {
         if(b1.getPrio() > b2.getPrio()){
             b1Zuerst = true;
         }   else{
-            if(mech.paraCheck(b1)){
+            if(mech.paraCheck(b1) && !mech.paraCheck(b2)){
                 b1Zuerst = mech.speedCheck(b1, b2, 0.75);
-            }   else if(mech.paraCheck(b2)){
+            }   else if(mech.paraCheck(b2) && !mech.paraCheck(b1)){
                 b1Zuerst = !mech.speedCheck(b2, b1, 0.75);
             }   else{
+                //ob beide paralysiert oder niemand paralysiert egal
                 b1Zuerst = mech.speedCheck(b1, b2, 1);
             }
         }
@@ -107,7 +100,7 @@ public class Kampf {
                     }   else {
                         //b1 Angreifer
                         switch (a.getId()) {
-                            case 12, 32, 90, 329:
+                            case 12, 32, 329:
                                 if (wahrscheinlichkeit < 30) {
                                     b2.setHp(0);
                                 }
@@ -125,6 +118,13 @@ public class Kampf {
                                 printAngriff(b1, a, gui);
                                 gui.addChatMessage("\n" + b1.getName() + " fügt 40 Schaden zu.");
                                 kriegtSchaden = true;
+                                break;
+                            case 90:
+                                if(!mech.istTyp(b2.getTyp(), 3)){
+                                    if (wahrscheinlichkeit < 30){
+                                        b2.setHp(0);
+                                    }
+                                }
                                 break;
                             case 149:
                                 double multiplikator = random.nextDouble(1) + 0.5;
@@ -204,7 +204,7 @@ public class Kampf {
         printEffektivitaet(b2, a, gui);
         gui.addChatMessage("\n" + b1.getName() + " fügt " + schaden + " Schaden zu.");
 
-        aMech.warum2(b1, b2, a, w, schaden, gui);
+        aMech.warum2(b1, b2, a, schaden, gui);
 
         a.setPp(a.getPp() - 1);
     }
@@ -233,8 +233,8 @@ public class Kampf {
         double effektiv = mech.getEffektivitaet(a.getTyp().getId(), dId1, dId2);
 
         switch(String.valueOf(effektiv)){
-            case "0":
-                gui.addChatMessage("\n" + b.getName() + " ist Immun gegen diesen Typ.");
+            case "0.0":
+                gui.addChatMessage("\n" + b.getName() + " ist Immun gegen " + a.getTyp().getName() + ".");
                 break;
             case "0.25", "0.5":
                 gui.addChatMessage("Das war nicht sehr effektiv.");

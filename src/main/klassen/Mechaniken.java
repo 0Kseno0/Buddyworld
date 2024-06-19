@@ -385,7 +385,7 @@ public class Mechaniken {
             case 23, 27, 29, 44, 98, 125, 127, 157, 158, 183, 233, 239, 302, 310, 326:
                 buddy.incrementPrio();
                 break;
-            case  156:
+            case 120, 153, 156:
                 for(int i = 0; i < 4; i++) buddy.incrementPrio();
                 break;
             case 245:
@@ -399,7 +399,7 @@ public class Mechaniken {
             case 23, 27, 29, 44, 98, 125, 127, 157, 158, 183, 233, 239, 302, 310, 326:
                 buddy.decrementPrio();
                 break;
-            case  156:
+            case 120, 153, 156:
                 for(int i = 0; i < 4; i++) buddy.decrementPrio();
                 break;
             case 245:

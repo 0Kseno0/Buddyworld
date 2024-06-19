@@ -1,24 +1,23 @@
 check for sleep/freeze (unless using a move that can execute despite that status)
 check for flinch
+check if there was no PP left for the move
 check for confusion self-damage
 check for full paralysis
 
-check if there was no PP left for the move
-
-SUBTRACT the appropriate amount of PP from the move (if the move called another move at step 19, use the original move for PP subtraction)
-
-check for move condition failures, part 1
+SUBTRACT the appropriate amount of PP from the move
 
 Rest: user has full HP, or is already asleep (through Sleep Talk, or user's Comatose)
 
 if move is Explosion/Self-Destruct/Mind Blown, LOSE 100/100/50% of own max HP respectively, but don't fail the move from user fainting
-
-check for move condition failures, part 2
 
 status affliction when target already has one
 attempted creation of weather/field effect/pseudo-status that already exists
 
 check for move accuracy
 
-if move is Brick Break/Psychic Fangs/Spectral Thief/Pay Day, APPLY its side effect now
-perform move
+apply damage
+
+check for move condition failures
+
+
+
