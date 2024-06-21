@@ -31,6 +31,9 @@ public class GUI extends JFrame{
     private CountDownLatch latch = new CountDownLatch(1);
     static int gedrueckterButton;
 
+    //Hier bitte den Pfad angeben, wo die Bilder, welche durchs Repository geholt wurden, sind
+    String pfad = "C:/Users/kseno/Desktop/Schule/2. Jahr/Buddyworld/Buddyworld/img/";
+
     public GUI(Buddy b1, Buddy b2){
 
         Angriff[] angriffe = b1.getAngriffe();
@@ -268,11 +271,11 @@ public class GUI extends JFrame{
     public void damageImageSet(){
         Random random = new Random();
 
-        setImage("C:/Users/kseno/Desktop/Schule/2. Jahr/Buddyworld/Buddyworld/img/" + (random.nextInt(5) + 11) + ".png",eigenesBild);
+        setImage(pfad + (random.nextInt(5) + 11) + ".png",eigenesBild);
         Timer timer = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setImage("C:/Users/kseno/Desktop/Schule/2. Jahr/Buddyworld/Buddyworld/img/" + (random.nextInt(5) + 1) + ".png",eigenesBild);
+                setImage(pfad + (random.nextInt(5) + 1) + ".png",eigenesBild);
             }
         });
         timer.setRepeats(false);
@@ -282,11 +285,11 @@ public class GUI extends JFrame{
     public void damageImageSetGegner(){
         Random random = new Random();
 
-        setImage("C:/Users/kseno/Desktop/Schule/2. Jahr/Buddyworld/Buddyworld/img/" + (random.nextInt(5) + 16) + ".png", gegnerBild);
+        setImage(pfad + (random.nextInt(5) + 16) + ".png", gegnerBild);
         Timer timer = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setImage("C:/Users/kseno/Desktop/Schule/2. Jahr/Buddyworld/Buddyworld/img/" + (random.nextInt(5) + 6) + ".png", gegnerBild);
+                setImage(pfad + (random.nextInt(5) + 6) + ".png", gegnerBild);
             }
         });
         timer.setRepeats(false);
@@ -301,7 +304,7 @@ public class GUI extends JFrame{
             Timer timer = new Timer(500, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    setImage("C:/Users/kseno/Desktop/Schule/2. Jahr/Buddyworld/Buddyworld/img/" + (random.nextInt(5) + 11) + ".png",eigenesBild);
+                    setImage(pfad + (random.nextInt(5) + 11) + ".png",eigenesBild);
                 }
             });
             timer.setRepeats(false);
@@ -311,7 +314,7 @@ public class GUI extends JFrame{
             Timer timer = new Timer(500, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    setImage("C:/Users/kseno/Desktop/Schule/2. Jahr/Buddyworld/Buddyworld/img/" + (random.nextInt(5) + 16) + ".png",gegnerBild);
+                    setImage(pfad + (random.nextInt(5) + 16) + ".png",gegnerBild);
                 }
             });
             timer.setRepeats(false);

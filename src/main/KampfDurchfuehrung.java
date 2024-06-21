@@ -20,9 +20,14 @@ public class KampfDurchfuehrung {
 
     public void start() throws SQLException{
 
-        buddy = sql.pokemonWahl();
+        //pokemonWahl() erlaubt einem in der Konsole ein Pokemon und die Angriffe auszuwählen
+        // ^ Pokemon durch ID und Name (Englisch) wählbar, Angriffe nur mit ID
+        //pokemonParameterWahl(...) wählt ein Pokemon mit dem ersten Parameter, und die Angriffe mit den folgenden 4 Parametern (nur ID!)
+        //pokemonWahlRandom() weist ein zufälliges Pokemon mit zufälligen Angriffen dem Objekt zu
+
+        //buddy = sql.pokemonWahl();
         //Rayquaza
-        //buddy = sql.pokemonParameterWahl(384, 337, 315, 304, 339);
+        buddy = sql.pokemonParameterWahl(384, 337, 315, 304, 339);
         //Charmander
         //buddy = sql.pokemonParameterWahl(4, 44, 349, 246, 241);
 

@@ -11,6 +11,7 @@ import java.util.Vector;
 
 public class SQL {
 
+    //Essentielle Daten der SQL, welche angepasst werden müssen auf die Individuelle Datenbank
     String url = "jdbc:mysql://127.0.0.1:3306/pokemon";
     String username = "root";
     String password = "meinPasswort";
