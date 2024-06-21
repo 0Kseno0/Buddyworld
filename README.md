@@ -7,4 +7,4 @@ Damit das Projekt funktioniert muss ein SQL Server verwendet werden, für MySQLW
 Gleichzeitig müssen in der Klasse GUI der Dateipfad am Anfang angegeben werden, und auch die Login Daten der Datenbank in der Klasse SQL
 <br>
 
-##Viel Spaß!
+<b>Viel Spaß!</b>
