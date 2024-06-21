@@ -8,7 +8,7 @@ Gleichzeitig müssen in der Klasse GUI der Dateipfad am Anfang angegeben werden,
 <br>
 
 <b>Viel Spaß!</b>
-
+<hr>
 Credits:
 <p>Ich (Daniel Ksenofontov)</p>
 <p></p>Lisa (meine Cousine, hat den 10% fertigen Feuer Fuchs unter /img/7.png erstellt)</p>
