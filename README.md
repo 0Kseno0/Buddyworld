@@ -1,5 +1,6 @@
 # Buddyworld
 Buddyworld ist ein kleines 1v1 Player vs Computer (Pseudo KI) Spiel, welches die Pokemon bis Generation 6 und die meisten Angriffe bis zur 3. Generation beinhaltet.
+<br>
 <b>Keine Items, Fähigkeiten und Generationen Spezifische Merkmale wie Mega Entwicklung etc. nicht vorhanden!</b>
 <br>
 # Verwendung
