@@ -8,6 +8,7 @@ Gleichzeitig müssen in der Klasse GUI der Dateipfad am Anfang angegeben werden,
 <br>
 <hr>
 <br>
+
 # TO-DOs (bis jetzt, Liste wird aktualisiert bei neuen Ideen)
 Ich möchte aus diesem Projekt nicht nur einen Kampfsimulator machen, sondern tatsächlich eine Overworld haben und letztendlich ein kleines Pokemon Knock Off programmieren.
 <ul>
