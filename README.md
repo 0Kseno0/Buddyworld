@@ -6,7 +6,8 @@ Buddyworld ist ein kleines 1v1 Player vs Computer (Pseudo KI) Spiel, welches die
 Damit das Projekt funktioniert muss ein SQL Server verwendet werden, für MySQLWorkbench sind Import Dateien vorhanden in dem Ordner "Database Export" (am besten das aktuellste nehmen).
 Gleichzeitig müssen in der Klasse GUI der Dateipfad am Anfang angegeben werden, und auch die Login Daten der Datenbank in der Klasse SQL
 <br>
-
+<hr>
+<br>
 # TO-DOs (bis jetzt, Liste wird aktualisiert bei neuen Ideen)
 Ich möchte aus diesem Projekt nicht nur einen Kampfsimulator machen, sondern tatsächlich eine Overworld haben und letztendlich ein kleines Pokemon Knock Off programmieren.
 <ul>
