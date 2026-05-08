@@ -8,18 +8,6 @@ Gleichzeitig müssen in der Klasse GUI der Dateipfad am Anfang angegeben werden,
 <br>
 <hr>
 
-# TO-DOs (bis jetzt, Liste wird aktualisiert bei neuen Ideen)
-Ich möchte aus diesem Projekt nicht nur einen Kampfsimulator machen, sondern tatsächlich eine Overworld haben und letztendlich ein kleines Pokemon Knock Off programmieren.
-<ul>
-  <li>Overworld mit erstmal einer Stadt und einem Nebengebiet</li>
-  <li>Mehrere Pokemon haben und gegen mehrere gleichzeitig Kämpfen</li>
-  <li>Währung einführen für ...</li>
-  <li>... einen Shop für ...</li>
-  <li>... Items</li>
-  <li>Arena zum Kämpfen in einer kontrollierten Umgebung</li>
-  <li>Levelsystem</li>
-</ul>
-
 <b>Viel Spaß!</b>
 <hr>
 Credits:
